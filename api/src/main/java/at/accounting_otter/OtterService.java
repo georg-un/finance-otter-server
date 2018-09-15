@@ -1,13 +1,8 @@
 package at.accounting_otter;
 
 import at.accounting_otter.dto.Payment;
-import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.faces.bean.ManagedBean;
-import javax.inject.Named;
 
 public interface OtterService {
 
@@ -20,9 +15,9 @@ public interface OtterService {
 
     User createUser(String username);
 
-    User getUser(long userId);
+    User getUser(int userId);
 
-    User changeUsername(long userId, String newUsername);
+    User changeUsername(int userId, String newUsername);
 
     void removeUser(long userId);
 

@@ -5,7 +5,6 @@ import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
 public interface DatabaseAdapter {
@@ -19,7 +18,7 @@ public interface DatabaseAdapter {
 
     User createUser(User user);
 
-    User getUser(long userId);
+    User getUser(int userId);
 
     User updateUser(User user);
 

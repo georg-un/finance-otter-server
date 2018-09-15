@@ -5,7 +5,6 @@ import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -77,7 +76,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public User getUser(long userId) {
+    public User getUser(int userId) {
 
         em.getTransaction().begin();
         User user = em.createQuery("SELECT user FROM User user WHERE user.id = :value1", User.class)
