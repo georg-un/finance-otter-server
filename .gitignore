@@ -12,3 +12,11 @@
 hs_err_pid*
 
 \.idea/
+
+*.iml
+
+web/target/
+api/target/
+be/target/
+data-be/target/
+data-api/target/

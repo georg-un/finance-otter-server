@@ -42,10 +42,23 @@
         </configuration>
     </container-->
 
-    <!--container qualifier="managed-container">
+    <!-- Configuration to be used when the managed profile is active -->
+    <!--container qualifier="managed">
         <configuration>
             <property name="jbossHome">${jbossHome:target/wildfly-8.1.0.Final}</property>
         </configuration>
     </container-->
+
+    <!--container qualifier="remote" default="true">
+        <configuration>
+            <property name="managementAddress">localhost</property>
+            <property name="managementPort">9990</property>
+        </configuration>
+    </container-->
+
+    <container qualifier="weld-embedded" default="true">
+
+    </container>
+
 
 </arquillian>

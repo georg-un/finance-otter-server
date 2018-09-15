@@ -11,10 +11,10 @@ import java.util.List;
 
 public class OtterServiceImpl implements OtterService {
 
-    //@Inject
-    //private DatabaseAdapter databaseAdapter;
+    @Inject
+    private DatabaseAdapter databaseAdapter;
 
-    private DatabaseAdapter databaseAdapter = new DatabaseAdapterImpl();
+    //private DatabaseAdapter databaseAdapter = new DatabaseAdapterImpl();
 
     @Override
     public void createUserTable() {

@@ -136,7 +136,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <systemPropertyVariables>
-                        <arquillian.launch>managed-container</arquillian.launch>
+                        <arquillian.launch>managed</arquillian.launch>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
