@@ -28,18 +28,24 @@
     <!--defaultProtocol type="Servlet 3.0" /-->
 
     <!-- Example configuration for a remote WildFly instance -->
-    <container qualifier="jboss" default="true">
+    <!--container qualifier="jboss" default="true"-->
         <!-- By default, arquillian will use the JBOSS_HOME environment variable.  Alternatively, the configuration below can be uncommented. -->
         <!--<configuration> -->
         <!--<property name="jbossHome">/path/to/wildfly</property> -->
         <!--</configuration> -->
-    </container>
+    <!--/container-->
 
-    <container qualifier="jbossci">
+    <!--container qualifier="jbossci"-->
         <!-- If you want to use the JBOSS_HOME environment variable, just delete the jbossHome property -->
-        <configuration>
+        <!--configuration>
             <property name="jbossHome">/home/georg/opt/wildfly</property>
         </configuration>
-    </container>
+    </container-->
+
+    <!--container qualifier="managed-container">
+        <configuration>
+            <property name="jbossHome">${jbossHome:target/wildfly-8.1.0.Final}</property>
+        </configuration>
+    </container-->
 
 </arquillian>

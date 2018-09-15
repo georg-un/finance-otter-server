@@ -12,16 +12,16 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.wildfly.swarm.arquillian.DefaultDeployment;
+//import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import javax.inject.Inject;
 import java.io.File;
 
 @RunWith(Arquillian.class)
-@DefaultDeployment(type = DefaultDeployment.Type.JAR)
+//@DefaultDeployment(type = DefaultDeployment.Type.JAR)
 public class TestOtterServiceIntegration {
 
-    /*
+/*
     @Deployment
     public static WebArchive create() {
         return ShrinkWrap.create(WebArchive.class)
@@ -32,10 +32,9 @@ public class TestOtterServiceIntegration {
     private static File[] fetchLibraries() {
         return TestHelper.resolveDependencies("at.accounting_otter:be:"+TestHelper.resolveProjectVersion());
     }
-    */
+*/
 
-
-    /*
+/*
     @Deployment
     public static JavaArchive createDeployment() {
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class).addPackage("at.accounting_otter")
@@ -43,15 +42,15 @@ public class TestOtterServiceIntegration {
         System.out.println("This: " + jar.toString(true));
         return jar;
     }
-    */
+*/
 
-    /*
+
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClass(OtterService.class);
     }
-    */
+
 
 
     @Inject

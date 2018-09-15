@@ -23,11 +23,11 @@
             <version>1.0-SNAPSHOT</version>
         </dependency-->
 
-        <dependency>
+        <!--dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>arquillian</artifactId>
             <scope>test</scope>
-        </dependency>
+        </dependency-->
         <!--dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>connector</artifactId>
@@ -36,6 +36,30 @@
             <groupId>io.thorntail</groupId>
             <artifactId>spi</artifactId>
         </dependency-->
+
+        <dependency>
+            <groupId>org.arquillian.universe</groupId>
+            <artifactId>arquillian-core</artifactId>
+            <version>1.2.0.1</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.core</groupId>
+            <artifactId>arquillian-core-api</artifactId>
+            <version>1.4.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-core</artifactId>
+            <version>1.4.0.Final</version>
+        </dependency>
+
+
+
+
+
         <dependency>
             <groupId>org.jboss.arquillian.test</groupId>
             <artifactId>arquillian-test-spi</artifactId>
@@ -77,12 +101,12 @@
             <version>2.1.1.Final</version>
             <scope>test</scope>
         </dependency-->
-        <!--dependency>
+        <dependency>
             <groupId>org.wildfly.arquillian</groupId>
             <artifactId>wildfly-arquillian-container-remote</artifactId>
             <version>2.1.1.Final</version>
             <scope>test</scope>
-        </dependency-->
+        </dependency>
         <!--dependency>
             <groupId>org.jboss.arquillian.protocol</groupId>
             <artifactId>arquillian-protocol-servlet</artifactId>
@@ -116,24 +140,24 @@
         </dependency>
 
         <!--  WildFly Arquillian-JUnit-Container  -->
-        <!--dependency>
+        <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
-        </dependency-->
+        </dependency>
 
         <!--  Slf4j port for tests -->
-        <!--dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
             <version>${version.slf4j}</version>
             <scope>test</scope>
-        </dependency-->
+        </dependency>
 
 
         <!-- Arquillian -->
 
-        <!--dependency>
+        <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
             <scope>test</scope>
@@ -144,7 +168,7 @@
             <artifactId>shrinkwrap-resolver-depchain</artifactId>
             <type>pom</type>
             <scope>test</scope>
-        </dependency-->
+        </dependency>
 
 
         <!--dependency>
@@ -156,7 +180,7 @@
         </dependency-->
 
 
-        <dependency>
+        <!--dependency>
             <groupId>org.arquillian.universe</groupId>
             <artifactId>arquillian-persistence-core</artifactId>
             <version>1.2.0.1</version>
@@ -166,7 +190,7 @@
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-persistence-dbunit</artifactId>
             <version>1.0.0.Alpha7</version>
-        </dependency>
+        </dependency-->
 
 
 
