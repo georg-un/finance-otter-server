@@ -1,5 +1,8 @@
 package at.accounting_otter.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,25 +12,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", updatable = false, nullable = false)
-    private int user_id;
+    @Getter
+    private int userId;
 
     @Column(name = "username", unique = true)
+    @Getter @Setter
     private String username;
-
-    // Getter
-
-    public int getUserId() {
-        return user_id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    // Setter
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
 }

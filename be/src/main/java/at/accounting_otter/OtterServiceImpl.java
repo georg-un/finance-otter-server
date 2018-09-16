@@ -97,7 +97,6 @@ public class OtterServiceImpl implements OtterService {
     public Payment updatePayment(Payment payment) {
 
         // TODO: this method will have to check if any new debits are added or if any old debits are removed and create/delete them respectively
-        // TODO: id's of debits and transactions should not be changeable
 
         Transaction transaction = payment.getTransaction();
 

@@ -1,6 +1,8 @@
 package at.accounting_otter.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,70 +14,32 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id", updatable = false, nullable = false)
+    @Getter
     private int transactionId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @Getter @Setter
     private User user;
 
     @Column(name = "datetime")
+    @Getter @Setter
     private Date datetime;
 
+    @Column(name = "category")
+    @Getter @Setter
+    private String category;
+
     @Column(name = "shop")
+    @Getter @Setter
     private String shop;
 
     @Column(name = "description")
+    @Getter @Setter
     private String description;
 
     @Column(name = "bill_id")
+    @Getter @Setter
     private String billId;
-
-    // Getter
-
-    public int getTransactionId() {
-        return transactionId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Date getDatetime() {
-        return datetime;
-    }
-
-    public String getShop() {
-        return shop;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getBillId() {
-        return billId;
-    }
-
-    // Setter
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setDatetime(Date datetime) {
-        this.datetime = datetime;
-    }
-
-    public void setShop(String shop) {
-        this.shop = shop;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setBillId(String billId) {
-        this.billId = billId;
-    }
 
 }
