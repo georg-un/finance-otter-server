@@ -10,6 +10,8 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.Date;
 
+
+// TODO: switch to JUnit
 public class TestDatabaseAdapterImpl {
 
     private DatabaseAdapter databaseAdapter = new DatabaseAdapterImpl();
@@ -19,7 +21,7 @@ public class TestDatabaseAdapterImpl {
 
 
     // Clean up old test data
-    private EntityManager em = Persistence.createEntityManagerFactory("otter_database").createEntityManager();
+    private EntityManager em = Persistence.createEntityManagerFactory("test_database").createEntityManager();
 
     @BeforeClass
     public void cleanUpOldTestData() {

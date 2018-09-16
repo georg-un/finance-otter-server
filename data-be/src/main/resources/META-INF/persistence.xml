@@ -6,7 +6,25 @@
    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
 
-    <persistence-unit name="otter_database" transaction-type="RESOURCE_LOCAL">
+    <!--persistence-unit name="otter_database" transaction-type="RESOURCE_LOCAL">
+
+        <class>at.accounting_otter.entity.User</class>
+        <class>at.accounting_otter.entity.Transaction</class>
+        <class>at.accounting_otter.entity.Debit</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/accounting_otter" />
+            <property name="javax.persistence.jdbc.user" value="accounting_otter" />
+            <property name="javax.persistence.jdbc.password" value="otter" />
+
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+        </properties>
+
+    </persistence-unit-->
+
+    <persistence-unit name="test_database" transaction-type="RESOURCE_LOCAL">
 
         <class>at.accounting_otter.entity.User</class>
         <class>at.accounting_otter.entity.Transaction</class>
@@ -14,7 +32,7 @@
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/accounting_otter" /> <!-- BD Mane -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/test_database" /> <!-- BD Mane -->
             <property name="javax.persistence.jdbc.user" value="accounting_otter" /> <!-- DB User -->
             <property name="javax.persistence.jdbc.password" value="otter" /> <!-- DB Password -->
 

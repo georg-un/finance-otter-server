@@ -47,7 +47,9 @@ public class OtterServiceImpl implements OtterService {
     }
 
     @Override
-    public User changeUsername(int userId, String newUsername) {
+    public User changeUsername(int userId, String newUsername) throws RuntimeException {
+        System.out.println("id: " + userId);
+        System.out.println("username: " + newUsername);
         if (doesUsernameAlreadyExist(newUsername)) {
             throw new RuntimeException("Username does already exist.");
         } else {
@@ -64,7 +66,7 @@ public class OtterServiceImpl implements OtterService {
     }
 
     @Override
-    public void removeUser(long userId) {
+    public void removeUser(int userId) {
         databaseAdapter.removeUser();
     }
 
@@ -72,8 +74,9 @@ public class OtterServiceImpl implements OtterService {
     @Override
     public Payment createPayment(Payment payment) {
 
-        databaseAdapter.createTransaction(payment.getTransaction());
+        Transaction transaction = databaseAdapter.createTransaction(payment.getTransaction());
         for (Debit debit : payment.getDebits()) {
+            debit.setTransaction(transaction);
             databaseAdapter.createDebit(debit);
         }
 
@@ -81,7 +84,7 @@ public class OtterServiceImpl implements OtterService {
     }
 
     @Override
-    public Payment getPayment(long transactionId) {
+    public Payment getPayment(int transactionId) {
 
         Payment payment = new Payment();
         payment.setTransaction(databaseAdapter.getTransaction(transactionId));
@@ -92,7 +95,14 @@ public class OtterServiceImpl implements OtterService {
 
     @Override
     public Payment updatePayment(Payment payment) {
+
+        // TODO: this method will have to check if any new debits are added or if any old debits are removed and create/delete them respectively
+        // TODO: id's of debits and transactions should not be changeable
+
+        Transaction transaction = payment.getTransaction();
+
         for (Debit debit : payment.getDebits()) {
+            debit.setTransaction(transaction);
             databaseAdapter.updateDebit(debit);
         }
         databaseAdapter.updateTransaction(payment.getTransaction());
@@ -101,7 +111,7 @@ public class OtterServiceImpl implements OtterService {
     }
 
     @Override
-    public void deletePayment(long transactionId) {
+    public void deletePayment(int transactionId) {
         for (Debit debit : databaseAdapter.getDebitsByTransactionId(transactionId)) {
             databaseAdapter.deleteDebit(debit.getDebitId());
         }

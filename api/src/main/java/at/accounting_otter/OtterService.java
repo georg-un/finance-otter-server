@@ -17,18 +17,18 @@ public interface OtterService {
 
     User getUser(int userId);
 
-    User changeUsername(int userId, String newUsername);
+    User changeUsername(int userId, String newUsername) throws RuntimeException;
 
-    void removeUser(long userId);
+    void removeUser(int userId);
 
 
     Payment createPayment(Payment payment);
 
-    Payment getPayment(long transactionId);
+    Payment getPayment(int transactionId);
 
     Payment updatePayment(Payment payment);
 
-    void deletePayment(long transactionId);
+    void deletePayment(int transactionId);
 
 
 }

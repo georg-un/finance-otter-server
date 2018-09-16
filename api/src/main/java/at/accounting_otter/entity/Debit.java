@@ -65,7 +65,7 @@ public class Debit {
         this.debtor = debtor;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

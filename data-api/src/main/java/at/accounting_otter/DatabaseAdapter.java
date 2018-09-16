@@ -29,21 +29,21 @@ public interface DatabaseAdapter {
 
     Transaction createTransaction(Transaction transaction);
 
-    Transaction getTransaction(long transactionId);
+    Transaction getTransaction(int transactionId);
 
     Transaction updateTransaction(Transaction transaction);
 
-    void deleteTransaction(long transactionId);
+    void deleteTransaction(int transactionId);
 
 
     Debit createDebit(Debit debit);
 
-    Debit getDebit(long debitId);
+    Debit getDebit(int debitId);
 
-    List<Debit> getDebitsByTransactionId(long transactionId);
+    List<Debit> getDebitsByTransactionId(int transactionId);
 
     Debit updateDebit(Debit debit);
 
-    void deleteDebit(long debitId);
+    void deleteDebit(int debitId);
 
 }

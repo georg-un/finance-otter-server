@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DatabaseAdapterImpl implements DatabaseAdapter {
 
-    private EntityManager em = Persistence.createEntityManagerFactory("otter_database").createEntityManager();
+    private EntityManager em = Persistence.createEntityManagerFactory("test_database").createEntityManager();
 
     @Override
     public void createUserTable() {
@@ -35,6 +35,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
                 "transaction_id SERIAL PRIMARY KEY, " +
                 "user_id integer REFERENCES users," +
                 "datetime timestamp," +
+                "category varchar(256)," +
                 "shop varchar(256)," +
                 "description text," +
                 "bill_id varchar(512)" +
@@ -54,8 +55,8 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
         Query query = em.createNativeQuery("CREATE TABLE IF NOT EXISTS debits (" +
                 "debit_id SERIAL PRIMARY KEY, " +
                 "transaction_id integer REFERENCES transactions," +
-                "payer_id integer REFERENCES user" +
-                "debtor_id integer REFERENCES user" +
+                "payer_id integer REFERENCES users," +
+                "debtor_id integer REFERENCES users," +
                 "amount double precision" +
                 ");");
         query.executeUpdate();
@@ -70,6 +71,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
 
         em.getTransaction().begin();
         em.persist( user );
+        //em.flush();  TODO: check if flush() is necessary here
         em.getTransaction( ).commit( );
 
         return user;
@@ -79,11 +81,15 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     public User getUser(int userId) {
 
         em.getTransaction().begin();
-        User user = em.createQuery("SELECT user FROM User user WHERE user.id = :value1", User.class)
-                .setParameter("value1", userId).getSingleResult();
+        List<User> user = em.createQuery("SELECT user FROM User user WHERE user.id = :value1", User.class)
+                .setParameter("value1", userId).getResultList();
         em.getTransaction().commit();
 
-        return user;
+        if (user.isEmpty()) {
+            return null;
+        } else {
+            return user.get(0);
+        }
     }
 
     @Override
@@ -97,20 +103,18 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public User findUserByUsername(String username) throws IndexOutOfBoundsException{
+    public User findUserByUsername(String username) throws IndexOutOfBoundsException {
 
         em.getTransaction().begin();
-        List<User> users = em.createQuery("SELECT user FROM User user WHERE user.username = :value1", User.class)
+        List<User> user = em.createQuery("SELECT user FROM User user WHERE user.username = :value1", User.class)
                 .setParameter("value1", username).getResultList();
         em.getTransaction().commit();
 
-        User user;  // TODO: not necessary?
-        try {
-            user = users.get(0);
-        } catch (IndexOutOfBoundsException e) {
-            user = null;
+        if (user.isEmpty()) {
+            return null;
+        } else {
+            return user.get(0);
         }
-        return user;
     }
 
     @Override
@@ -134,7 +138,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public Transaction getTransaction(long transactionId) {
+    public Transaction getTransaction(int transactionId) {
 
         em.getTransaction().begin();
         Transaction transaction = em.createQuery("SELECT transaction FROM Transaction transaction WHERE transaction.id = :value1",
@@ -157,7 +161,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public void deleteTransaction(long transactionId) {
+    public void deleteTransaction(int transactionId) {
 
         em.getTransaction().begin();
         Transaction transaction = em.find(Transaction.class, transactionId);
@@ -180,7 +184,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public Debit getDebit(long debitId) {
+    public Debit getDebit(int debitId) {
 
         em.getTransaction().begin();
         Debit debit = em.createQuery("SELECT debit FROM Debit debit WHERE debit.id = :value1", Debit.class)
@@ -191,10 +195,10 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public List<Debit> getDebitsByTransactionId(long transactionId) {
+    public List<Debit> getDebitsByTransactionId(int transactionId) {
 
         em.getTransaction().begin();
-        List<Debit> debits = em.createQuery("SELECT debit FROM Debit debit WHERE debit.transaction_id = :value1", Debit.class)
+        List<Debit> debits = em.createQuery("SELECT debit FROM Debit debit WHERE debit.transaction.transactionId = :value1", Debit.class)
                 .setParameter("value1", transactionId).getResultList();
         em.getTransaction().commit();
 
@@ -214,7 +218,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public void deleteDebit(long debitId) {
+    public void deleteDebit(int debitId) {
 
         em.getTransaction().begin();
         Debit debit = em.find(Debit.class, debitId);
