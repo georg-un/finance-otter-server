@@ -1,12 +1,13 @@
 package at.accounting_otter;
 
-import at.accounting_otter.dto.Payment;
 import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
 
-import javax.persistence.*;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.List;
 
 public class DatabaseAdapterImpl implements DatabaseAdapter {
@@ -71,7 +72,6 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
 
         em.getTransaction().begin();
         em.persist( user );
-        //em.flush();  TODO: check if flush() is necessary here
         em.getTransaction( ).commit( );
 
         return user;
@@ -81,7 +81,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     public User getUser(int userId) {
 
         em.getTransaction().begin();
-        List<User> user = em.createQuery("SELECT user FROM User user WHERE user.id = :value1", User.class)
+        List<User> user = em.createQuery("SELECT user FROM User user WHERE user.userId = :value1", User.class)
                 .setParameter("value1", userId).getResultList();
         em.getTransaction().commit();
 
@@ -141,7 +141,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     public Transaction getTransaction(int transactionId) {
 
         em.getTransaction().begin();
-        Transaction transaction = em.createQuery("SELECT transaction FROM Transaction transaction WHERE transaction.id = :value1",
+        Transaction transaction = em.createQuery("SELECT transaction FROM Transaction transaction WHERE transaction.transactionId = :value1",
                 Transaction.class)
                 .setParameter("value1", transactionId).getSingleResult();
         em.getTransaction().commit();
@@ -187,7 +187,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     public Debit getDebit(int debitId) {
 
         em.getTransaction().begin();
-        Debit debit = em.createQuery("SELECT debit FROM Debit debit WHERE debit.id = :value1", Debit.class)
+        Debit debit = em.createQuery("SELECT debit FROM Debit debit WHERE debit.debitId = :value1", Debit.class)
                 .setParameter("value1", debitId).getSingleResult();
         em.getTransaction().commit();
 

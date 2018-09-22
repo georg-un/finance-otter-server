@@ -1,6 +1,5 @@
 package at.accounting_otter;
 
-import at.accounting_otter.dto.Payment;
 import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;

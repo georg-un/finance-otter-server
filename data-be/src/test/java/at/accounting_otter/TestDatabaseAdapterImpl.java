@@ -12,6 +12,7 @@ import java.util.Date;
 
 
 // TODO: switch to JUnit
+// TODO: add tests for getter of not existing id's
 public class TestDatabaseAdapterImpl {
 
     private DatabaseAdapter databaseAdapter = new DatabaseAdapterImpl();
@@ -20,19 +21,22 @@ public class TestDatabaseAdapterImpl {
     private Transaction test_transaction = new Transaction();
 
 
-    // Clean up old test data
-    private EntityManager em = Persistence.createEntityManagerFactory("test_database").createEntityManager();
+    // Load classes needed for test data cleanup
+    private static EntityManager em = Persistence.createEntityManagerFactory("test_database").createEntityManager();
 
     @BeforeClass
-    public void cleanUpOldTestData() {
+    public static void cleanUpOldTestData() {
+        // Drop all old tables
         em.getTransaction().begin();
-        //Query query = em.createNativeQuery("DELETE FROM debits;");
-        //query.executeUpdate();
-        Query query = em.createNativeQuery("DELETE FROM transactions;");
+        Query query = em.createNativeQuery("DROP TABLE IF EXISTS debits;");
         query.executeUpdate();
-        query = em.createNativeQuery("DELETE FROM users;");
+        query = em.createNativeQuery("DROP TABLE IF EXISTS transactions;");
+        query.executeUpdate();
+        query = em.createNativeQuery("DROP TABLE IF EXISTS users;");
         query.executeUpdate();
         em.getTransaction().commit();
+
+        // TODO: put into own TestHelper class
     }
 
 
