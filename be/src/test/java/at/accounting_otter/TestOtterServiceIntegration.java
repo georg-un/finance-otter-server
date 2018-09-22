@@ -48,7 +48,7 @@ public class TestOtterServiceIntegration {
 
 
     // Load classes needed for test data cleanup
-    private static EntityManager em = Persistence.createEntityManagerFactory("test_database").createEntityManager();
+    private static EntityManager em = Persistence.createEntityManagerFactory("pers_unit_test").createEntityManager();
     private static DatabaseAdapter databaseAdapter = new DatabaseAdapterImpl();
 
     @BeforeClass

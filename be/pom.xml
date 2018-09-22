@@ -55,6 +55,7 @@
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet</artifactId>
             <version>2.4.7.Final</version>
+            <scope>test</scope>
         </dependency>
 
         <!--  Weld EE Embedded Container  -->
