@@ -5,11 +5,12 @@ import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@ApplicationScoped
 public class OtterServiceImpl implements OtterService {
 
     @Inject
@@ -32,12 +33,10 @@ public class OtterServiceImpl implements OtterService {
 
 
     @Override
-    public User createUser(String username) {
-        if (doesUsernameAlreadyExist(username)) {
+    public User createUser(User user) {
+        if (doesUsernameAlreadyExist(user.getUsername())) {
             throw new RuntimeException("Username does already exist.");
         } else {
-            User user = new User();
-            user.setUsername(username);
             user = databaseAdapter.createUser(user);
             return user;
         }

@@ -73,19 +73,23 @@ public class TestOtterServiceIntegration {
     @Test
     public void test01CreateUsers() {
         // Create 4 test user
-        testUser1 = otterService.createUser("test_user_1_initial");
+        testUser1.setUsername("test_user_1_initial");
+        testUser1 = otterService.createUser(testUser1);
         Assert.assertNotNull(testUser1);
         Assert.assertEquals("test_user_1_initial", otterService.getUser(testUser1.getUserId()).getUsername());
 
-        testUser2 = otterService.createUser("test_user_2");
+        testUser2.setUsername("test_user_2");
+        testUser2 = otterService.createUser(testUser2);
         Assert.assertNotNull(testUser2);
         Assert.assertEquals("test_user_2", otterService.getUser(testUser2.getUserId()).getUsername());
 
-        testUser3 = otterService.createUser("test_user_3");
+        testUser3.setUsername("test_user_3");
+        testUser3 = otterService.createUser(testUser3);
         Assert.assertNotNull(testUser3);
         Assert.assertEquals("test_user_3", otterService.getUser(testUser3.getUserId()).getUsername());
 
-        testUser4 = otterService.createUser("test_user_4");
+        testUser4.setUsername("test_user_4");
+        testUser4 = otterService.createUser(testUser4);
         Assert.assertNotNull(testUser4);
         Assert.assertEquals("test_user_4", otterService.getUser(testUser4.getUserId()).getUsername());
     }

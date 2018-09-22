@@ -13,7 +13,7 @@ public interface OtterService {
     void createDebitTable();
 
 
-    User createUser(String username);
+    User createUser(User user);
 
     User getUser(int userId);
 
