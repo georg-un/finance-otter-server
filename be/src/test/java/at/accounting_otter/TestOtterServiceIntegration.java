@@ -357,5 +357,14 @@ public class TestOtterServiceIntegration {
 
     }
 
+    @Test
+    public void test08DeletePayment() {
+        otterService.deletePayment(payment.getTransaction().getTransactionId());
+
+        Payment deletedPayment = otterService.getPayment(payment.getTransaction().getTransactionId());
+        Assert.assertNull(deletedPayment.getTransaction());
+        Assert.assertEquals(0, deletedPayment.getDebits().size());
+    }
+
 
 }

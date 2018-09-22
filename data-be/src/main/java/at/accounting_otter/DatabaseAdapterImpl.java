@@ -141,12 +141,16 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     public Transaction getTransaction(int transactionId) {
 
         em.getTransaction().begin();
-        Transaction transaction = em.createQuery("SELECT transaction FROM Transaction transaction WHERE transaction.transactionId = :value1",
+        List<Transaction> resultList = em.createQuery("SELECT transaction FROM Transaction transaction WHERE transaction.transactionId = :value1",
                 Transaction.class)
-                .setParameter("value1", transactionId).getSingleResult();
+                .setParameter("value1", transactionId).getResultList();
         em.getTransaction().commit();
 
-        return transaction;
+        if (resultList.isEmpty()) {
+            return null;
+        } else {
+            return resultList.get(0);
+        }
     }
 
     @Override
@@ -187,11 +191,15 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     public Debit getDebit(int debitId) {
 
         em.getTransaction().begin();
-        Debit debit = em.createQuery("SELECT debit FROM Debit debit WHERE debit.debitId = :value1", Debit.class)
-                .setParameter("value1", debitId).getSingleResult();
+        List<Debit> resultList = em.createQuery("SELECT debit FROM Debit debit WHERE debit.debitId = :value1", Debit.class)
+                .setParameter("value1", debitId).getResultList();
         em.getTransaction().commit();
 
-        return debit;
+        if (resultList.isEmpty()) {
+            return null;
+        } else {
+            return resultList.get(0);
+        }
     }
 
     @Override
