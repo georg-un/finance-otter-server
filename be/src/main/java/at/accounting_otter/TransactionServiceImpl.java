@@ -1,7 +1,6 @@
 package at.accounting_otter;
 
 import at.accounting_otter.entity.Transaction;
-import javassist.NotFoundException;
 
 import javax.inject.Inject;
 
@@ -22,18 +21,18 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public Transaction updateTransaction(Transaction transaction) throws NotFoundException {
+    public Transaction updateTransaction(Transaction transaction) throws ObjectNotFoundException {
         if (databaseAdapter.getTransaction(transaction.getTransactionId()) == null) {
-            throw new NotFoundException("Transaction with id " + transaction.getTransactionId() + " not found.");
+            throw new ObjectNotFoundException("Transaction with id " + transaction.getTransactionId() + " not found.");
         } else {
             return databaseAdapter.updateTransaction(transaction);
         }
     }
 
     @Override
-    public void deleteTransaction(int transactionId) throws NotFoundException {
+    public void deleteTransaction(int transactionId) throws ObjectNotFoundException {
         if (databaseAdapter.getTransaction(transactionId) == null) {
-            throw new NotFoundException("Transaction with id " + transactionId + " not found.");
+            throw new ObjectNotFoundException("Transaction with id " + transactionId + " not found.");
         } else {
             databaseAdapter.deleteTransaction(transactionId);
         }

@@ -1,7 +1,6 @@
 package at.accounting_otter;
 
 import at.accounting_otter.entity.User;
-import javassist.NotFoundException;
 
 public interface UserService {
 
@@ -9,8 +8,8 @@ public interface UserService {
 
     User getUser(int userId);
 
-    User changeUsername(int userId, String newUsername) throws RuntimeException;
+    User changeUsername(int userId, String newUsername) throws RuntimeException, ObjectNotFoundException;
 
-    void removeUser(int userId) throws NotFoundException;
+    void removeUser(int userId) throws ObjectNotFoundException;
 
 }

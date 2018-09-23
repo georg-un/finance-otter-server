@@ -1,7 +1,6 @@
 package at.accounting_otter;
 
 import at.accounting_otter.entity.Debit;
-import javassist.NotFoundException;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -27,18 +26,18 @@ public class DebitServiceImpl implements DebitService {
     }
 
     @Override
-    public Debit updateDebit(Debit debit) throws NotFoundException {
+    public Debit updateDebit(Debit debit) throws ObjectNotFoundException {
         if (databaseAdapter.getDebit(debit.getDebitId()) == null) {
-            throw new NotFoundException("Debit with id " + debit.getDebitId() + " not found.");
+            throw new ObjectNotFoundException("Debit with id " + debit.getDebitId() + " not found.");
         } else {
             return databaseAdapter.updateDebit(debit);
         }
     }
 
     @Override
-    public void deleteDebit(int debitId) throws NotFoundException {
+    public void deleteDebit(int debitId) throws ObjectNotFoundException {
         if (databaseAdapter.getDebit(debitId) == null) {
-            throw new NotFoundException("Debit with id " + debitId + " not found.");
+            throw new ObjectNotFoundException("Debit with id " + debitId + " not found.");
         } else {
             databaseAdapter.deleteDebit(debitId);
         }

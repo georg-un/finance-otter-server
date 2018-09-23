@@ -1,7 +1,6 @@
 package at.accounting_otter;
 
 import at.accounting_otter.entity.User;
-import javassist.NotFoundException;
 
 import javax.inject.Inject;
 
@@ -27,9 +26,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changeUsername(int userId, String newUsername) throws RuntimeException {  // TODO: throw exception if user can't be found
-        System.out.println("id: " + userId);
-        System.out.println("username: " + newUsername);
+    public User changeUsername(int userId, String newUsername) throws RuntimeException, ObjectNotFoundException {  // TODO: throw exception if user can't be found
+        if (databaseAdapter.getUser(userId) == null) {
+            throw new ObjectNotFoundException("User with id " + userId + " not found.");
+        }
+
         if (doesUsernameAlreadyExist(newUsername)) {
             throw new RuntimeException("Username does already exist.");
         } else {
@@ -46,9 +47,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeUser(int userId) throws NotFoundException {
+    public void removeUser(int userId) throws ObjectNotFoundException {
         if (databaseAdapter.getUser(userId) == null) {
-            throw new NotFoundException("User with id " + userId + " not found.");
+            throw new ObjectNotFoundException("User with id " + userId + " not found.");
         } else {
             databaseAdapter.removeUser();
         }

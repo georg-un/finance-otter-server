@@ -3,7 +3,6 @@ package at.accounting_otter;
 import at.accounting_otter.dto.Payment;
 import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
-import javassist.NotFoundException;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -17,12 +16,26 @@ public class PaymentServiceImpl implements PaymentService{
     @Inject
     DebitService debitService;
 
+    @Inject
+    UserService userService;
+
 
     @Override
-    public Payment createPayment(Payment payment) {
+    public Payment createPayment(Payment payment) throws ObjectNotFoundException {
 
+        if (userService.getUser(payment.getTransaction().getUser().getUserId()) == null) {
+            throw new ObjectNotFoundException("User with id " + payment.getTransaction().getUser().getUserId() + " not found");
+        }
         Transaction transaction = transactionService.createTransaction(payment.getTransaction());
+
         for (Debit debit : payment.getDebits()) {
+
+            if (userService.getUser(debit.getDebtor().getUserId()) == null) {
+                throw new ObjectNotFoundException("User with id " + debit.getDebtor().getUserId() + " not found.");
+            } else if (userService.getUser(debit.getPayer().getUserId()) == null) {
+                throw new ObjectNotFoundException("User with id " + debit.getDebtor().getUserId() + " not found.");
+            }
+
             debit.setTransaction(transaction);
             debitService.createDebit(debit);
         }
@@ -42,7 +55,7 @@ public class PaymentServiceImpl implements PaymentService{
 
     // TODO: rollback if there occurs an error during method execution
     @Override
-    public Payment updatePayment(Payment payment) throws NotFoundException {
+    public Payment updatePayment(Payment payment) throws ObjectNotFoundException {
 
         Transaction transaction = payment.getTransaction();
 
@@ -82,7 +95,7 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @Override
-    public void deletePayment(int transactionId) throws NotFoundException {
+    public void deletePayment(int transactionId) throws ObjectNotFoundException {
         for (Debit debit : debitService.getDebitsByTransactionId(transactionId)) {
             debitService.deleteDebit(debit.getDebitId());
         }

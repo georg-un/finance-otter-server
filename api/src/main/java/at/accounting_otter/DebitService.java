@@ -1,7 +1,6 @@
 package at.accounting_otter;
 
 import at.accounting_otter.entity.Debit;
-import javassist.NotFoundException;
 
 import java.util.List;
 
@@ -13,8 +12,8 @@ public interface DebitService {
 
     List<Debit> getDebitsByTransactionId(int transactionId);
 
-    Debit updateDebit(Debit debit) throws NotFoundException;
+    Debit updateDebit(Debit debit) throws ObjectNotFoundException;
 
-    void deleteDebit(int debitId) throws NotFoundException;
+    void deleteDebit(int debitId) throws ObjectNotFoundException;
 
 }

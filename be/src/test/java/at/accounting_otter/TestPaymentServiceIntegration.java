@@ -4,7 +4,6 @@ import at.accounting_otter.dto.Payment;
 import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
-import javassist.NotFoundException;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -16,7 +15,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -100,20 +98,20 @@ public class TestPaymentServiceIntegration {
     }
 
     @Test (expected = RuntimeException.class)
-    public void test02UpdateTakenUsernamme() {
+    public void test02UpdateTakenUsernamme() throws ObjectNotFoundException {
         // Try to change the username to a username which is already taken. Expect an exception
         userService.changeUsername(testUser1.getUserId(), "test_user_2");
     }
 
     @Test
-    public void test03UpdateUsername() {
+    public void test03UpdateUsername() throws ObjectNotFoundException {
         // Update the username to a username which is NOT already taken
         testUser1 = userService.changeUsername(testUser1.getUserId(), "test_user_1");
     }
 
 
     @Test
-    public void test04CreatePayment() {
+    public void test04CreatePayment() throws ObjectNotFoundException {
         // Set up a payment with 1 transaction and 2 debits
         Transaction transaction = new Transaction();
         transaction.setUser(testUser1);
@@ -152,7 +150,7 @@ public class TestPaymentServiceIntegration {
 
 
     @Test
-    public void test05UpdatePayment() throws NotFoundException {
+    public void test05UpdatePayment() throws ObjectNotFoundException {
 
         // Extract the transaction and the 2 debits from the former payment
         Debit debit1 = payment.getDebits().get(0);
@@ -213,7 +211,7 @@ public class TestPaymentServiceIntegration {
 
 
     @Test
-    public void test06UpdatePaymentAddDebit() throws NotFoundException {
+    public void test06UpdatePaymentAddDebit() throws ObjectNotFoundException {
 
         // Extract the transaction and the 2 debits from the former payment
         Debit debit1 = payment.getDebits().get(0);
@@ -298,7 +296,7 @@ public class TestPaymentServiceIntegration {
 
 
     @Test
-    public void test07UpdatePaymentRemoveDebit() throws NotFoundException {
+    public void test07UpdatePaymentRemoveDebit() throws ObjectNotFoundException {
 
         // Extract the transaction and the 2 debits from the former payment
         Debit debit1 = payment.getDebits().get(0);
@@ -367,7 +365,7 @@ public class TestPaymentServiceIntegration {
     }
 
     @Test
-    public void test08DeletePayment() throws NotFoundException {
+    public void test08DeletePayment() throws ObjectNotFoundException {
         paymentService.deletePayment(payment.getTransaction().getTransactionId());
 
         Payment deletedPayment = paymentService.getPayment(payment.getTransaction().getTransactionId());

@@ -1,7 +1,6 @@
 package at.accounting_otter;
 
 import at.accounting_otter.entity.Transaction;
-import javassist.NotFoundException;
 
 public interface TransactionService {
 
@@ -9,8 +8,8 @@ public interface TransactionService {
 
     Transaction getTransaction(int transactionId);
 
-    Transaction updateTransaction(Transaction transaction) throws NotFoundException;
+    Transaction updateTransaction(Transaction transaction) throws ObjectNotFoundException;
 
-    void deleteTransaction(int transactionId) throws NotFoundException;
+    void deleteTransaction(int transactionId) throws ObjectNotFoundException;
 
 }
