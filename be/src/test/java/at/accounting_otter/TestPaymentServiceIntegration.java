@@ -4,6 +4,7 @@ import at.accounting_otter.dto.Payment;
 import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
+import javassist.NotFoundException;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -27,7 +28,7 @@ import java.util.Date;
 
 @RunWith(Arquillian.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestOtterServiceIntegration {
+public class TestPaymentServiceIntegration {
 
     @Deployment
     public static JavaArchive createDeployment() {
@@ -38,7 +39,11 @@ public class TestOtterServiceIntegration {
     }
 
     @Inject
-    private OtterService otterService;
+    UserService userService;
+
+    @Inject
+    PaymentService paymentService;
+
 
     private static User testUser1 = new User();
     private static User testUser2 = new User();
@@ -74,36 +79,36 @@ public class TestOtterServiceIntegration {
     public void test01CreateUsers() {
         // Create 4 test user
         testUser1.setUsername("test_user_1_initial");
-        testUser1 = otterService.createUser(testUser1);
+        testUser1 = userService.createUser(testUser1);
         Assert.assertNotNull(testUser1);
-        Assert.assertEquals("test_user_1_initial", otterService.getUser(testUser1.getUserId()).getUsername());
+        Assert.assertEquals("test_user_1_initial", userService.getUser(testUser1.getUserId()).getUsername());
 
         testUser2.setUsername("test_user_2");
-        testUser2 = otterService.createUser(testUser2);
+        testUser2 = userService.createUser(testUser2);
         Assert.assertNotNull(testUser2);
-        Assert.assertEquals("test_user_2", otterService.getUser(testUser2.getUserId()).getUsername());
+        Assert.assertEquals("test_user_2", userService.getUser(testUser2.getUserId()).getUsername());
 
         testUser3.setUsername("test_user_3");
-        testUser3 = otterService.createUser(testUser3);
+        testUser3 = userService.createUser(testUser3);
         Assert.assertNotNull(testUser3);
-        Assert.assertEquals("test_user_3", otterService.getUser(testUser3.getUserId()).getUsername());
+        Assert.assertEquals("test_user_3", userService.getUser(testUser3.getUserId()).getUsername());
 
         testUser4.setUsername("test_user_4");
-        testUser4 = otterService.createUser(testUser4);
+        testUser4 = userService.createUser(testUser4);
         Assert.assertNotNull(testUser4);
-        Assert.assertEquals("test_user_4", otterService.getUser(testUser4.getUserId()).getUsername());
+        Assert.assertEquals("test_user_4", userService.getUser(testUser4.getUserId()).getUsername());
     }
 
     @Test (expected = RuntimeException.class)
     public void test02UpdateTakenUsernamme() {
         // Try to change the username to a username which is already taken. Expect an exception
-        otterService.changeUsername(testUser1.getUserId(), "test_user_2");
+        userService.changeUsername(testUser1.getUserId(), "test_user_2");
     }
 
     @Test
     public void test03UpdateUsername() {
         // Update the username to a username which is NOT already taken
-        testUser1 = otterService.changeUsername(testUser1.getUserId(), "test_user_1");
+        testUser1 = userService.changeUsername(testUser1.getUserId(), "test_user_1");
     }
 
 
@@ -135,11 +140,11 @@ public class TestOtterServiceIntegration {
         setUpPayment.setDebits(new ArrayList<>(Arrays.asList(debit1, debit2)));
 
         // Write the payment to the database
-        payment = otterService.createPayment(setUpPayment);
+        payment = paymentService.createPayment(setUpPayment);
 
         Assert.assertNotNull(payment);
         Assert.assertEquals(setUpPayment, payment);
-        Assert.assertEquals(payment, otterService.getPayment(payment.getTransaction().getTransactionId()));
+        Assert.assertEquals(payment, paymentService.getPayment(payment.getTransaction().getTransactionId()));
         Assert.assertNotNull(payment.getTransaction());
         Assert.assertNotNull(payment.getDebits());
 
@@ -147,7 +152,7 @@ public class TestOtterServiceIntegration {
 
 
     @Test
-    public void test05UpdatePayment() {
+    public void test05UpdatePayment() throws NotFoundException {
 
         // Extract the transaction and the 2 debits from the former payment
         Debit debit1 = payment.getDebits().get(0);
@@ -172,7 +177,7 @@ public class TestOtterServiceIntegration {
         updatedPayment.setDebits(new ArrayList<>(Arrays.asList(debit1, debit2)));
 
         // Update payment on database
-        payment = otterService.updatePayment(updatedPayment);
+        payment = paymentService.updatePayment(updatedPayment);
 
 
         // Validate transaction
@@ -208,7 +213,7 @@ public class TestOtterServiceIntegration {
 
 
     @Test
-    public void test06UpdatePaymentAddDebit() {
+    public void test06UpdatePaymentAddDebit() throws NotFoundException {
 
         // Extract the transaction and the 2 debits from the former payment
         Debit debit1 = payment.getDebits().get(0);
@@ -242,9 +247,9 @@ public class TestOtterServiceIntegration {
         updatedPayment.setDebits(new ArrayList<>(Arrays.asList(debit1, debit2, debit3)));
 
         // Update payment on database
-        payment = otterService.updatePayment(updatedPayment);
+        payment = paymentService.updatePayment(updatedPayment);
 
-        payment = otterService.getPayment(updatedPayment.getTransaction().getTransactionId());
+        payment = paymentService.getPayment(updatedPayment.getTransaction().getTransactionId());
 
         //payment = otterService.getPayment(updatedPayment.getTransaction().getTransactionId());
 
@@ -293,7 +298,7 @@ public class TestOtterServiceIntegration {
 
 
     @Test
-    public void test07UpdatePaymentRemoveDebit() {
+    public void test07UpdatePaymentRemoveDebit() throws NotFoundException {
 
         // Extract the transaction and the 2 debits from the former payment
         Debit debit1 = payment.getDebits().get(0);
@@ -319,7 +324,7 @@ public class TestOtterServiceIntegration {
         updatedPayment.setDebits(new ArrayList<>(Arrays.asList(debit1, debit3)));
 
         // Update payment on database
-        payment = otterService.updatePayment(updatedPayment);
+        payment = paymentService.updatePayment(updatedPayment);
 
 
         // Validate transaction
@@ -362,10 +367,10 @@ public class TestOtterServiceIntegration {
     }
 
     @Test
-    public void test08DeletePayment() {
-        otterService.deletePayment(payment.getTransaction().getTransactionId());
+    public void test08DeletePayment() throws NotFoundException {
+        paymentService.deletePayment(payment.getTransaction().getTransactionId());
 
-        Payment deletedPayment = otterService.getPayment(payment.getTransaction().getTransactionId());
+        Payment deletedPayment = paymentService.getPayment(payment.getTransaction().getTransactionId());
         Assert.assertNull(deletedPayment.getTransaction());
         Assert.assertEquals(0, deletedPayment.getDebits().size());
     }
