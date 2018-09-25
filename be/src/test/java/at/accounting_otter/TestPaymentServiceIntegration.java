@@ -245,11 +245,8 @@ public class TestPaymentServiceIntegration {
         updatedPayment.setDebits(new ArrayList<>(Arrays.asList(debit1, debit2, debit3)));
 
         // Update payment on database
-        payment = paymentService.updatePayment(updatedPayment);
-
+        paymentService.updatePayment(updatedPayment);
         payment = paymentService.getPayment(updatedPayment.getTransaction().getTransactionId());
-
-        //payment = otterService.getPayment(updatedPayment.getTransaction().getTransactionId());
 
         // Validate transaction
         Assert.assertEquals(transaction.getCategory(), payment.getTransaction().getCategory());

@@ -217,6 +217,18 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
+    public double getSumAmountByTransactionId(int transactionId) {
+
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT SUM(debit.amount) FROM Debit debit WHERE debit.transaction.transactionId = :value1")
+                .setParameter("value1", transactionId);
+        double sum = (double) query.getSingleResult();
+        em.getTransaction().commit();
+
+        return sum;
+    }
+
+    @Override
     public Debit updateDebit(Debit debit) {
 
         em.getTransaction().begin();

@@ -4,7 +4,7 @@ import at.accounting_otter.entity.Transaction;
 
 public interface TransactionService {
 
-    Transaction createTransaction(Transaction transaction);
+    Transaction createTransaction(Transaction transaction) throws ObjectNotFoundException;
 
     Transaction getTransaction(int transactionId);
 

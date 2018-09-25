@@ -11,7 +11,13 @@ public class DebitServiceImpl implements DebitService {
     DatabaseAdapter databaseAdapter;
 
     @Override
-    public Debit createDebit(Debit debit) {
+    public Debit createDebit(Debit debit) throws ObjectNotFoundException{
+        if (databaseAdapter.getUser(debit.getPayer().getUserId()) == null) {
+            throw new ObjectNotFoundException("User with id " + debit.getPayer().getUserId() + " not found.");
+        } else if (databaseAdapter.getUser(debit.getDebtor().getUserId()) == null) {
+            throw new ObjectNotFoundException("User with id " + debit.getDebtor().getUserId() + " not found.");
+        }
+
         return databaseAdapter.createDebit(debit);
     }
 
@@ -26,9 +32,18 @@ public class DebitServiceImpl implements DebitService {
     }
 
     @Override
+    public double getSumAmountByTransactionId(int transactionId) {
+        return databaseAdapter.getSumAmountByTransactionId(transactionId);
+    }
+
+    @Override
     public Debit updateDebit(Debit debit) throws ObjectNotFoundException {
         if (databaseAdapter.getDebit(debit.getDebitId()) == null) {
             throw new ObjectNotFoundException("Debit with id " + debit.getDebitId() + " not found.");
+        } else if (databaseAdapter.getUser(debit.getPayer().getUserId()) == null) {
+            throw new ObjectNotFoundException("User with id " + debit.getPayer().getUserId() + " not found.");
+        } else if (databaseAdapter.getUser(debit.getDebtor().getUserId()) == null) {
+            throw new ObjectNotFoundException("User with id " + debit.getDebtor().getUserId() + " not found.");
         } else {
             return databaseAdapter.updateDebit(debit);
         }

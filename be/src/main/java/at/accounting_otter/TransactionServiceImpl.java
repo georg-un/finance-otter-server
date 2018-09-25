@@ -11,7 +11,10 @@ public class TransactionServiceImpl implements TransactionService{
 
 
     @Override
-    public Transaction createTransaction(Transaction transaction) {
+    public Transaction createTransaction(Transaction transaction) throws ObjectNotFoundException {
+        if (databaseAdapter.getUser(transaction.getUser().getUserId()) == null) {
+            throw new ObjectNotFoundException("User with id " + transaction.getUser().getUserId() + " not found.");
+        }
         return databaseAdapter.createTransaction(transaction);
     }
 
@@ -24,6 +27,8 @@ public class TransactionServiceImpl implements TransactionService{
     public Transaction updateTransaction(Transaction transaction) throws ObjectNotFoundException {
         if (databaseAdapter.getTransaction(transaction.getTransactionId()) == null) {
             throw new ObjectNotFoundException("Transaction with id " + transaction.getTransactionId() + " not found.");
+        } else if (databaseAdapter.getUser(transaction.getUser().getUserId()) == null) {
+            throw new ObjectNotFoundException("User with id " + transaction.getUser().getUserId() + " not found.");
         } else {
             return databaseAdapter.updateTransaction(transaction);
         }

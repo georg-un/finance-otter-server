@@ -15,8 +15,7 @@ public class UserServiceImpl implements UserService {
         if (doesUsernameAlreadyExist(user.getUsername())) {
             throw new RuntimeException("Username does already exist.");
         } else {
-            user = databaseAdapter.createUser(user);
-            return user;
+            return databaseAdapter.createUser(user);
         }
     }
 
@@ -26,7 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changeUsername(int userId, String newUsername) throws RuntimeException, ObjectNotFoundException {  // TODO: throw exception if user can't be found
+    public User changeUsername(int userId, String newUsername) throws RuntimeException, ObjectNotFoundException {
         if (databaseAdapter.getUser(userId) == null) {
             throw new ObjectNotFoundException("User with id " + userId + " not found.");
         }

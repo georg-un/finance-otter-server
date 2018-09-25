@@ -41,6 +41,8 @@ public interface DatabaseAdapter {
 
     List<Debit> getDebitsByTransactionId(int transactionId);
 
+    double getSumAmountByTransactionId(int trasactionId);  // TODO: write unit test for this method
+
     Debit updateDebit(Debit debit);
 
     void deleteDebit(int debitId);
