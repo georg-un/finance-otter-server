@@ -2,13 +2,16 @@ package at.accounting_otter;
 
 import at.accounting_otter.entity.Debit;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 
+
+@ApplicationScoped
 public class DebitServiceImpl implements DebitService {
 
     @Inject
-    DatabaseAdapter databaseAdapter;
+    private DatabaseAdapter databaseAdapter;
 
     @Override
     public Debit createDebit(Debit debit) throws ObjectNotFoundException{
@@ -33,7 +36,34 @@ public class DebitServiceImpl implements DebitService {
 
     @Override
     public double getSumAmountByTransactionId(int transactionId) {
-        return databaseAdapter.getSumAmountByTransactionId(transactionId);
+        if (databaseAdapter.getDebitsByTransactionId(transactionId).size() > 0) {
+            return databaseAdapter.getSumAmountByTransactionId(transactionId);
+        } else {
+            return 0.00;
+        }
+    }
+
+    @Override
+    public double getCreditByUserId(int userId) throws ObjectNotFoundException{
+        if (databaseAdapter.getUser(userId) == null) {
+            throw new ObjectNotFoundException("User with id " + userId + " not found.");
+        } else {
+            return databaseAdapter.getCreditByUserId(userId);
+        }
+    }
+
+    @Override
+    public double getLiabilityByUserId(int userId) throws ObjectNotFoundException {
+        if (databaseAdapter.getUser(userId) == null) {
+            throw new ObjectNotFoundException("User with id " + userId + " not found.");
+        } else {
+            return databaseAdapter.getLiabilityByUserId(userId);
+        }
+    }
+
+    @Override
+    public double getBalanceByUserId(int userId) throws ObjectNotFoundException {
+        return getCreditByUserId(userId) - getLiabilityByUserId(userId);
     }
 
     @Override

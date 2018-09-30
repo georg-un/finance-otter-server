@@ -30,6 +30,8 @@ public interface DatabaseAdapter {
 
     Transaction getTransaction(int transactionId);
 
+    List<Transaction> getTransactions(int startIndex, int endIntex);
+
     Transaction updateTransaction(Transaction transaction);
 
     void deleteTransaction(int transactionId);
@@ -41,7 +43,11 @@ public interface DatabaseAdapter {
 
     List<Debit> getDebitsByTransactionId(int transactionId);
 
-    double getSumAmountByTransactionId(int trasactionId);  // TODO: write unit test for this method
+    double getSumAmountByTransactionId(int trasactionId);
+
+    double getCreditByUserId(int userId);
+
+    double getLiabilityByUserId(int userId);
 
     Debit updateDebit(Debit debit);
 

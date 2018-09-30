@@ -2,13 +2,15 @@ package at.accounting_otter;
 
 import at.accounting_otter.entity.User;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 
+@ApplicationScoped
 public class UserServiceImpl implements UserService {
 
     @Inject
-    DatabaseAdapter databaseAdapter;
+    private DatabaseAdapter databaseAdapter;
 
     @Override
     public User createUser(User user) {

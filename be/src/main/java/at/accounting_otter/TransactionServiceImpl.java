@@ -3,6 +3,7 @@ package at.accounting_otter;
 import at.accounting_otter.entity.Transaction;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class TransactionServiceImpl implements TransactionService{
 
@@ -21,6 +22,15 @@ public class TransactionServiceImpl implements TransactionService{
     @Override
     public Transaction getTransaction(int transactionId) {
         return databaseAdapter.getTransaction(transactionId);
+    }
+
+    @Override
+    public List<Transaction> getTransactions(int startIndex, int endIndex) throws IllegalArgumentException {
+        if (endIndex - startIndex > 0) {
+            return databaseAdapter.getTransactions(startIndex, endIndex);
+        } else {
+            throw new IllegalArgumentException("endIndex must be greater than startIndex");
+        }
     }
 
     @Override

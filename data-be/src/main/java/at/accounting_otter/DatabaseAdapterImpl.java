@@ -156,6 +156,19 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
+    public List<Transaction> getTransactions(int startIndex, int endIndex) {
+
+        em.getTransaction().begin();
+        List<Transaction> resultList = em.createQuery("SELECT transaction FROM Transaction transaction ORDER BY transaction.datetime DESC", Transaction.class)
+                .setFirstResult(startIndex)
+                .setMaxResults(endIndex - startIndex)
+                .getResultList();
+        em.getTransaction().commit();
+
+        return resultList;
+    }
+
+    @Override
     public Transaction updateTransaction(Transaction transaction) {
 
         em.getTransaction().begin();
@@ -223,6 +236,30 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
         Query query = em.createQuery("SELECT SUM(debit.amount) FROM Debit debit WHERE debit.transaction.transactionId = :value1")
                 .setParameter("value1", transactionId);
         double sum = (double) query.getSingleResult();
+        em.getTransaction().commit();
+
+        return sum;
+    }
+
+    @Override
+    public double getCreditByUserId(int userId) {
+
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT SUM(debit.amount) FROM Debit debit WHERE debit.payer.userId = :value1")
+                .setParameter("value1", userId);
+        double sum = (double) query.getSingleResult();
+        em.getTransaction().commit();
+
+        return sum;
+    }
+
+    @Override
+    public double getLiabilityByUserId(int userId) {
+
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT SUM(debit.amount) FROM Debit debit WHERE debit.debtor.userId = :value1")
+                .setParameter("value1", userId);
+        double sum = (double) query.getSingleResult();  // TODO: this throws a nullpointer. Fix!
         em.getTransaction().commit();
 
         return sum;
