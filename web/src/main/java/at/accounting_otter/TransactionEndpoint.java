@@ -29,7 +29,7 @@ public class TransactionEndpoint {
         } else {
             return Response
                     .status(Response.Status.OK)
-                    .entity(restMapper.toRestTransaction(transactionService.getTransaction(transactionId)))
+                    .entity(restMapper.internalToGetTransaction(transactionService.getTransaction(transactionId)))
                     .build();
         }
     }

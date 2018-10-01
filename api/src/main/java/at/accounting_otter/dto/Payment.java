@@ -11,4 +11,11 @@ public class Payment {
     private Transaction transaction;
     private List<Debit> debits;
 
+    public Payment() {}
+
+    public Payment(Transaction transaction, List<Debit> debits) {
+        this.transaction = transaction;
+        this.debits = debits;
+    }
+
 }

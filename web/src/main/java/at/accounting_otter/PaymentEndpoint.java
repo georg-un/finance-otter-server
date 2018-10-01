@@ -1,6 +1,8 @@
 package at.accounting_otter;
 
-import at.accounting_otter.dto.Payment;
+import at.accounting_otter.rest.PaymentToGet;
+import at.accounting_otter.rest.PaymentToPost;
+import at.accounting_otter.rest.PaymentToPut;
 import at.accounting_otter.rest.RestObjectMapper;
 
 import javax.enterprise.context.RequestScoped;
@@ -31,7 +33,7 @@ public class PaymentEndpoint {
         if (transactionService.getTransaction(transactionId) != null) {
             return Response
                     .status(Response.Status.OK)
-                    .entity(restMapper.toRestPayment(paymentService.getPayment(transactionId), includeDebits))
+                    .entity(restMapper.internalToRestPayment(paymentService.getPayment(transactionId), includeDebits))
                     .build();
         } else {
             return Response
@@ -43,15 +45,21 @@ public class PaymentEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Payment createPayment(Payment payment) throws ObjectNotFoundException {
-        return paymentService.createPayment(payment);
+    public PaymentToGet createPayment(PaymentToPost paymentToPost) throws ObjectNotFoundException {
+        return restMapper.internalToRestPayment(
+                paymentService.createPayment(
+                restMapper.postToInternalPayment(paymentToPost)
+        ), true);
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Payment updatePayment(Payment payment) throws ObjectNotFoundException {
-        return paymentService.updatePayment(payment);
+    public PaymentToGet updatePayment(PaymentToPut paymentToPut) throws ObjectNotFoundException {
+        return restMapper.internalToRestPayment(
+                paymentService.updatePayment(
+                restMapper.putToInternalPayment(paymentToPut)
+        ), true);
     }
 
 }

@@ -7,12 +7,9 @@ import java.util.List;
 
 @Data
 // TODO: switch to @SuperBuilder as soon as there is IDE support
-public class PaymentToGet extends RestPayment {
+public class PaymentToPost extends RestPayment {
 
-    private int transactionId;
-    private String username;
-    private double sumAmount;
-    private List<DebitToGet> debits;
+    private List<DebitToPost> debits;
 
     @Override
     public int getUserId() {

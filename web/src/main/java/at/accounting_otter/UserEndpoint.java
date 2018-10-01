@@ -26,7 +26,7 @@ public class UserEndpoint {
         try {
             return Response
                     .status(Response.Status.OK)
-                    .entity(restMapper.toRestUser(userService.getUser(userId)))
+                    .entity(restMapper.internalToGetUser(userService.getUser(userId)))
                     .build();
         } catch (ObjectNotFoundException e) {
             return Response

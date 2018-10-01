@@ -3,11 +3,9 @@ package at.accounting_otter.rest;
 import lombok.Data;
 
 @Data
-public class DebitToGet {
+public class DebitToPost {
 
-    private int debitId;
     private int debtorId;
-    private String debtorName;
     private double amount;
 
 }

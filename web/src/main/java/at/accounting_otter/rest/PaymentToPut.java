@@ -6,13 +6,20 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-// TODO: switch to @SuperBuilder as soon as there is IDE support
-public class PaymentToGet extends RestPayment {
+public class PaymentToPut extends PaymentToPost {
 
     private int transactionId;
-    private String username;
-    private double sumAmount;
-    private List<DebitToGet> debits;
+
+
+    @Override
+    public List<DebitToPost> getDebits() {
+        return super.getDebits();
+    }
+
+    @Override
+    public void setDebits(List<DebitToPost> debits) {
+        super.setDebits(debits);
+    }
 
     @Override
     public int getUserId() {
