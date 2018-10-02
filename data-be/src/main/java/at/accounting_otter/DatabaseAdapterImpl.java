@@ -247,10 +247,15 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
         em.getTransaction().begin();
         Query query = em.createQuery("SELECT SUM(debit.amount) FROM Debit debit WHERE debit.payer.userId = :value1")
                 .setParameter("value1", userId);
-        double sum = (double) query.getSingleResult();
+        double creditSum;
+        try {
+            creditSum = (double) query.getSingleResult();
+        } catch (NullPointerException e) {
+            creditSum = 0;
+        }
         em.getTransaction().commit();
 
-        return sum;
+        return creditSum;
     }
 
     @Override
@@ -259,10 +264,15 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
         em.getTransaction().begin();
         Query query = em.createQuery("SELECT SUM(debit.amount) FROM Debit debit WHERE debit.debtor.userId = :value1")
                 .setParameter("value1", userId);
-        double sum = (double) query.getSingleResult();  // TODO: this throws a nullpointer. Fix!
+        double liabilitySum;
+        try {
+            liabilitySum = (double) query.getSingleResult();
+        } catch (NullPointerException e) {
+            liabilitySum = 0;
+        }
         em.getTransaction().commit();
 
-        return sum;
+        return liabilitySum;
     }
 
     @Override
