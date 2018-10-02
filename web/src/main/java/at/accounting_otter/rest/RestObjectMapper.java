@@ -38,6 +38,15 @@ public class RestObjectMapper {
         return transactionToGet;
     }
 
+    public List<TransactionToGet> listInternalToListGetTransaction(List<Transaction> transactions) {
+        List<TransactionToGet> transactionsToGet = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+            transactionsToGet.add(internalToGetTransaction(transaction));
+        }
+        return  transactionsToGet;
+    }
+
 
     public UserToGet internalToGetUser(User user) throws ObjectNotFoundException {
         UserToGet userToGet = new UserToGet();
@@ -46,6 +55,14 @@ public class RestObjectMapper {
         userToGet.setSumDebitAmounts(debitService.getBalanceByUserId(user.getUserId()));
 
         return userToGet;
+    }
+
+    public List<UserToGet> listInternalToListGetUser(List<User> users) throws ObjectNotFoundException {
+        List<UserToGet> usersToGet = new ArrayList<>();
+        for (User user : users) {
+            usersToGet.add( internalToGetUser(user) );
+        }
+        return usersToGet;
     }
 
 

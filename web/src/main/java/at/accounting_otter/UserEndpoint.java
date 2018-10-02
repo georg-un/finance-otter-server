@@ -2,12 +2,14 @@ package at.accounting_otter;
 
 import at.accounting_otter.entity.User;
 import at.accounting_otter.rest.RestObjectMapper;
+import at.accounting_otter.rest.UserToGet;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/api/v1/user")
 @RequestScoped
@@ -34,6 +36,14 @@ public class UserEndpoint {
                     .entity(e.getMessage())
                     .build();
         }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<UserToGet> getAllUser() throws ObjectNotFoundException {
+        return restMapper.listInternalToListGetUser(
+                userService.getAllUser()
+        );
     }
 
     @POST

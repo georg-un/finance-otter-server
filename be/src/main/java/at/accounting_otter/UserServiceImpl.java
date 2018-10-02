@@ -4,6 +4,7 @@ import at.accounting_otter.entity.User;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 
 
 @ApplicationScoped
@@ -24,6 +25,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(int userId) {
         return databaseAdapter.getUser(userId);
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        return databaseAdapter.getAllUser();
     }
 
     @Override

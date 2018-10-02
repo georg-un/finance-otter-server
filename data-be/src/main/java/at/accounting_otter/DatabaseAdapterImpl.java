@@ -95,6 +95,15 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
+    public List<User> getAllUser() {
+        em.getTransaction().begin();
+        List<User> users = em.createQuery("SELECT user FROM User user", User.class).getResultList();
+        em.getTransaction().commit();
+
+        return users;
+    }
+
+    @Override
     public User updateUser(User user) {
 
         em.getTransaction().begin();

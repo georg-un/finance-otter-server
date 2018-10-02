@@ -19,6 +19,8 @@ public interface DatabaseAdapter {
 
     User getUser(int userId);
 
+    List<User> getAllUser();
+
     User updateUser(User user);
 
     void removeUser();
