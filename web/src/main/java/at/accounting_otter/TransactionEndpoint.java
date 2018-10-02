@@ -1,12 +1,14 @@
 package at.accounting_otter;
 
 import at.accounting_otter.rest.RestObjectMapper;
+import at.accounting_otter.rest.TransactionToGet;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 
 @Path("/api/v1/transactions")
@@ -37,19 +39,10 @@ public class TransactionEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllTransactions(@QueryParam("start") int startIndex,
-                                       @QueryParam("end") int endIndex) {
-        try {
-            return Response
-                    .status(Response.Status.OK)
-                    .entity(transactionService.getTransactions(startIndex, endIndex))
-                    .build();
-        } catch (IllegalArgumentException e) {
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
-                    .build();
-        }
+    public List<TransactionToGet> getAllTransactions(@DefaultValue("0") @QueryParam("start") int startIndex,
+                                                     @DefaultValue("10") @QueryParam("end") int endIndex) {
+        return restMapper.listInternalToListGetTransaction(
+                transactionService.getTransactions(startIndex, endIndex));
     }
 
 }

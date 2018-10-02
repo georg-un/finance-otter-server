@@ -26,7 +26,7 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     public List<Transaction> getTransactions(int startIndex, int endIndex) throws IllegalArgumentException {
-        if (endIndex - startIndex > 0) {
+        if (endIndex > startIndex) {
             return databaseAdapter.getTransactions(startIndex, endIndex);
         } else {
             throw new IllegalArgumentException("endIndex must be greater than startIndex");
