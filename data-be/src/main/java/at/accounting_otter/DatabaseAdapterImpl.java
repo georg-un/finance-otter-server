@@ -37,7 +37,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
         Query query = em.createNativeQuery("CREATE TABLE IF NOT EXISTS transactions (" +
                 "transaction_id SERIAL PRIMARY KEY, " +
                 "user_id integer REFERENCES users," +
-                "datetime timestamp," +
+                "date date," +
                 "category varchar(256)," +
                 "shop varchar(256)," +
                 "description text," +
@@ -168,7 +168,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     public List<Transaction> getTransactions(int startIndex, int endIndex) {
 
         em.getTransaction().begin();
-        List<Transaction> resultList = em.createQuery("SELECT transaction FROM Transaction transaction ORDER BY transaction.datetime DESC", Transaction.class)
+        List<Transaction> resultList = em.createQuery("SELECT transaction FROM Transaction transaction ORDER BY transaction.date DESC", Transaction.class)
                 .setFirstResult(startIndex)
                 .setMaxResults(endIndex - startIndex)
                 .getResultList();

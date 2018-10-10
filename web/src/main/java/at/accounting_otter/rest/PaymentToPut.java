@@ -27,8 +27,8 @@ public class PaymentToPut extends PaymentToPost {
     }
 
     @Override
-    public Date getDatetime() {
-        return super.getDatetime();
+    public Date getDate() {
+        return super.getDate();
     }
 
     @Override
@@ -57,8 +57,8 @@ public class PaymentToPut extends PaymentToPost {
     }
 
     @Override
-    public void setDatetime(Date datetime) {
-        super.setDatetime(datetime);
+    public void setDate(Date date) {
+        super.setDate(date);
     }
 
     @Override

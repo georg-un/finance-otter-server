@@ -119,7 +119,7 @@ public class TestPaymentServiceIntegration {
         transaction.setBillId("bill_id_123");
         transaction.setCategory("groceries");
         transaction.setDescription("I had sooooo much fun buying this");
-        transaction.setDatetime(new Date());
+        transaction.setDate(new Date());
 
         Debit debit1 = new Debit();
         debit1.setTransaction(transaction);
@@ -166,7 +166,7 @@ public class TestPaymentServiceIntegration {
         transaction.setCategory("category_05");
         transaction.setShop("shop_05");
         transaction.setDescription("description_05");
-        transaction.setDatetime(new Date());
+        transaction.setDate(new Date());
         transaction.setBillId("bill_id_05");
 
         // Create updated payment
@@ -182,7 +182,7 @@ public class TestPaymentServiceIntegration {
         Assert.assertEquals(transaction.getCategory(), payment.getTransaction().getCategory());
         Assert.assertEquals(transaction.getShop(), payment.getTransaction().getShop());
         Assert.assertEquals(transaction.getDescription(), payment.getTransaction().getDescription());
-        Assert.assertEquals(transaction.getDatetime(), payment.getTransaction().getDatetime());
+        Assert.assertEquals(transaction.getDate(), payment.getTransaction().getDate());
         Assert.assertEquals(transaction.getBillId(), payment.getTransaction().getBillId());
 
 
@@ -236,7 +236,7 @@ public class TestPaymentServiceIntegration {
         transaction.setCategory("category_06");
         transaction.setShop("shop_06");
         transaction.setDescription("description_06");
-        transaction.setDatetime(new Date());
+        transaction.setDate(new Date());
         transaction.setBillId("bill_id_06");
 
         // Create updated payment
@@ -252,7 +252,7 @@ public class TestPaymentServiceIntegration {
         Assert.assertEquals(transaction.getCategory(), payment.getTransaction().getCategory());
         Assert.assertEquals(transaction.getShop(), payment.getTransaction().getShop());
         Assert.assertEquals(transaction.getDescription(), payment.getTransaction().getDescription());
-        Assert.assertEquals(transaction.getDatetime(), payment.getTransaction().getDatetime());
+        Assert.assertEquals(transaction.getDate(), payment.getTransaction().getDate());
         Assert.assertEquals(transaction.getBillId(), payment.getTransaction().getBillId());
 
 
@@ -310,7 +310,7 @@ public class TestPaymentServiceIntegration {
         transaction.setCategory("category_07");
         transaction.setShop("shop_07");
         transaction.setDescription("description_07");
-        transaction.setDatetime(new Date());
+        transaction.setDate(new Date());
         transaction.setBillId("bill_id_07");
 
         // Create updated payment
@@ -326,7 +326,7 @@ public class TestPaymentServiceIntegration {
         Assert.assertEquals(transaction.getCategory(), payment.getTransaction().getCategory());
         Assert.assertEquals(transaction.getShop(), payment.getTransaction().getShop());
         Assert.assertEquals(transaction.getDescription(), payment.getTransaction().getDescription());
-        Assert.assertEquals(transaction.getDatetime(), payment.getTransaction().getDatetime());
+        Assert.assertEquals(transaction.getDate(), payment.getTransaction().getDate());
         Assert.assertEquals(transaction.getBillId(), payment.getTransaction().getBillId());
 
 

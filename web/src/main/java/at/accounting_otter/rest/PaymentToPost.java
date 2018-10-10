@@ -16,9 +16,8 @@ public class PaymentToPost extends RestPayment {
         return super.getUserId();
     }
 
-    @Override
-    public Date getDatetime() {
-        return super.getDatetime();
+    public Date getDate() {
+        return super.getDate();
     }
 
     @Override
@@ -47,8 +46,8 @@ public class PaymentToPost extends RestPayment {
     }
 
     @Override
-    public void setDatetime(Date datetime) {
-        super.setDatetime(datetime);
+    public void setDate(Date date) {
+        super.setDate(date);
     }
 
     @Override

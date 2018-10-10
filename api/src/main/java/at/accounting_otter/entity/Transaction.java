@@ -22,8 +22,8 @@ public class Transaction {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "datetime")
-    private Date datetime;
+    @Column(name = "date")
+    private Date date;
 
     @Column(name = "category")
     private String category;

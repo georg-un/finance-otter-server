@@ -8,7 +8,7 @@ import java.util.Date;
 public abstract class RestPayment {
 
     private int userId;
-    private Date datetime;
+    private Date date;
     private String category;
     private String shop;
     private String description;

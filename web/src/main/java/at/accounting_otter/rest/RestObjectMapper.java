@@ -28,7 +28,7 @@ public class RestObjectMapper {
         transactionToGet.setTransactionId(transaction.getTransactionId());
         transactionToGet.setUserId(transaction.getUser().getUserId());
         transactionToGet.setUsername(transaction.getUser().getUsername());
-        transactionToGet.setDatetime(transaction.getDatetime());
+        transactionToGet.setDate(transaction.getDate());
         transactionToGet.setCategory(transaction.getCategory());
         transactionToGet.setShop(transaction.getShop());
         transactionToGet.setDescription(transaction.getDescription());
@@ -95,7 +95,7 @@ public class RestObjectMapper {
         paymentToGet.setTransactionId(payment.getTransaction().getTransactionId());
         paymentToGet.setUserId(payment.getTransaction().getUser().getUserId());
         paymentToGet.setUsername(payment.getTransaction().getUser().getUsername());
-        paymentToGet.setDatetime(payment.getTransaction().getDatetime());
+        paymentToGet.setDate(payment.getTransaction().getDate());
         paymentToGet.setCategory(payment.getTransaction().getCategory());
         paymentToGet.setShop(payment.getTransaction().getShop());
         paymentToGet.setDescription(payment.getTransaction().getDescription());
@@ -118,7 +118,7 @@ public class RestObjectMapper {
     public Payment postToInternalPayment(PaymentToPost paymentToPost) throws ObjectNotFoundException {
         Transaction transaction = new Transaction();
         transaction.setUser(userService.getUser(paymentToPost.getUserId()));
-        transaction.setDatetime(paymentToPost.getDatetime());
+        transaction.setDate(paymentToPost.getDate());
         transaction.setCategory(paymentToPost.getCategory());
         transaction.setShop(paymentToPost.getShop());
         transaction.setDescription(paymentToPost.getDescription());

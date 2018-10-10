@@ -22,7 +22,7 @@ public class TestDatabaseAdapterImpl {
 
 
     // Load classes needed for test data cleanup
-    private static EntityManager em = Persistence.createEntityManagerFactory("test_database").createEntityManager();
+    private static EntityManager em = Persistence.createEntityManagerFactory("pers_unit_test").createEntityManager();
 
     @BeforeClass
     public static void cleanUpOldTestData() {
@@ -75,7 +75,7 @@ public class TestDatabaseAdapterImpl {
         test_transaction.setUser(test_user);
         test_transaction.setShop("test_shop");
         test_transaction.setDescription("test_description");
-        test_transaction.setDatetime(new Date());
+        test_transaction.setDate(new Date());
         test_transaction.setBillId("test_id");
 
         databaseAdapter.createTransaction(test_transaction);

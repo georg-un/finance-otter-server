@@ -25,9 +25,9 @@ public class PaymentEndpoint {
     private RestObjectMapper restMapper;
 
     @GET
-    @Path("/{transaction_id}")
+    @Path("/{transactionId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPayment(@PathParam("transaction_id") int transactionId,
+    public Response getPayment(@PathParam("transactionId") int transactionId,
                                @DefaultValue("true") @QueryParam("includeDebits") boolean includeDebits) {
 
         if (transactionService.getTransaction(transactionId) != null) {
@@ -60,6 +60,15 @@ public class PaymentEndpoint {
                 paymentService.updatePayment(
                 restMapper.putToInternalPayment(paymentToPut)
         ), true);
+    }
+
+    @DELETE
+    @Path("/{transactionId}")
+    public Response deletePayment(@PathParam("transactionId") int transactionId) throws ObjectNotFoundException {
+        paymentService.deletePayment(transactionId);
+        return Response
+                .status(Response.Status.OK)
+                .build();
     }
 
 }

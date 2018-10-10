@@ -10,7 +10,7 @@ public class TransactionToGet implements Serializable {
 
     private int transactionId;
     private int userId;
-    private Date datetime;
+    private Date date;
     private String category;
     private String shop;
     private String description;
