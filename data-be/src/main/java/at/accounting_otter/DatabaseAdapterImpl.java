@@ -21,7 +21,11 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
 
         em.getTransaction().begin();
 
-        Query query = em.createNativeQuery("CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, username varchar(256) UNIQUE);");
+        Query query = em.createNativeQuery("CREATE TABLE IF NOT EXISTS users (" +
+                "user_id SERIAL PRIMARY KEY, " +
+                "username varchar(256) UNIQUE, " +
+                "firstName varchar(265), " +
+                "lastName varchar(265));");
         query.executeUpdate();
 
         em.getTransaction().commit();

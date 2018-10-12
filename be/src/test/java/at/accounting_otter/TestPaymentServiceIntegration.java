@@ -77,21 +77,31 @@ public class TestPaymentServiceIntegration {
     public void test01CreateUsers() {
         // Create 4 test user
         testUser1.setUsername("test_user_1_initial");
+        testUser1.setFirstName("Anna");
+        testUser1.setLastName("Adler");
         testUser1 = userService.createUser(testUser1);
         Assert.assertNotNull(testUser1);
         Assert.assertEquals("test_user_1_initial", userService.getUser(testUser1.getUserId()).getUsername());
+        Assert.assertEquals("Anna", userService.getUser(testUser1.getUserId()).getFirstName());
+        Assert.assertEquals("Adler", userService.getUser(testUser1.getUserId()).getLastName());
 
         testUser2.setUsername("test_user_2");
+        testUser2.setFirstName("Bernd");
+        testUser2.setLastName("Bieber");
         testUser2 = userService.createUser(testUser2);
         Assert.assertNotNull(testUser2);
         Assert.assertEquals("test_user_2", userService.getUser(testUser2.getUserId()).getUsername());
 
         testUser3.setUsername("test_user_3");
+        testUser3.setFirstName("Claudia");
+        testUser3.setLastName("Chamäleon");
         testUser3 = userService.createUser(testUser3);
         Assert.assertNotNull(testUser3);
         Assert.assertEquals("test_user_3", userService.getUser(testUser3.getUserId()).getUsername());
 
         testUser4.setUsername("test_user_4");
+        testUser4.setFirstName("Dietrich");
+        testUser4.setLastName("Dachs");
         testUser4 = userService.createUser(testUser4);
         Assert.assertNotNull(testUser4);
         Assert.assertEquals("test_user_4", userService.getUser(testUser4.getUserId()).getUsername());

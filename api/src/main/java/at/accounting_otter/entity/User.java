@@ -19,4 +19,12 @@ public class User {
     @Getter @Setter
     private String username;
 
+    @Column(name = "firstName", unique = true)
+    @Getter @Setter
+    private String firstName;
+
+    @Column(name = "lastName", unique = true)
+    @Getter @Setter
+    private String lastName;
+
 }

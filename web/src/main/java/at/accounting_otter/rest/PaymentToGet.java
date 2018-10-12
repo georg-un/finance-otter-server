@@ -11,6 +11,8 @@ public class PaymentToGet extends RestPayment {
 
     private int transactionId;
     private String username;
+    private String firstName;
+    private String lastName;
     private double sumAmount;
     private List<DebitToGet> debits;
 

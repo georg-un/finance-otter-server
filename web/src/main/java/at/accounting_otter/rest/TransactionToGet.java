@@ -16,6 +16,8 @@ public class TransactionToGet implements Serializable {
     private String description;
     private String billId;
     private String username;
+    private String firstName;
+    private String lastName;
     private double sumAmount;
 
 }

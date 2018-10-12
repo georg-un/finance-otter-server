@@ -48,12 +48,16 @@ public class TestDatabaseAdapterImpl {
     @Test (dependsOnMethods = {"testCreateUserTable"})
     public void testCreateUser() {
         test_user.setUsername("fritz");
+        test_user.setFirstName("Fritz");
+        test_user.setLastName("Phantom");
         test_user = databaseAdapter.createUser(test_user);
     }
 
     @Test (dependsOnMethods = {"testCreateUser"})
     public void testUpdateUser() {
         test_user.setUsername("banana_joe");
+        test_user.setFirstName("Banana");
+        test_user.setLastName("Joe");
         System.out.print(test_user.getUsername());
         test_user = databaseAdapter.updateUser(test_user);
         System.out.print(test_user.getUsername());

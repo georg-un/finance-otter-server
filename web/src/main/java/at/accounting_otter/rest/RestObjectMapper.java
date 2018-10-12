@@ -28,6 +28,8 @@ public class RestObjectMapper {
         transactionToGet.setTransactionId(transaction.getTransactionId());
         transactionToGet.setUserId(transaction.getUser().getUserId());
         transactionToGet.setUsername(transaction.getUser().getUsername());
+        transactionToGet.setFirstName(transaction.getUser().getFirstName());
+        transactionToGet.setLastName(transaction.getUser().getLastName());
         transactionToGet.setDate(transaction.getDate());
         transactionToGet.setCategory(transaction.getCategory());
         transactionToGet.setShop(transaction.getShop());
@@ -52,6 +54,8 @@ public class RestObjectMapper {
         UserToGet userToGet = new UserToGet();
         userToGet.setUserId(user.getUserId());
         userToGet.setUsername(user.getUsername());
+        userToGet.setFirstName(user.getFirstName());
+        userToGet.setLastName(user.getLastName());
         userToGet.setSumDebitAmounts(debitService.getBalanceByUserId(user.getUserId()));
 
         return userToGet;
@@ -71,6 +75,8 @@ public class RestObjectMapper {
         debitToGet.setDebitId(debit.getDebitId());
         debitToGet.setDebtorId(debit.getDebtor().getUserId());
         debitToGet.setDebtorName(debit.getDebtor().getUsername());
+        debitToGet.setDebtorFirstName(debit.getDebtor().getFirstName());
+        debitToGet.setDebtorLastName(debit.getDebtor().getLastName());
         debitToGet.setAmount(debit.getAmount());
 
         return debitToGet;
@@ -95,6 +101,8 @@ public class RestObjectMapper {
         paymentToGet.setTransactionId(payment.getTransaction().getTransactionId());
         paymentToGet.setUserId(payment.getTransaction().getUser().getUserId());
         paymentToGet.setUsername(payment.getTransaction().getUser().getUsername());
+        paymentToGet.setFirstName(payment.getTransaction().getUser().getFirstName());
+        paymentToGet.setLastName(payment.getTransaction().getUser().getLastName());
         paymentToGet.setDate(payment.getTransaction().getDate());
         paymentToGet.setCategory(payment.getTransaction().getCategory());
         paymentToGet.setShop(payment.getTransaction().getShop());
