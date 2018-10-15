@@ -14,6 +14,10 @@ public interface UserService {
 
     User changeUsername(int userId, String newUsername) throws RuntimeException, ObjectNotFoundException;
 
+    void setUserPic(int userId, byte[] userPic);
+
+    byte[] getUserPic(int userId);
+
     void removeUser(int userId) throws ObjectNotFoundException;
 
 }

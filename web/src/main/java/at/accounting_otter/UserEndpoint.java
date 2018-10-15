@@ -3,12 +3,16 @@ package at.accounting_otter;
 import at.accounting_otter.entity.User;
 import at.accounting_otter.rest.RestObjectMapper;
 import at.accounting_otter.rest.UserToGet;
+import org.apache.commons.io.IOUtils;
+
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Path("/api/v1/user")
@@ -44,6 +48,26 @@ public class UserEndpoint {
         return restMapper.listInternalToListGetUser(
                 userService.getAllUser()
         );
+    }
+
+    @POST
+    @Consumes("*/*")
+    @Path("/{userId}/pic")
+    public Response setUserPic(@PathParam("userId") int userId,
+                               InputStream inputStream) throws IOException {
+        userService.setUserPic(userId, IOUtils.toByteArray(inputStream));
+
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Produces("image/png")
+    @Path("/{userId}/pic")
+    public Response getUserPic(@PathParam("userId") int userId) {
+        return Response
+                .status(Response.Status.OK)
+                .entity(userService.getUserPic(userId))
+                .build();
     }
 
     @POST

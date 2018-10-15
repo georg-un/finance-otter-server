@@ -25,7 +25,8 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
                 "user_id SERIAL PRIMARY KEY, " +
                 "username varchar(256) UNIQUE, " +
                 "firstName varchar(265), " +
-                "lastName varchar(265));");
+                "lastName varchar(265)," +
+                "pic bytea);");
         query.executeUpdate();
 
         em.getTransaction().commit();

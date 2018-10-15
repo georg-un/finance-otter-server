@@ -54,6 +54,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void setUserPic(int userId, byte[] userPic) {
+        User user = databaseAdapter.getUser(userId);
+        user.setUserPic(userPic);
+        databaseAdapter.updateUser(user);
+    }
+
+    @Override
+    public byte[] getUserPic(int userId) {
+        return databaseAdapter.getUser(userId).getUserPic();
+    }
+
+    @Override
     public void removeUser(int userId) throws ObjectNotFoundException {
         if (databaseAdapter.getUser(userId) == null) {
             throw new ObjectNotFoundException("User with id " + userId + " not found.");

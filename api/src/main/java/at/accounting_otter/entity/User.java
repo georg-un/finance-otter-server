@@ -19,12 +19,16 @@ public class User {
     @Getter @Setter
     private String username;
 
-    @Column(name = "firstName", unique = true)
+    @Column(name = "firstName")
     @Getter @Setter
     private String firstName;
 
-    @Column(name = "lastName", unique = true)
+    @Column(name = "lastName")
     @Getter @Setter
     private String lastName;
+
+    @Column(name = "pic")
+    @Getter @Setter
+    private byte[] userPic;
 
 }
