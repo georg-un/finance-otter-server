@@ -4,14 +4,14 @@ import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.List;
 
-@ApplicationScoped
+@RequestScoped
 public class DatabaseAdapterImpl implements DatabaseAdapter {
 
     private EntityManager em = Persistence.createEntityManagerFactory("pers_unit_test").createEntityManager();

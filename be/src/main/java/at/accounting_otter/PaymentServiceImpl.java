@@ -4,10 +4,12 @@ import at.accounting_otter.dto.Payment;
 import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequestScoped
 public class PaymentServiceImpl implements PaymentService{
 
     @Inject

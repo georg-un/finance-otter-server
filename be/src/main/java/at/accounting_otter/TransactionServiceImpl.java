@@ -2,9 +2,11 @@ package at.accounting_otter;
 
 import at.accounting_otter.entity.Transaction;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
 
+@RequestScoped
 public class TransactionServiceImpl implements TransactionService{
 
     @Inject

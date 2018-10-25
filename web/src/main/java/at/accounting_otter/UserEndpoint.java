@@ -5,7 +5,6 @@ import at.accounting_otter.rest.RestObjectMapper;
 import at.accounting_otter.rest.UserToGet;
 import org.apache.commons.io.IOUtils;
 
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -64,10 +63,18 @@ public class UserEndpoint {
     @Produces("image/png")
     @Path("/{userId}/pic")
     public Response getUserPic(@PathParam("userId") int userId) {
-        return Response
-                .status(Response.Status.OK)
-                .entity(userService.getUserPic(userId))
-                .build();
+        byte[] userPic = userService.getUserPic(userId);
+
+        if (userPic == null) {
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .build();
+        } else {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(userPic)
+                    .build();
+        }
     }
 
     @POST

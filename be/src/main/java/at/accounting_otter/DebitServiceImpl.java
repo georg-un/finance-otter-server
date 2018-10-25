@@ -2,12 +2,12 @@ package at.accounting_otter;
 
 import at.accounting_otter.entity.Debit;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
 
 
-@ApplicationScoped
+@RequestScoped
 public class DebitServiceImpl implements DebitService {
 
     @Inject
