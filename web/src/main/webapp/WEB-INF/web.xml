@@ -5,4 +5,28 @@
         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
+    <module-name>application</module-name>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admins</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+        <!--user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>  this throws an exception since no confidential port is available
+        </user-data-constraint-->
+    </security-constraint>
+
+    <login-config>
+        <auth-method>KEYCLOAK</auth-method>
+        <realm-name>this is ignored currently</realm-name>
+    </login-config>
+
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
+
 </web-app>
