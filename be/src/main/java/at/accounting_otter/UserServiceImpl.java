@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUser(String username) {
+        return databaseAdapter.getUser(username);
+    }
+
+    @Override
     public List<User> getAllUser() {
         return databaseAdapter.getAllUser();
     }

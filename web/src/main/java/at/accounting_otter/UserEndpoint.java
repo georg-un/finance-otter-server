@@ -8,8 +8,10 @@ import org.apache.commons.io.IOUtils;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -23,6 +25,12 @@ public class UserEndpoint {
 
     @Inject
     private RestObjectMapper restMapper;
+
+    @Inject
+    private SecurityUtil securityUtil;
+
+    @Context
+    SecurityContext securityContext;
 
     @GET
     @Path("/{user_id}")
@@ -51,10 +59,16 @@ public class UserEndpoint {
 
     @POST
     @Consumes("*/*")
-    @Path("/{userId}/pic")
-    public Response setUserPic(@PathParam("userId") int userId,
-                               InputStream inputStream) throws IOException {
-        userService.setUserPic(userId, IOUtils.toByteArray(inputStream));
+    @Path("/pic")
+    public Response setUserPic(InputStream inputStream) throws IOException, ObjectNotFoundException {
+        String username = securityUtil.getCurrentUser(securityContext);
+        User user = userService.getUser(username);
+
+        if (user != null) {
+            userService.setUserPic(user.getUserId(), IOUtils.toByteArray(inputStream));
+        } else {
+            throw new ObjectNotFoundException("User with username " + username + " not found.");
+        }
 
         return Response.status(Response.Status.OK).build();
     }

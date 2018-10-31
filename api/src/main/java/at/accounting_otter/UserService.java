@@ -10,6 +10,8 @@ public interface UserService {
 
     User getUser(int userId);
 
+    User getUser(String username);
+
     List<User> getAllUser();
 
     User changeUsername(int userId, String newUsername) throws RuntimeException, ObjectNotFoundException;
