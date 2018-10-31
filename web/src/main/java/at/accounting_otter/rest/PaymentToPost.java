@@ -11,11 +11,6 @@ public class PaymentToPost extends RestPayment {
 
     private List<DebitToPost> debits;
 
-    @Override
-    public int getUserId() {
-        return super.getUserId();
-    }
-
     public Date getDate() {
         return super.getDate();
     }
@@ -38,11 +33,6 @@ public class PaymentToPost extends RestPayment {
     @Override
     public String getBillId() {
         return super.getBillId();
-    }
-
-    @Override
-    public void setUserId(int userId) {
-        super.setUserId(userId);
     }
 
     @Override

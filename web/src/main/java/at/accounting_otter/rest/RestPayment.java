@@ -7,7 +7,6 @@ import java.util.Date;
 @Data
 public abstract class RestPayment {
 
-    private int userId;
     private Date date;
     private String category;
     private String shop;

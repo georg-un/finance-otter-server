@@ -22,11 +22,6 @@ public class PaymentToPut extends PaymentToPost {
     }
 
     @Override
-    public int getUserId() {
-        return super.getUserId();
-    }
-
-    @Override
     public Date getDate() {
         return super.getDate();
     }
@@ -49,11 +44,6 @@ public class PaymentToPut extends PaymentToPost {
     @Override
     public String getBillId() {
         return super.getBillId();
-    }
-
-    @Override
-    public void setUserId(int userId) {
-        super.setUserId(userId);
     }
 
     @Override

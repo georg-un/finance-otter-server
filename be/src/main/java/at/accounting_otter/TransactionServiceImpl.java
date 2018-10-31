@@ -36,13 +36,15 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public Transaction updateTransaction(Transaction transaction) throws ObjectNotFoundException {
-        if (databaseAdapter.getTransaction(transaction.getTransactionId()) == null) {
-            throw new ObjectNotFoundException("Transaction with id " + transaction.getTransactionId() + " not found.");
-        } else if (databaseAdapter.getUser(transaction.getUser().getUserId()) == null) {
-            throw new ObjectNotFoundException("User with id " + transaction.getUser().getUserId() + " not found.");
+    public Transaction updateTransaction(Transaction transactionUpdate) throws ObjectNotFoundException {
+        if (databaseAdapter.getTransaction(transactionUpdate.getTransactionId()) == null) {
+            throw new ObjectNotFoundException("Transaction with id " + transactionUpdate.getTransactionId() + " not found.");
         } else {
-            return databaseAdapter.updateTransaction(transaction);
+            // Make sure that the creator remains the owner of the transaction
+            transactionUpdate.setUser(
+                    databaseAdapter.getTransaction(transactionUpdate.getTransactionId()).getUser()
+            );
+            return databaseAdapter.updateTransaction(transactionUpdate);
         }
     }
 

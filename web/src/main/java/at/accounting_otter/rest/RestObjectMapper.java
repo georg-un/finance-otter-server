@@ -123,9 +123,8 @@ public class RestObjectMapper {
         return paymentToGet;
     }
 
-    public Payment postToInternalPayment(PaymentToPost paymentToPost) throws ObjectNotFoundException {
+    public Payment postToInternalPayment(PaymentToPost paymentToPost, int userId) throws ObjectNotFoundException {
         Transaction transaction = new Transaction();
-        transaction.setUser(userService.getUser(paymentToPost.getUserId()));
         transaction.setDate(paymentToPost.getDate());
         transaction.setCategory(paymentToPost.getCategory());
         transaction.setShop(paymentToPost.getShop());
@@ -134,17 +133,27 @@ public class RestObjectMapper {
 
         List<Debit> debits = new ArrayList<>();
         for (DebitToPost postedDebit : paymentToPost.getDebits()) {
-            debits.add( postToInternalDebit(postedDebit, paymentToPost.getUserId()) );
+            debits.add( postToInternalDebit(postedDebit, userId) );
         }
 
         return new Payment(transaction, debits);
     }
 
-    public Payment putToInternalPayment(PaymentToPut paymentToPut) throws ObjectNotFoundException {
-        Payment payment = postToInternalPayment(paymentToPut);
-        payment.getTransaction().setTransactionId(paymentToPut.getTransactionId());
+    public Payment putToInternalPayment(PaymentToPut paymentToPut, int userId) throws ObjectNotFoundException {
+        Transaction transaction = new Transaction();
+        transaction.setDate(paymentToPut.getDate());
+        transaction.setCategory(paymentToPut.getCategory());
+        transaction.setShop(paymentToPut.getShop());
+        transaction.setDescription(paymentToPut.getDescription());
+        transaction.setBillId(paymentToPut.getBillId());
+        transaction.setTransactionId(paymentToPut.getTransactionId());
 
-        return payment;
+        List<Debit> debits = new ArrayList<>();
+        for (DebitToPost postedDebit : paymentToPut.getDebits()) {
+            debits.add( postToInternalDebit(postedDebit, userId) );
+        }
+
+        return new Payment(transaction, debits);
     }
 
 }

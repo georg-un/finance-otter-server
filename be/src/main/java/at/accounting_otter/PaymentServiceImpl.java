@@ -66,6 +66,7 @@ public class PaymentServiceImpl implements PaymentService{
             debitService.deleteDebit(debit.getDebitId());
         }
 
+        // TODO: debits will always have an id  (just delete all debits and recreate them)
         for (Debit debit : payment.getDebits()) {
             // add Debits which have id = 0 (assuming that they are new)
             if (debit.getDebitId() == 0) {
@@ -84,6 +85,7 @@ public class PaymentServiceImpl implements PaymentService{
         return getPayment(transaction.getTransactionId());
     }
 
+    @Deprecated
     private List<Debit> getObsoleteDebits(Payment payment) {
         // get the current state from the database and extract the Debit-id's
         List<Debit> currentDebits = debitService.getDebitsByTransactionId(payment.getTransaction().getTransactionId());

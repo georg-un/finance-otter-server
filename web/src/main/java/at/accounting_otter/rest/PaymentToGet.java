@@ -9,17 +9,13 @@ import java.util.List;
 // TODO: switch to @SuperBuilder as soon as there is IDE support
 public class PaymentToGet extends RestPayment {
 
+    private int userId;
     private int transactionId;
     private String username;
     private String firstName;
     private String lastName;
     private double sumAmount;
     private List<DebitToGet> debits;
-
-    @Override
-    public int getUserId() {
-        return super.getUserId();
-    }
 
     public Date getDate() {
         return super.getDate();
@@ -43,11 +39,6 @@ public class PaymentToGet extends RestPayment {
     @Override
     public String getBillId() {
         return super.getBillId();
-    }
-
-    @Override
-    public void setUserId(int userId) {
-        super.setUserId(userId);
     }
 
     @Override

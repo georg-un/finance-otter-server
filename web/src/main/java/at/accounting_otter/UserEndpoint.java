@@ -1,6 +1,7 @@
 package at.accounting_otter;
 
 import at.accounting_otter.entity.User;
+import at.accounting_otter.rest.RestMethod;
 import at.accounting_otter.rest.RestObjectMapper;
 import at.accounting_otter.rest.UserToGet;
 import org.apache.commons.io.IOUtils;
@@ -61,7 +62,7 @@ public class UserEndpoint {
     @Consumes("*/*")
     @Path("/pic")
     public Response setUserPic(InputStream inputStream) throws IOException, ObjectNotFoundException {
-        String username = securityUtil.getCurrentUser(securityContext);
+        String username = securityUtil.getCurrentUser(securityContext, RestMethod.POST);
         User user = userService.getUser(username);
 
         if (user != null) {

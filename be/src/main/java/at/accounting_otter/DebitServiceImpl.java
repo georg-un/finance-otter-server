@@ -75,6 +75,8 @@ public class DebitServiceImpl implements DebitService {
         } else if (databaseAdapter.getUser(debit.getDebtor().getUserId()) == null) {
             throw new ObjectNotFoundException("User with id " + debit.getDebtor().getUserId() + " not found.");
         } else {
+            // make sure the payer of the debit stays the same
+            debit.setPayer(databaseAdapter.getDebit(debit.getDebitId()).getPayer());
             return databaseAdapter.updateDebit(debit);
         }
     }
