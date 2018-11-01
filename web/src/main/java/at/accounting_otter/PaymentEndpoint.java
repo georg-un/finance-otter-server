@@ -56,7 +56,7 @@ public class PaymentEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createPayment(PaymentToPost paymentToPost) throws ObjectNotFoundException {
-        User currentUser = userService.getUser(securityUtil.getCurrentUser(securityContext, RestMethod.POST));
+        User currentUser = userService.getUser(securityUtil.getCurrentUser(securityContext));
 
         if (currentUser !=null) {
             Payment payment = restMapper.postToInternalPayment(paymentToPost, currentUser.getUserId());
