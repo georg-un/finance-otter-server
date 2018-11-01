@@ -61,41 +61,19 @@ public class PaymentServiceImpl implements PaymentService{
 
         Transaction transaction = payment.getTransaction();
 
-        // delete obsolete Debits
-        for (Debit debit : getObsoleteDebits(payment)) {
+        // delete old Debits
+        for (Debit debit : debitService.getDebitsByTransactionId(payment.getTransaction().getTransactionId())) {
             debitService.deleteDebit(debit.getDebitId());
         }
 
-        // TODO: debits will always have an id  (just delete all debits and recreate them)
         for (Debit debit : payment.getDebits()) {
-            // add Debits which have id = 0 (assuming that they are new)
-            if (debit.getDebitId() == 0) {
-                debit.setTransaction(transaction);  // set transaction id just to be sure
-                debitService.createDebit(debit);
-            }
-            // update all other debits
-            else {
-                debit.setTransaction(transaction);
-                debitService.updateDebit(debit);
-            }
+            debit.setTransaction(transaction);  // set transaction id just to be sure
+            debitService.createDebit(debit);
         }
 
         transactionService.updateTransaction(payment.getTransaction());
 
         return getPayment(transaction.getTransactionId());
-    }
-
-    @Deprecated
-    private List<Debit> getObsoleteDebits(Payment payment) {
-        // get the current state from the database and extract the Debit-id's
-        List<Debit> currentDebits = debitService.getDebitsByTransactionId(payment.getTransaction().getTransactionId());
-        List<Integer> obsoleteDebitIds = currentDebits.stream().map(Debit::getDebitId).collect(Collectors.toList());
-
-        // remove any Debit-id that also occurs in the payment (that means that only obsolete Debits remain)
-        payment.getDebits().forEach(debit -> obsoleteDebitIds.remove(new Integer(debit.getDebitId())));
-
-        // return the obsolete Debits
-        return currentDebits.stream().filter(debit -> obsoleteDebitIds.contains(debit.getDebitId())).collect(Collectors.toList());
     }
 
     @Override
