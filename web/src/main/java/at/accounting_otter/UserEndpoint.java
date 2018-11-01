@@ -50,6 +50,26 @@ public class UserEndpoint {
     }
 
     @GET
+    @Path("/current")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCurrentUser() throws ObjectNotFoundException {
+        String username = securityUtil.getCurrentUser(securityContext);
+        User user = userService.getUser(username);
+
+        if (user != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(restMapper.internalToGetUser(user))
+                    .build();
+        } else {
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity("User with username " + username + " not found.")
+                    .build();
+        }
+    }
+
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<UserToGet> getAllUser() throws ObjectNotFoundException {
         return restMapper.listInternalToListGetUser(
