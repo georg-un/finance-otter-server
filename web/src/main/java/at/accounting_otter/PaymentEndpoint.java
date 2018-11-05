@@ -89,10 +89,26 @@ public class PaymentEndpoint {
     @DELETE
     @Path("/{transactionId}")
     public Response deletePayment(@PathParam("transactionId") int transactionId) throws ObjectNotFoundException {
-        paymentService.deletePayment(transactionId);
-        return Response
-                .status(Response.Status.OK)
-                .build();
+        User currentUser = userService.getUser(securityUtil.getCurrentUser(securityContext));
+
+        if (currentUser != null) {
+            if (currentUser.getUserId() == paymentService.getPayment(transactionId).getTransaction().getUser().getUserId()) {
+                paymentService.deletePayment(transactionId);
+                return Response
+                        .status(Response.Status.OK)
+                        .build();
+            } else {
+                return Response
+                        .status(Response.Status.FORBIDDEN)
+                        .entity("Only the creator of a payment is allowed to delete it.")
+                        .build();
+            }
+        } else {
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity("Current user does not exist.")
+                    .build();
+        }
     }
 
 }
