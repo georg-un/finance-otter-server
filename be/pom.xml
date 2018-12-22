@@ -29,10 +29,9 @@
 
         <!--  Arquillian  -->
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>arquillian-test</artifactId>
-            <version>2.2.0.Final</version>
-            <scope>test</scope>
+            <groupId>org.wildfly.arquillian</groupId>
+            <artifactId>wildfly-arquillian-common</artifactId>
+            <version>2.1.1.Final</version>
         </dependency>
 
         <!--  JUnit  -->
@@ -40,21 +39,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!--  Transaction SPI  -->
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-transaction-spi</artifactId>
-            <version>7.6.0.Final</version>
-        </dependency>
-
-        <!--  Weld Servlet  -->
-        <dependency>
-            <groupId>org.jboss.weld.servlet</groupId>
-            <artifactId>weld-servlet</artifactId>
-            <version>2.4.7.Final</version>
             <scope>test</scope>
         </dependency>
 
