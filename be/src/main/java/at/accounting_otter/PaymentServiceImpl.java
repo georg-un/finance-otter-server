@@ -67,6 +67,7 @@ public class PaymentServiceImpl implements PaymentService{
         }
 
         for (Debit debit : payment.getDebits()) {
+            debit.setDebitId(0); // set debitId to 0 just to be sure
             debit.setTransaction(transaction);  // set transaction id just to be sure
             debitService.createDebit(debit);
         }

@@ -12,7 +12,7 @@ public class Debit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "debit_id", updatable = false, nullable = false)
-    @Getter
+    @Getter @Setter
     private int debitId;
 
     @ManyToOne
