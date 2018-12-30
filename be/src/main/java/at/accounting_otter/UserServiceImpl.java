@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean doesUsernameAlreadyExist(String username) {
-        User user = databaseAdapter.findUserByUsername(username);
+        User user = databaseAdapter.getUser(username);
         return user != null;
     }
 

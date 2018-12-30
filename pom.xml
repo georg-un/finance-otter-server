@@ -19,7 +19,6 @@
     <properties>
         <junit.version>4.12</junit.version>
         <version.slf4j>1.7.25</version.slf4j>
-        <version.thorntail>2.2.0.Final</version.thorntail>
         <wildfly.version>15.0.0.Final</wildfly.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -30,14 +29,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>io.thorntail</groupId>
-                <artifactId>bom-all</artifactId>
-                <version>${version.thorntail}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>

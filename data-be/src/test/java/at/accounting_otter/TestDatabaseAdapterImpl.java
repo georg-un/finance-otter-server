@@ -15,6 +15,7 @@ import java.util.Date;
 
 
 // TODO: add tests for getter of not existing id's
+// TODO: check if debit tests and methods are actually needed
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestDatabaseAdapterImpl {
 
