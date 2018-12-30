@@ -19,7 +19,7 @@
     <properties>
         <junit.version>4.12</junit.version>
         <version.slf4j>1.7.25</version.slf4j>
-        <version.thorntail>2.2.0.Final</version.thorntail>
+        <wildfly.version>15.0.0.Final</wildfly.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -29,14 +29,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>io.thorntail</groupId>
-                <artifactId>bom-all</artifactId>
-                <version>${version.thorntail}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
@@ -62,7 +54,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.2</version>
+            <version>1.18.4</version>
             <scope>provided</scope>
         </dependency>
 
@@ -75,9 +67,12 @@
 
         <!--  CDI  -->
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>cdi</artifactId>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>2.0.SP1</version>
+            <scope>provided</scope>
         </dependency>
+
 
         <!--  Inject  -->
         <dependency>
@@ -89,9 +84,11 @@
 
         <!-- JPA  -->
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jpa</artifactId>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-jpa</artifactId>
+            <version>${wildfly.version}</version>
         </dependency>
+
 
         <!--  Hibernate Entitymanager  -->
         <dependency>
@@ -100,6 +97,7 @@
             <version>${hibernate.version}</version>
             <scope>provided</scope>
         </dependency>
+
 
         <!-- PostgreSQL -->
         <dependency>
@@ -111,15 +109,17 @@
 
         <!--  JAX-RS  -->
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jaxrs</artifactId>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-jaxrs</artifactId>
+            <version>${wildfly.version}</version>
         </dependency>
 
-        <!-- TestNG -->
+
+        <!--  JUnit  -->
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.14.3</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 

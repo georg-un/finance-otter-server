@@ -2,8 +2,11 @@ package at.accounting_otter;
 
 import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -11,14 +14,17 @@ import javax.persistence.Query;
 import java.util.Date;
 
 
-// TODO: switch to JUnit
 // TODO: add tests for getter of not existing id's
+// TODO: check if debit tests and methods are actually needed
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestDatabaseAdapterImpl {
 
-    private DatabaseAdapter databaseAdapter = new DatabaseAdapterImpl();
+    private DatabaseAdapterImpl databaseAdapter = new DatabaseAdapterImpl();
 
-    private User test_user = new User();
-    private Transaction test_transaction = new Transaction();
+    private static User test_user = new User();
+    private static Transaction test_transaction = new Transaction();
+    private static final String USERNAME_1 = "fritz";
+    private static final String USERNAME_2 = "banana_joe";
 
 
     // Load classes needed for test data cleanup
@@ -41,60 +47,91 @@ public class TestDatabaseAdapterImpl {
 
 
     @Test
-    public void testCreateUserTable() {
+    public void test01CreateUserTable() {
         databaseAdapter.createUserTable();
     }
 
-    @Test (dependsOnMethods = {"testCreateUserTable"})
-    public void testCreateUser() {
-        test_user.setUsername("fritz");
+    @Test
+    public void test02CreateUser() {
+        test_user.setUsername(USERNAME_1);
         test_user.setFirstName("Fritz");
         test_user.setLastName("Phantom");
         test_user = databaseAdapter.createUser(test_user);
+
+        Assert.assertNotNull(databaseAdapter.getUser(test_user.getUserId()));
+        Assert.assertEquals(USERNAME_1, databaseAdapter.getUser(test_user.getUserId()).getUsername());
+        Assert.assertEquals("Fritz", databaseAdapter.getUser(test_user.getUserId()).getFirstName());
+        Assert.assertEquals("Phantom", databaseAdapter.getUser(test_user.getUserId()).getLastName());
+        Assert.assertTrue(
+                databaseAdapter
+                .getAllUsers()
+                .stream()
+                .anyMatch(user -> user.getUserId() == test_user.getUserId())
+        );
     }
 
-    @Test (dependsOnMethods = {"testCreateUser"})
-    public void testUpdateUser() {
-        test_user.setUsername("banana_joe");
+    @Test
+    public void test03UpdateUser() {
+        test_user.setUsername(USERNAME_2);
         test_user.setFirstName("Banana");
         test_user.setLastName("Joe");
-        System.out.print(test_user.getUsername());
+        Assert.assertNotNull(databaseAdapter.getUser(test_user.getUserId()));
+        Assert.assertEquals(USERNAME_1, databaseAdapter.getUser(test_user.getUserId()).getUsername());
+
         test_user = databaseAdapter.updateUser(test_user);
-        System.out.print(test_user.getUsername());
+        Assert.assertEquals(USERNAME_2, databaseAdapter.getUser(test_user.getUserId()).getUsername());
+        Assert.assertEquals("Banana", databaseAdapter.getUser(test_user.getUserId()).getFirstName());
+        Assert.assertEquals("Joe", databaseAdapter.getUser(test_user.getUserId()).getLastName());
     }
 
-    @Test (dependsOnMethods = {"testUpdateUser"})
-    public void testFindUser() {
-        User user = databaseAdapter.findUserByUsername("banana_joe");
-        System.out.print(user.getUserId() + ": " + user.getUsername());
+    @Test
+    public void test04FindUser() {
+        User user = databaseAdapter.getUser(USERNAME_2);
+
+        Assert.assertNotNull(user);
+        Assert.assertEquals(test_user.getUserId(), user.getUserId());
+        Assert.assertEquals(test_user.getUsername(), user.getUsername());
+        Assert.assertEquals(USERNAME_2, user.getUsername());
     }
 
-    @Test (dependsOnMethods = {"testCreateUserTable"})
-    public void testCreateTransactionTable() {
+    @Test
+    public void test05CreateTransactionTable() {
         databaseAdapter.createTransactionTable();
     }
 
-    @Test (dependsOnMethods = "testCreateTransactionTable")
-    public void testCreateTransaction() {
+    @Test
+    public void test06CreateTransaction() {
         test_transaction.setUser(test_user);
         test_transaction.setShop("test_shop");
         test_transaction.setDescription("test_description");
         test_transaction.setDate(new Date());
         test_transaction.setBillId("test_id");
 
-        databaseAdapter.createTransaction(test_transaction);
+        test_transaction = databaseAdapter.createTransaction(test_transaction);
+
+        Assert.assertNotNull(databaseAdapter.getTransaction(test_transaction.getTransactionId()));
+        Assert.assertEquals(test_user.getUserId(), databaseAdapter.getTransaction(test_transaction.getTransactionId()).getUser().getUserId());
+        Assert.assertEquals("test_shop", databaseAdapter.getTransaction(test_transaction.getTransactionId()).getShop());
+        Assert.assertEquals("test_description", databaseAdapter.getTransaction(test_transaction.getTransactionId()).getDescription());
+        Assert.assertEquals(test_transaction.getDate(), databaseAdapter.getTransaction(test_transaction.getTransactionId()).getDate());
+        Assert.assertEquals("test_id", databaseAdapter.getTransaction(test_transaction.getTransactionId()).getBillId());
     }
 
-    @Test (dependsOnMethods = "testCreateTransaction")
-    public void testUpdateTransaction() {
+    @Test
+    public void test07UpdateTransaction() {
         test_transaction.setShop("other_shop");
 
         test_transaction = databaseAdapter.updateTransaction(test_transaction);
+
+        Assert.assertNotNull(databaseAdapter.getTransaction(test_transaction.getTransactionId()));
+        Assert.assertEquals("other_shop", databaseAdapter.getTransaction(test_transaction.getTransactionId()).getShop());
     }
 
-    @Test (dependsOnMethods = "testUpdateTransaction")
-    public void testDeleteTransaction() {
+    @Test
+    public void test08DeleteTransaction() {
         databaseAdapter.deleteTransaction(test_transaction.getTransactionId());
+
+        Assert.assertNull(databaseAdapter.getTransaction(test_transaction.getTransactionId()));
     }
 
 

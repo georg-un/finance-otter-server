@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUser() {
-        return databaseAdapter.getAllUser();
+        return databaseAdapter.getAllUsers();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean doesUsernameAlreadyExist(String username) {
-        User user = databaseAdapter.findUserByUsername(username);
+        User user = databaseAdapter.getUser(username);
         return user != null;
     }
 
