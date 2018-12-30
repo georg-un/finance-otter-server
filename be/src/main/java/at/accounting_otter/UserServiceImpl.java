@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUser() {
-        return databaseAdapter.getAllUser();
+        return databaseAdapter.getAllUsers();
     }
 
     @Override

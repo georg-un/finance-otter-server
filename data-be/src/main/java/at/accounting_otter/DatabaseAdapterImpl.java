@@ -115,7 +115,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public List<User> getAllUser() {
+    public List<User> getAllUsers() {
         em.getTransaction().begin();
         List<User> users = em.createQuery("SELECT user FROM User user", User.class).getResultList();
         em.getTransaction().commit();
@@ -134,21 +134,6 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public User findUserByUsername(String username) throws IndexOutOfBoundsException {
-
-        em.getTransaction().begin();
-        List<User> user = em.createQuery("SELECT user FROM User user WHERE user.username = :value1", User.class)
-                .setParameter("value1", username).getResultList();
-        em.getTransaction().commit();
-
-        if (user.isEmpty()) {
-            return null;
-        } else {
-            return user.get(0);
-        }
-    }
-
-    @Override
     public void removeUser() {
         System.out.print("removeUser() is not implemented yet");
         // TODO: delete from database or just set inactive?
@@ -156,13 +141,12 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
 
-
     @Override
     public Transaction createTransaction(Transaction transaction) {
 
         em.getTransaction().begin();
         em.persist( transaction );
-        em.getTransaction( ).commit( );
+        em.getTransaction().commit();
 
         return transaction;
 

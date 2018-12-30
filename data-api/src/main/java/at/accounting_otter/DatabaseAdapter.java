@@ -21,13 +21,11 @@ public interface DatabaseAdapter {
 
     User getUser(String username);
 
-    List<User> getAllUser();
+    List<User> getAllUsers();
 
     User updateUser(User user);
 
     void removeUser();
-
-    User findUserByUsername(String username);
 
 
     Transaction createTransaction(Transaction transaction);
