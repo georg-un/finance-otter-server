@@ -51,8 +51,6 @@ public interface DatabaseAdapter {
 
     double getLiabilityByUserId(int userId);
 
-    Debit updateDebit(Debit debit);
-
     void deleteDebit(int debitId);
 
 }

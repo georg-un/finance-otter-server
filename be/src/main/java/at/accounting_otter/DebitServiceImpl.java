@@ -67,21 +67,6 @@ public class DebitServiceImpl implements DebitService {
     }
 
     @Override
-    public Debit updateDebit(Debit debit) throws ObjectNotFoundException {
-        if (databaseAdapter.getDebit(debit.getDebitId()) == null) {
-            throw new ObjectNotFoundException("Debit with id " + debit.getDebitId() + " not found.");
-        } else if (databaseAdapter.getUser(debit.getPayer().getUserId()) == null) {
-            throw new ObjectNotFoundException("User with id " + debit.getPayer().getUserId() + " not found.");
-        } else if (databaseAdapter.getUser(debit.getDebtor().getUserId()) == null) {
-            throw new ObjectNotFoundException("User with id " + debit.getDebtor().getUserId() + " not found.");
-        } else {
-            // make sure the payer of the debit stays the same
-            debit.setPayer(databaseAdapter.getDebit(debit.getDebitId()).getPayer());
-            return databaseAdapter.updateDebit(debit);
-        }
-    }
-
-    @Override
     public void deleteDebit(int debitId) throws ObjectNotFoundException {
         if (databaseAdapter.getDebit(debitId) == null) {
             throw new ObjectNotFoundException("Debit with id " + debitId + " not found.");

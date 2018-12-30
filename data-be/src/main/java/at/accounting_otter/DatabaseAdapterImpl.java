@@ -289,17 +289,6 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public Debit updateDebit(Debit debit) {
-
-        em.getTransaction().begin();
-        Debit updated_debit = em.merge(debit);
-        em.getTransaction().commit();
-
-        return updated_debit;
-
-    }
-
-    @Override
     public void deleteDebit(int debitId) {
 
         em.getTransaction().begin();
