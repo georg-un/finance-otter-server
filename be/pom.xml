@@ -34,14 +34,6 @@
             <version>2.1.1.Final</version>
         </dependency>
 
-        <!--  JUnit  -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!--  Weld EE Embedded Container  -->
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
