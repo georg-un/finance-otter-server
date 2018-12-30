@@ -21,8 +21,6 @@ public interface DebitService {
 
     double getBalanceByUserId(int userId) throws ObjectNotFoundException;
 
-    Debit updateDebit(Debit debit) throws ObjectNotFoundException;
-
     void deleteDebit(int debitId) throws ObjectNotFoundException;
 
 }
