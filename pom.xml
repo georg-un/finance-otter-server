@@ -107,14 +107,6 @@
         </dependency>
 
 
-        <!--  JAX-RS  -->
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-jaxrs</artifactId>
-            <version>${wildfly.version}</version>
-        </dependency>
-
-
         <!--  JUnit  -->
         <dependency>
             <groupId>junit</groupId>
