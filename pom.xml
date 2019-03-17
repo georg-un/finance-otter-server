@@ -12,6 +12,7 @@
         <module>be</module>
         <module>api</module>
         <module>database-adapter</module>
+        <module>data-provider</module>
         <module>web</module>
     </modules>
 

@@ -19,6 +19,7 @@ web/target/
 api/target/
 be/target/
 database-adapter/target/
+data-provider/target/
 
 web/keycloak\.lock\.db
 
