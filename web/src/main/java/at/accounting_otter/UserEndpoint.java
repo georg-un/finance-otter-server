@@ -1,6 +1,6 @@
 package at.accounting_otter;
 
-import at.accounting_otter.entity.User;
+import at.accounting_otter.dto.UserDTO;
 import at.accounting_otter.rest.RestObjectMapper;
 import at.accounting_otter.rest.UserToGet;
 import org.apache.commons.io.IOUtils;
@@ -54,7 +54,7 @@ public class UserEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurrentUser() throws ObjectNotFoundException {
         String username = securityUtil.getCurrentUser(securityContext);
-        User user = userService.getUser(username);
+        UserDTO user = userService.getUser(username);
 
         if (user != null) {
             return Response
@@ -82,7 +82,7 @@ public class UserEndpoint {
     @Path("/pic")
     public Response setUserPic(InputStream inputStream) throws IOException, ObjectNotFoundException {
         String username = securityUtil.getCurrentUser(securityContext);
-        User user = userService.getUser(username);
+        UserDTO user = userService.getUser(username);
 
         if (user != null) {
             userService.setUserPic(user.getUserId(), IOUtils.toByteArray(inputStream));
@@ -114,7 +114,7 @@ public class UserEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public User createUser(User user) {
+    public UserDTO createUser(UserDTO user) {
         return userService.createUser(user);
     }
 
