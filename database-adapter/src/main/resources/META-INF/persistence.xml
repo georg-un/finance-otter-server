@@ -8,9 +8,9 @@
 
     <!--persistence-unit name="otter_database" transaction-type="RESOURCE_LOCAL">
 
-        <class>at.accounting_otter.entity.User</class>
-        <class>at.accounting_otter.entity.Transaction</class>
-        <class>at.accounting_otter.entity.Debit</class>
+        <class>User</class>
+        <class>Transaction</class>
+        <class>Debit</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
@@ -26,9 +26,9 @@
 
     <persistence-unit name="pers_unit_test" transaction-type="RESOURCE_LOCAL">
 
-        <class>at.accounting_otter.entity.User</class>
-        <class>at.accounting_otter.entity.Transaction</class>
-        <class>at.accounting_otter.entity.Debit</class>
+        <class>User</class>
+        <class>Transaction</class>
+        <class>Debit</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->

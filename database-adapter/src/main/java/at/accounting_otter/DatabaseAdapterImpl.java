@@ -193,7 +193,7 @@ public class DatabaseAdapterImpl implements DatabaseAdapter {
     }
 
     @Override
-    public void deleteTransaction(int transactionId) {
+    public void deleteTransaction(int transactionId) {  // TODO: what about the corresponding debits?
 
         em.getTransaction().begin();
         Transaction transaction = em.find(Transaction.class, transactionId);
