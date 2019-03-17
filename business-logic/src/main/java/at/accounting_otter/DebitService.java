@@ -1,17 +1,17 @@
 package at.accounting_otter;
 
-import at.accounting_otter.entity.Debit;
+import at.accounting_otter.dto.DebitDTO;
 
 import java.util.List;
 
 
 public interface DebitService {
 
-    Debit createDebit(Debit debit) throws ObjectNotFoundException;
+    DebitDTO createDebit(DebitDTO debit) throws ObjectNotFoundException;
 
-    Debit getDebit(int debitId);
+    DebitDTO getDebit(int debitId);
 
-    List<Debit> getDebitsByTransactionId(int transactionId);
+    List<DebitDTO> getDebitsByTransactionId(int transactionId);
 
     double getSumAmountByTransactionId(int transactionId);
 

@@ -1,9 +1,9 @@
 package at.accounting_otter;
 
 import at.accounting_otter.dto.Payment;
-import at.accounting_otter.entity.Debit;
-import at.accounting_otter.entity.Transaction;
-import at.accounting_otter.entity.User;
+import at.accounting_otter.dto.UserDTO;
+import at.accounting_otter.dto.DebitDTO;
+import at.accounting_otter.dto.TransactionDTO;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -43,16 +43,17 @@ public class TestPaymentServiceIntegration {
     PaymentService paymentService;
 
 
-    private static User testUser1 = new User();
-    private static User testUser2 = new User();
-    private static User testUser3 = new User();
-    private static User testUser4 = new User();
+    private static UserDTO testUser1 = new UserDTO();
+    private static UserDTO testUser2 = new UserDTO();
+    private static UserDTO testUser3 = new UserDTO();
+    private static UserDTO testUser4 = new UserDTO();
     private static Payment payment = new Payment();
 
 
     // Load classes needed for test data cleanup
     private static EntityManager em = Persistence.createEntityManagerFactory("pers_unit_test").createEntityManager();
     private static DatabaseAdapter databaseAdapter = new DatabaseAdapterImpl();
+    private static DataProvider dataProvider = new DataProviderImpl();
 
     @BeforeClass
     public static void cleanUpOldTestData() {
@@ -123,25 +124,25 @@ public class TestPaymentServiceIntegration {
     @Test
     public void test04CreatePayment() throws ObjectNotFoundException {
         // Set up a payment with 1 transaction and 2 debits
-        Transaction transaction = new Transaction();
-        transaction.setUser(testUser1);
+        TransactionDTO transaction = new TransactionDTO();
+        transaction.setUserId(testUser1.getUserId());
         transaction.setShop("Super Nice Market");
         transaction.setBillId("bill_id_123");
         transaction.setCategory("groceries");
         transaction.setDescription("I had sooooo much fun buying this");
         transaction.setDate(new Date());
 
-        Debit debit1 = new Debit();
-        debit1.setTransaction(transaction);
-        debit1.setPayer(testUser1);
-        debit1.setDebtor(testUser2);
-        debit1.setAmount(50.00);
+        DebitDTO debit1 = new DebitDTO();
+        debit1.setTransactionId(transaction.getTransactionId());
+        debit1.setPayerId(testUser1.getUserId());
+        debit1.setDebtorId(testUser2.getUserId());
+        debit1.setAmount(10.00);
 
-        Debit debit2 = new Debit();
-        debit2.setTransaction(transaction);
-        debit2.setPayer(testUser1);
-        debit2.setDebtor(testUser3);
-        debit2.setAmount(30.00);
+        DebitDTO debit2 = new DebitDTO();
+        debit2.setTransactionId(transaction.getTransactionId());
+        debit2.setPayerId(testUser1.getUserId());
+        debit2.setDebtorId(testUser3.getUserId());
+        debit2.setAmount(20.00);
 
         Payment setUpPayment = new Payment();
         setUpPayment.setTransaction(transaction);
@@ -151,7 +152,7 @@ public class TestPaymentServiceIntegration {
         payment = paymentService.createPayment(setUpPayment);
 
         Assert.assertNotNull(payment);
-        Assert.assertEquals(setUpPayment, payment);
+        Assert.assertEquals(setUpPayment.getTransaction().getDate(), payment.getTransaction().getDate());
         Assert.assertEquals(payment, paymentService.getPayment(payment.getTransaction().getTransactionId()));
         Assert.assertNotNull(payment.getTransaction());
         Assert.assertNotNull(payment.getDebits());
@@ -163,15 +164,15 @@ public class TestPaymentServiceIntegration {
     public void test05UpdatePayment() throws ObjectNotFoundException {
 
         // Extract the transaction and the 2 debits from the former payment
-        Debit debit1 = payment.getDebits().get(0);
-        Debit debit2 = payment.getDebits().get(1);
-        Transaction transaction = payment.getTransaction();
+        DebitDTO debit1 = payment.getDebits().get(0);
+        DebitDTO debit2 = payment.getDebits().get(1);
+        TransactionDTO transaction = payment.getTransaction();
 
         // Change the properties of the previously extracted objects
         debit1.setAmount(100.00);
 
-        debit2.setDebtor(testUser4);
-        debit2.setAmount(300.00);
+        debit2.setDebtorId(testUser4.getUserId());
+        debit2.setAmount(200.00);
 
         transaction.setCategory("category_05");
         transaction.setShop("shop_05");
@@ -199,23 +200,22 @@ public class TestPaymentServiceIntegration {
         // Validate debits
         Assert.assertEquals(2, payment.getDebits().size());
 
-        Debit returnedDebit1 = payment.getDebits().stream()
-                .filter(debit -> debit.getDebitId() == debit1.getDebitId())
+        DebitDTO returnedDebit1 = payment.getDebits().stream()
+                .filter(debit -> debit.getAmount() == debit1.getAmount())
                 .findFirst().orElse(null);
-        Debit returnedDebit2 = payment.getDebits().stream()
-                .filter(debit -> debit.getDebitId() == debit2.getDebitId())
+        DebitDTO returnedDebit2 = payment.getDebits().stream()
+                .filter(debit -> debit.getAmount() == debit2.getAmount())
                 .findFirst().orElse(null);
 
         Assert.assertNotNull(returnedDebit1);
         Assert.assertNotNull(returnedDebit2);
 
 
-        // Debit 1 (expected to be the same)
-        Assert.assertEquals(debit1.getAmount(), returnedDebit1.getAmount(), 0);
-        Assert.assertEquals(debit1.getDebtor().getUserId(), returnedDebit1.getDebtor().getUserId());
-        Assert.assertEquals(debit1.getPayer().getUserId(), returnedDebit1.getPayer().getUserId());
-        Assert.assertEquals(debit1.getDebitId(), returnedDebit1.getDebitId());
-        Assert.assertEquals(debit1.getTransaction().getTransactionId(), returnedDebit1.getTransaction().getTransactionId());
+        // Debit 1 (expected to be the same except of debit id)
+        Assert.assertEquals(debit1.getDebtorId(), returnedDebit1.getDebtorId());
+        Assert.assertEquals(debit1.getPayerId(), returnedDebit1.getPayerId());
+        Assert.assertEquals(debit1.getTransactionId(), returnedDebit1.getTransactionId());
+        Assert.assertNotEquals(debit1.getDebitId(), returnedDebit1.getDebitId());
 
     }
 
@@ -224,24 +224,24 @@ public class TestPaymentServiceIntegration {
     public void test06UpdatePaymentAddDebit() throws ObjectNotFoundException {
 
         // Extract the transaction and the 2 debits from the former payment
-        Debit debit1 = payment.getDebits().get(0);
-        Debit debit2 = payment.getDebits().get(1);
-        Transaction transaction = payment.getTransaction();
+        DebitDTO debit1 = payment.getDebits().get(0);
+        DebitDTO debit2 = payment.getDebits().get(1);
+        TransactionDTO transaction = payment.getTransaction();
 
         // Create new Debit
-        Debit debit3 = new Debit();
+        DebitDTO debit3 = new DebitDTO();
 
         // Set up the third debit so that no transaction is defined and payer and debtor are the same person
         // Expect no exceptions and that transaction gets set automatically
-        debit3.setPayer(testUser1);
-        debit3.setDebtor(testUser1);
+        debit3.setPayerId(testUser1.getUserId());
+        debit3.setDebtorId(testUser1.getUserId());
         debit3.setAmount(25.00);
 
         // Change the properties of the previously extracted objects
-        debit1.setAmount(200.00);
+        debit1.setAmount(250.00);
 
-        debit2.setDebtor(testUser4);
-        debit2.setAmount(600.00);
+        debit2.setDebtorId(testUser4.getUserId());
+        debit2.setAmount(500.00);
 
         transaction.setCategory("category_06");
         transaction.setShop("shop_06");
@@ -269,35 +269,33 @@ public class TestPaymentServiceIntegration {
         // Validate debits
         Assert.assertEquals(3, payment.getDebits().size());
 
-        Debit returnedDebit1 = payment.getDebits().stream()
-                .filter(debit -> debit.getDebitId() == debit1.getDebitId())
+        DebitDTO returnedDebit1 = payment.getDebits().stream()
+                .filter(debit -> debit.getAmount() == debit1.getAmount())
                 .findFirst().orElse(null);
-        Debit returnedDebit2 = payment.getDebits().stream()
-                .filter(debit -> debit.getDebitId() == debit2.getDebitId())
+        DebitDTO returnedDebit2 = payment.getDebits().stream()
+                .filter(debit -> debit.getAmount() == debit2.getAmount())
                 .findFirst().orElse(null);
-        Debit returnedDebit3 = payment.getDebits().stream()
-                .filter(debit -> debit.getDebitId() == debit3.getDebitId())
+        DebitDTO returnedDebit3 = payment.getDebits().stream()
+                .filter(debit -> debit.getAmount() == debit3.getAmount())
                 .findFirst().orElse(null);
 
         Assert.assertNotNull(returnedDebit1);
         Assert.assertNotNull(returnedDebit2);
         Assert.assertNotNull(returnedDebit3);
 
-        // Debit 1 (expected to be the same)
-        Assert.assertEquals(debit1.getAmount(), returnedDebit1.getAmount(), 0);
-        Assert.assertEquals(debit1.getDebtor().getUserId(), returnedDebit1.getDebtor().getUserId());
-        Assert.assertEquals(debit1.getPayer().getUserId(), returnedDebit1.getPayer().getUserId());
-        Assert.assertEquals(debit1.getDebitId(), returnedDebit1.getDebitId());
-        Assert.assertEquals(debit1.getTransaction().getTransactionId(), returnedDebit1.getTransaction().getTransactionId());
+        // Debit 1 (expected to be the same except of debit it)
+        Assert.assertEquals(debit1.getDebtorId(), returnedDebit1.getDebtorId());
+        Assert.assertEquals(debit1.getPayerId(), returnedDebit1.getPayerId());
+        Assert.assertEquals(debit1.getTransactionId(), returnedDebit1.getTransactionId());
+        Assert.assertNotEquals(debit1.getDebitId(), returnedDebit1.getDebitId());
 
-        // Debit 3 (expected to be the same except of transaction id)
-        Assert.assertEquals(debit3.getAmount(), returnedDebit3.getAmount(), 0);
-        Assert.assertEquals(debit3.getDebtor().getUserId(), returnedDebit3.getDebtor().getUserId());
-        Assert.assertEquals(debit3.getPayer().getUserId(), returnedDebit3.getPayer().getUserId());
-        Assert.assertEquals(debit3.getDebitId(), returnedDebit3.getDebitId());
+        // Debit 3 (expected to be the same except of debit it & transaction id)
+        Assert.assertEquals(debit3.getDebtorId(), returnedDebit3.getDebtorId());
+        Assert.assertEquals(debit3.getPayerId(), returnedDebit3.getPayerId());
+        Assert.assertNotEquals(debit3.getDebitId(), returnedDebit3.getDebitId());
 
-        Assert.assertNotNull(returnedDebit3.getTransaction());
-        Assert.assertEquals(transaction.getTransactionId(), returnedDebit3.getTransaction().getTransactionId());
+        Assert.assertNotEquals(0, returnedDebit3.getTransactionId());
+        Assert.assertEquals(transaction.getTransactionId(), returnedDebit3.getTransactionId());
 
     }
 
@@ -306,16 +304,16 @@ public class TestPaymentServiceIntegration {
     public void test07UpdatePaymentRemoveDebit() throws ObjectNotFoundException {
 
         // Extract the transaction and the 2 debits from the former payment
-        Debit debit1 = payment.getDebits().get(0);
+        DebitDTO debit1 = payment.getDebits().get(0);
         // debit 2 gets not extracted !!
-        Debit debit3 = payment.getDebits().get(2);
+        DebitDTO debit3 = payment.getDebits().get(2);
 
-        Transaction transaction = payment.getTransaction();
+        TransactionDTO transaction = payment.getTransaction();
 
         // Change the properties of the previously extracted objects
-        debit1.setAmount(300.00);
+        debit1.setAmount(30.00);
 
-        debit3.setAmount(1);
+        debit3.setAmount(40.00);
 
         transaction.setCategory("category_07");
         transaction.setShop("shop_07");
@@ -343,31 +341,29 @@ public class TestPaymentServiceIntegration {
         // Validate debits
         Assert.assertEquals(2, payment.getDebits().size());
 
-        Debit returnedDebit1 = payment.getDebits().stream()
-                .filter(debit -> debit.getDebitId() == debit1.getDebitId())
+        DebitDTO returnedDebit1 = payment.getDebits().stream()
+                .filter(debit -> debit.getAmount() == debit1.getAmount())
                 .findFirst().orElse(null);
-        Debit returnedDebit3 = payment.getDebits().stream()
-                .filter(debit -> debit.getDebitId() == debit3.getDebitId())
+        DebitDTO returnedDebit3 = payment.getDebits().stream()
+                .filter(debit -> debit.getAmount() == debit3.getAmount())
                 .findFirst().orElse(null);
 
         Assert.assertNotNull(returnedDebit1);
         Assert.assertNotNull(returnedDebit3);
 
 
-        // Debit 1 (expected to be the same)
-        Assert.assertEquals(debit1.getAmount(), returnedDebit1.getAmount(), 0);
-        Assert.assertEquals(debit1.getDebtor().getUserId(), returnedDebit1.getDebtor().getUserId());
-        Assert.assertEquals(debit1.getPayer().getUserId(), returnedDebit1.getPayer().getUserId());
-        Assert.assertEquals(debit1.getDebitId(), returnedDebit1.getDebitId());
-        Assert.assertEquals(debit1.getTransaction().getTransactionId(), returnedDebit1.getTransaction().getTransactionId());
+        // Debit 1 (expected to be the same except of debit id)
+        Assert.assertEquals(debit1.getDebtorId(), returnedDebit1.getDebtorId());
+        Assert.assertEquals(debit1.getPayerId(), returnedDebit1.getPayerId());
+        Assert.assertEquals(debit1.getTransactionId(), returnedDebit1.getTransactionId());
+        Assert.assertNotEquals(debit1.getDebitId(), returnedDebit1.getDebitId());
 
 
-        // Debit 3 (expected to be the same except of transaction id)
-        Assert.assertEquals(debit3.getAmount(), returnedDebit3.getAmount(), 0);
-        Assert.assertEquals(debit3.getDebtor().getUserId(), returnedDebit3.getDebtor().getUserId());
-        Assert.assertEquals(debit3.getPayer().getUserId(), returnedDebit3.getPayer().getUserId());
-        Assert.assertEquals(debit3.getDebitId(), returnedDebit3.getDebitId());
-        Assert.assertEquals(debit3.getTransaction().getTransactionId(), returnedDebit3.getTransaction().getTransactionId());
+        // Debit 3 (expected to be the same except of debit id & transaction id)
+        Assert.assertEquals(debit3.getDebtorId(), returnedDebit3.getDebtorId());
+        Assert.assertEquals(debit3.getPayerId(), returnedDebit3.getPayerId());
+        Assert.assertEquals(debit3.getTransactionId(), returnedDebit3.getTransactionId());
+        Assert.assertNotEquals(debit3.getDebitId(), returnedDebit3.getDebitId());
 
     }
 

@@ -1,6 +1,6 @@
 package at.accounting_otter;
 
-import at.accounting_otter.entity.User;
+import at.accounting_otter.dto.UserDTO;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -11,71 +11,71 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Inject
-    private DatabaseAdapter databaseAdapter;
+    private DataProvider dataProvider;
 
     @Override
-    public User createUser(User user) {
+    public UserDTO createUser(UserDTO user) {
         if (doesUsernameAlreadyExist(user.getUsername())) {
             throw new RuntimeException("Username does already exist.");
         } else {
-            return databaseAdapter.createUser(user);
+            return dataProvider.createUser(user);
         }
     }
 
     @Override
-    public User getUser(int userId) {
-        return databaseAdapter.getUser(userId);
+    public UserDTO getUser(int userId) {
+        return dataProvider.getUser(userId);
     }
 
     @Override
-    public User getUser(String username) {
-        return databaseAdapter.getUser(username);
+    public UserDTO getUser(String username) {
+        return dataProvider.getUser(username);
     }
 
     @Override
-    public List<User> getAllUser() {
-        return databaseAdapter.getAllUsers();
+    public List<UserDTO> getAllUser() {
+        return dataProvider.getAllUsers();
     }
 
     @Override
-    public User changeUsername(int userId, String newUsername) throws RuntimeException, ObjectNotFoundException {
-        if (databaseAdapter.getUser(userId) == null) {
+    public UserDTO changeUsername(int userId, String newUsername) throws RuntimeException, ObjectNotFoundException {
+        if (dataProvider.getUser(userId) == null) {
             throw new ObjectNotFoundException("User with id " + userId + " not found.");
         }
 
         if (doesUsernameAlreadyExist(newUsername)) {
             throw new RuntimeException("Username does already exist.");
         } else {
-            User user = databaseAdapter.getUser(userId);
+            UserDTO user = dataProvider.getUser(userId);
             user.setUsername(newUsername);
-            user = databaseAdapter.updateUser(user);
+            user = dataProvider.updateUser(user);
             return user;
         }
     }
 
     private boolean doesUsernameAlreadyExist(String username) {
-        User user = databaseAdapter.getUser(username);
+        UserDTO user = dataProvider.getUser(username);
         return user != null;
     }
 
     @Override
-    public void setUserPic(int userId, byte[] userPic) {
-        User user = databaseAdapter.getUser(userId);
+    public void setUserPic(int userId, byte[] userPic) throws ObjectNotFoundException {
+        UserDTO user = dataProvider.getUser(userId);
         user.setUserPic(userPic);
-        databaseAdapter.updateUser(user);
+        dataProvider.updateUser(user);
     }
 
     @Override
     public byte[] getUserPic(int userId) {
-        return databaseAdapter.getUser(userId).getUserPic();
+        return dataProvider.getUser(userId).getUserPic();
     }
 
     @Override
     public void removeUser(int userId) throws ObjectNotFoundException {
-        if (databaseAdapter.getUser(userId) == null) {
+        if (dataProvider.getUser(userId) == null) {
             throw new ObjectNotFoundException("User with id " + userId + " not found.");
         } else {
-            databaseAdapter.removeUser();
+            // TODO
         }
     }
 
