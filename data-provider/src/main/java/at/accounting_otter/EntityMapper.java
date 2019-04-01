@@ -7,8 +7,10 @@ import at.accounting_otter.entity.Debit;
 import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
+@RequestScoped
 public class EntityMapper {
 
     @Inject
