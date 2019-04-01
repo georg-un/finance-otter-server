@@ -9,11 +9,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>data-be</module>
-        <module>data-api</module>
-        <module>be</module>
-        <module>api</module>
+        <module>database-adapter</module>
+        <module>data-provider</module>
         <module>web</module>
+        <module>business-logic</module>
     </modules>
 
     <properties>
@@ -87,6 +86,7 @@
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-jpa</artifactId>
             <version>${wildfly.version}</version>
+            <!--scope>provided</scope-->
         </dependency>
 
 
@@ -104,14 +104,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.5</version>
-        </dependency>
-
-
-        <!--  JAX-RS  -->
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-jaxrs</artifactId>
-            <version>${wildfly.version}</version>
         </dependency>
 
 

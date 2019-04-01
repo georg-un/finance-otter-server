@@ -1,7 +1,7 @@
 package at.accounting_otter;
 
 import at.accounting_otter.dto.Payment;
-import at.accounting_otter.entity.User;
+import at.accounting_otter.dto.UserDTO;;
 import at.accounting_otter.rest.*;
 
 import javax.enterprise.context.RequestScoped;
@@ -56,11 +56,11 @@ public class PaymentEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createPayment(PaymentToPost paymentToPost) throws ObjectNotFoundException {
-        User currentUser = userService.getUser(securityUtil.getCurrentUser(securityContext));
+        UserDTO currentUser = userService.getUser(securityUtil.getCurrentUser(securityContext));
 
         if (currentUser !=null) {
             Payment payment = restMapper.postToInternalPayment(paymentToPost, currentUser.getUserId());
-            payment.getTransaction().setUser(currentUser);
+            payment.getTransaction().setUserId(currentUser.getUserId());
             return Response
                     .status(Response.Status.OK)
                     .entity(restMapper.internalToRestPayment(
@@ -81,7 +81,7 @@ public class PaymentEndpoint {
 
         return restMapper.internalToRestPayment(
                 paymentService.updatePayment(
-                restMapper.putToInternalPayment(paymentToPut, transactionService.getTransaction(paymentToPut.getTransactionId()).getUser().getUserId())
+                restMapper.putToInternalPayment(paymentToPut, transactionService.getTransaction(paymentToPut.getTransactionId()).getUserId())
         ), true);
 
     }
@@ -89,10 +89,10 @@ public class PaymentEndpoint {
     @DELETE
     @Path("/{transactionId}")
     public Response deletePayment(@PathParam("transactionId") int transactionId) throws ObjectNotFoundException {
-        User currentUser = userService.getUser(securityUtil.getCurrentUser(securityContext));
+        UserDTO currentUser = userService.getUser(securityUtil.getCurrentUser(securityContext));
 
         if (currentUser != null) {
-            if (currentUser.getUserId() == paymentService.getPayment(transactionId).getTransaction().getUser().getUserId()) {
+            if (currentUser.getUserId() == paymentService.getPayment(transactionId).getTransaction().getUserId()) {
                 paymentService.deletePayment(transactionId);
                 return Response
                         .status(Response.Status.OK)
