@@ -19,26 +19,11 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- Keycloak -->
         <dependency>
             <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-wildfly-adapter</artifactId>
-            <version>4.8.0.Final</version>
+            <artifactId>keycloak-core</artifactId>
+            <version>5.0.0</version>
         </dependency>
-
-        <!--dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>keycloak</artifactId>
-            <version>2.2.0.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>keycloak-server</artifactId>
-            <version>2.2.0.Final</version>
-        </dependency-->
-
-
 
     </dependencies>
 
@@ -57,6 +42,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <filename>accounting_otter.war</filename>
                     <add-user>
                         <users>
                             <user>

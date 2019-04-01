@@ -5,6 +5,7 @@ import at.accounting_otter.rest.RestObjectMapper;
 import at.accounting_otter.rest.UserToGet;
 import org.apache.commons.io.IOUtils;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -32,6 +33,7 @@ public class UserEndpoint {
     @Context
     SecurityContext securityContext;
 
+
     @GET
     @Path("/{user_id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -52,7 +54,9 @@ public class UserEndpoint {
     @GET
     @Path("/current")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("user")
     public Response getCurrentUser() throws ObjectNotFoundException {
+
         String username = securityUtil.getCurrentUser(securityContext);
         UserDTO user = userService.getUser(username);
 
@@ -81,6 +85,7 @@ public class UserEndpoint {
     @Consumes("*/*")
     @Path("/pic")
     public Response setUserPic(InputStream inputStream) throws IOException, ObjectNotFoundException {
+
         String username = securityUtil.getCurrentUser(securityContext);
         UserDTO user = userService.getUser(username);
 
@@ -89,7 +94,6 @@ public class UserEndpoint {
         } else {
             throw new ObjectNotFoundException("User with username " + username + " not found.");
         }
-
         return Response.status(Response.Status.OK).build();
     }
 
