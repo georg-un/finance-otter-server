@@ -5,10 +5,7 @@ import at.accounting_otter.entity.Transaction;
 import at.accounting_otter.entity.User;
 
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 @RequestScoped
