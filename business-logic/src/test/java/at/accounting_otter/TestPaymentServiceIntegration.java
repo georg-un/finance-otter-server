@@ -9,10 +9,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
@@ -30,10 +27,9 @@ public class TestPaymentServiceIntegration {
 
     @Deployment
     public static JavaArchive createDeployment() {
-        JavaArchive jar = ShrinkWrap.create(JavaArchive.class).addPackage("at.accounting_otter")
+        return ShrinkWrap.create(JavaArchive.class)
+                .addPackages(true, "at.accounting_otter")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-        // System.out.println("This: " + jar.toString(true)); TODO: refine
-        return jar;
     }
 
     @Inject
@@ -53,9 +49,9 @@ public class TestPaymentServiceIntegration {
     // Load classes needed for test data cleanup
     private static EntityManager em = Persistence.createEntityManagerFactory("pers_unit_test").createEntityManager();
     private static DatabaseAdapter databaseAdapter = new DatabaseAdapterImpl();
-    private static DataProvider dataProvider = new DataProviderImpl();
 
     @BeforeClass
+    @AfterClass
     public static void cleanUpOldTestData() {
         // Drop all old tables
         em.getTransaction().begin();
