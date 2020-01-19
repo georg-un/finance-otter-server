@@ -5,6 +5,9 @@
   <groupId>at.finance_otter</groupId>
   <artifactId>finance-otter</artifactId>
   <version>1.0.0-SNAPSHOT</version>
+  <modules>
+    <module>web</module>
+  </modules>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
