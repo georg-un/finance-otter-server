@@ -1,0 +1,12 @@
+# Compile
+./mvnw compile quarkus:dev
+
+
+## Docker
+
+# Start keycloak
+docker run -p 8180:8080 --name keycloak jboss/keycloak
+
+# Add dev-admin to keycloak
+docker exec keycloak /opt/jboss/keycloak/bin/add-user-keycloak.sh -u admin -p admin
+docker restart keycloak
