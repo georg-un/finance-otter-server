@@ -1,4 +1,4 @@
-package at.finance_otter;
+package at.finance_otter.persistence.entity;
 
 import lombok.Data;
 
@@ -7,25 +7,31 @@ import java.util.Date;
 
 @Data
 @Entity
+@Table(name = "Transactions")
 public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false, nullable = false)
+    @Column(name = "transaction_id",updatable = false, nullable = false)
     private int transactionId;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User user;
 
+    @Column(name = "date")
     private Date date;
 
+    @Column(name = "category")
     private String category;
 
+    @Column(name = "shop")
     private String shop;
 
+    @Column(name = "description")
     private String description;
 
+    @Column(name = "bill_id")
     private String billId;
 
 }

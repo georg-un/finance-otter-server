@@ -1,4 +1,4 @@
-package at.finance_otter;
+package at.finance_otter.web;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

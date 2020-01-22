@@ -1,4 +1,4 @@
-package at.finance_otter;
+package at.finance_otter.persistence.entity;
 
 import lombok.Data;
 
@@ -6,20 +6,24 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "Users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false, nullable = false)
+    @Column(name = "user_id", updatable = false, nullable = false)
     private Long userId;
 
-    @Column(unique = true)
+    @Column(name = "username", unique = true)
     private String username;
 
+    @Column(name = "first_name")
     private String firstName;
 
+    @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "user_pic")
     private byte[] userPic;
 
 }
