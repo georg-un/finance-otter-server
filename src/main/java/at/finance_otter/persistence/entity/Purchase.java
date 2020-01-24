@@ -19,7 +19,7 @@ public class Purchase {
     @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User user;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Debit> debits;
 
     @Column(name = "date")
