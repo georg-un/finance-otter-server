@@ -6,17 +6,12 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "Debits")
+@Table(name = "debits")
 public class Debit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "debit_id", updatable = false, nullable = false)
-    private int debitId;
-
-    @ManyToOne
-    @JoinColumn(name = "transaction_id", referencedColumnName = "transaction_id")
-    private Transaction transaction;
+    private String debitId;
 
     @ManyToOne
     @JoinColumn(name = "payer_id", referencedColumnName = "user_id")

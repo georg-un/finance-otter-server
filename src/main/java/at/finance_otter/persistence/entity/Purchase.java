@@ -4,20 +4,23 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "Transactions")
-public class Transaction {
+@Table(name = "purchases")
+public class Purchase {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id",updatable = false, nullable = false)
-    private int transactionId;
+    @Column(name = "purchase_id",updatable = false, nullable = false)
+    private String purchaseId;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User user;
+
+    @OneToMany
+    private Set<Debit> debits;
 
     @Column(name = "date")
     private Date date;
