@@ -6,7 +6,6 @@ import at.finance_otter.persistence.entity.User;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,18 +19,15 @@ public class DatabaseAdapter {
 
     // User methods
 
-    @Transactional
     public User createUser(User user) {
         em.persist( user );
         return user;
     }
 
-    @Transactional
     public User getUser(Long userId) {
         return em.find(User.class, userId);
     }
 
-    @Transactional
     public User getUserByUsername(String username) {
         List<User> user =  em.createQuery(
                 "SELECT user FROM User user WHERE user.username = :username"
@@ -40,7 +36,6 @@ public class DatabaseAdapter {
         return user.isEmpty() ? null : user.get(0);
     }
 
-    @Transactional
     public User updateUser(User user) {
         return em.merge(user);
     }
@@ -48,18 +43,15 @@ public class DatabaseAdapter {
 
     // Purchase methods
 
-    @Transactional
     public Purchase createPurchase(Purchase purchase) {
         em.persist(purchase);
         return purchase;
     }
 
-    @Transactional
     public Purchase getPurchase(String purchaseId) {
         return em.find(Purchase.class, purchaseId);
     }
 
-    @Transactional
     public List<Purchase> getPurchases(int offset, int limit) {
         return em.createQuery(
                 "SELECT purchase FROM Purchase purchase ORDER BY purchase.date DESC",
@@ -69,12 +61,10 @@ public class DatabaseAdapter {
                 .getResultList();
     }
 
-    @Transactional
     public Purchase updatePurchase(Purchase purchase) {
         return em.merge(purchase);
     }
 
-    @Transactional
     public void deletePurchase(String purchaseId) {
         Purchase purchase = em.find(Purchase.class, purchaseId);
         em.remove(purchase);

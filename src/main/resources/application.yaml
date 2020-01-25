@@ -35,6 +35,6 @@
       url: jdbc:h2:tcp://localhost/mem:test
       driver: org.h2.Driver
     hibernate-orm:
-      sql-load-script: import-dev.sql
+#      sql-load-script: import-dev.sql
       database:
         generation: drop-and-create

@@ -16,8 +16,8 @@ public class Purchase {
     private String purchaseId;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
-    private User user;
+    @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")
+    private User buyer;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Debit> debits;
