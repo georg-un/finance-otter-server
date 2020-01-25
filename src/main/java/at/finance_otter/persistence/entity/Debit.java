@@ -10,18 +10,18 @@ import javax.persistence.*;
 public class Debit {
 
     @Id
-    @Column(name = "debit_id", updatable = false, nullable = false)
+    @Column(name = "debit_id", updatable = false)
     private String debitId;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "payer_id", referencedColumnName = "user_id")
     private User payer;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "debtor_id", referencedColumnName = "user_id")
     private User debtor;
 
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private double amount;
 
 }

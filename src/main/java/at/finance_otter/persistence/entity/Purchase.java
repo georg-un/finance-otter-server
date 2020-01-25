@@ -12,17 +12,17 @@ import java.util.Set;
 public class Purchase {
 
     @Id
-    @Column(name = "purchase_id",updatable = false, nullable = false)
+    @Column(name = "purchase_id",updatable = false)
     private String purchaseId;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Debit> debits;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     private Date date;
 
     @Column(name = "category")
