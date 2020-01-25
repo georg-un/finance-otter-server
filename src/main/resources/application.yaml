@@ -1,0 +1,24 @@
+## DEV CONFIG
+
+"%dev":
+  quarkus:
+
+    # AUTHORIZATION
+    oidc:
+      auth-server-url: http://localhost:8180/auth/realms/quarkus
+      client-id: backend-service
+      credentials:
+        secret: secret
+    keycloak:
+      policy-enforcer:
+        enable: true
+
+    # PERSISTENCE
+    datasource:
+      url: jdbc:postgresql://localhost:5432/fino-dev-db
+      driver: org.postgresql.Driver
+      username: postgres
+      password: postgres
+    hibernate-orm:
+      database:
+        generation: drop-and-create  # drop and create the database at startup (use `update` to only update the schema)
