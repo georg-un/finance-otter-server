@@ -14,10 +14,6 @@ public class Debit {
     private String debitId;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "payer_id", referencedColumnName = "user_id")
-    private User payer;
-
-    @ManyToOne(optional = false)
     @JoinColumn(name = "debtor_id", referencedColumnName = "user_id")
     private User debtor;
 
