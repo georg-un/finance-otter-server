@@ -10,6 +10,7 @@ public class UserDTO {
     private String username;
     private String firstName;
     private String lastName;
+    private Boolean deactivated;
 
     public static UserDTO fromUser(User user) {
         UserDTO dto = new UserDTO();
@@ -17,6 +18,7 @@ public class UserDTO {
         dto.setUsername(user.getUsername());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
+            dto.setDeactivated(user.getDeactivated());
         return dto;
     }
 

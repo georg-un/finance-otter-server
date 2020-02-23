@@ -79,7 +79,7 @@ public class DatabaseAdapter {
     }
 
 
-    // Debit metods
+    // Debit methods
 
     public Debit createDebit(Debit debit) {
         em.persist(debit);

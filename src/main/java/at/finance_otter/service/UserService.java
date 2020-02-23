@@ -45,6 +45,7 @@ public class UserService {
             user.setUsername(userDTO.getUsername());
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
+            user.setDeactivated(userDTO.getDeactivated());
             return UserDTO.fromUser(databaseAdapter.updateUser(user));
         }
     }
