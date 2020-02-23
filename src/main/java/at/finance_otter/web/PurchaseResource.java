@@ -1,5 +1,6 @@
 package at.finance_otter.web;
 
+import at.finance_otter.service.ExposableException;
 import at.finance_otter.service.PurchaseService;
 import at.finance_otter.service.dto.PurchaseDTO;
 
@@ -24,6 +25,18 @@ public class PurchaseResource {
     @Produces("application/json")
     public List<PurchaseDTO> getPurchases(@QueryParam("offset") int offset, @QueryParam("limit") int limit) {
         return purchaseService.getPurchases(offset, limit);
+    }
+
+    @POST
+    @Produces("application/json")
+    public PurchaseDTO createPurchase(PurchaseDTO purchaseDTO) throws ExposableException {
+        return purchaseService.createPurchase(purchaseDTO);
+    }
+
+    @PUT
+    @Produces("application/json")
+    public PurchaseDTO updatePurchase(PurchaseDTO purchaseDTO) throws ExposableException {
+        return purchaseService.updatePurchase(purchaseDTO);
     }
 
 }

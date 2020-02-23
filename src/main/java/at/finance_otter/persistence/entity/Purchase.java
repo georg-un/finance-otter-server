@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,7 +24,7 @@ public class Purchase {
     private User buyer;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Debit> debits;
+    private List<Debit> debits;
 
     @Column(name = "date", nullable = false)
     private Date date;
