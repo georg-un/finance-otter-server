@@ -1,5 +1,6 @@
 package at.finance_otter.persistence;
 
+import at.finance_otter.persistence.entity.Debit;
 import at.finance_otter.persistence.entity.Purchase;
 import at.finance_otter.persistence.entity.User;
 
@@ -52,6 +53,13 @@ public class DatabaseAdapter {
         return em.find(Purchase.class, purchaseId);
     }
 
+    public Purchase getPurchaseBySecId(String secPurchaseId) {
+        return em.createQuery(
+                "SELECT purchase FROM Purchase purchase WHERE purchase.secPurchaseId = :secId", Purchase.class)
+                .setParameter("secId", secPurchaseId)
+                .getSingleResult();
+    }
+
     public List<Purchase> getPurchases(int offset, int limit) {
         return em.createQuery(
                 "SELECT purchase FROM Purchase purchase ORDER BY purchase.date DESC",
@@ -68,6 +76,30 @@ public class DatabaseAdapter {
     public void deletePurchase(String purchaseId) {
         Purchase purchase = em.find(Purchase.class, purchaseId);
         em.remove(purchase);
+    }
+
+
+    // Debit metods
+
+    public Debit createDebit(Debit debit) {
+        em.persist(debit);
+        return debit;
+    }
+
+    public Debit getDebit(Long debitId) {
+        return em.find(Debit.class, debitId);
+    }
+
+    public Debit getDebitBySecId(String secDebitId) {
+        return em.createQuery(
+                "SELECT debit FROM Debit debit WHERE debit.secDebitId = :secId", Debit.class)
+                .setParameter("secId", secDebitId)
+                .getSingleResult();
+    }
+
+    public void deleteDebit(Long debitId) {
+        Debit debit = this.getDebit(debitId);
+        em.remove(debit);
     }
 
 
