@@ -6,13 +6,15 @@ import lombok.Data;
 @Data
 public class DebitDTO {
 
-    private String debitId;
+    private Long debitId;
+    private String secDebitId;
     private Long debtorId;
     private Double amount;
 
-    static DebitDTO fromDebit(Debit debit) {
+    public static DebitDTO fromDebit(Debit debit) {
         DebitDTO dto = new DebitDTO();
         dto.setDebitId(debit.getDebitId());
+        dto.setSecDebitId(debit.getSecDebitId());
         dto.setDebtorId(debit.getDebtor().getUserId());
         dto.setAmount(debit.getAmount());
         return dto;

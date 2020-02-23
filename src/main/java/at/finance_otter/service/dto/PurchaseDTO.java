@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 @Data
 public class PurchaseDTO {
 
-    private String purchaseId;
+    private Long purchaseId;
+    private String secPurchaseId;
     private Long buyerId;
     private Set<DebitDTO> debits;
     private Date date;
@@ -19,9 +20,10 @@ public class PurchaseDTO {
     private String description;
     private String billId;
 
-    static PurchaseDTO fromPurchase(Purchase purchase) {
+    public static PurchaseDTO fromPurchase(Purchase purchase) {
         PurchaseDTO dto = new PurchaseDTO();
         dto.setPurchaseId(purchase.getPurchaseId());
+        dto.setSecPurchaseId(purchase.getSecPurchaseId());
         dto.setBuyerId(purchase.getBuyer().getUserId());
         dto.setDebits(
                 purchase.getDebits()

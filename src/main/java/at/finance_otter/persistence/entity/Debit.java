@@ -10,8 +10,12 @@ import javax.persistence.*;
 public class Debit {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "debit_id", updatable = false)
-    private String debitId;
+    private Long debitId;
+
+    @Column(name = "sec_debit_id", unique = true, nullable = false, updatable = false)
+    private String secDebitId;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "debtor_id", referencedColumnName = "user_id")

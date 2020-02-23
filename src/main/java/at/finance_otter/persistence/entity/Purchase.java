@@ -12,8 +12,12 @@ import java.util.Set;
 public class Purchase {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "purchase_id",updatable = false)
-    private String purchaseId;
+    private Long purchaseId;
+
+    @Column(name = "sec_purchase_id", unique = true, nullable = false, updatable = false)
+    private String secPurchaseId;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")

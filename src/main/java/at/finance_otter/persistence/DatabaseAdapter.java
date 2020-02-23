@@ -48,7 +48,7 @@ public class DatabaseAdapter {
         return purchase;
     }
 
-    public Purchase getPurchase(String purchaseId) {
+    public Purchase getPurchase(Long purchaseId) {
         return em.find(Purchase.class, purchaseId);
     }
 
