@@ -4,8 +4,12 @@ import at.finance_otter.persistence.DatabaseAdapter;
 import at.finance_otter.persistence.entity.User;
 import at.finance_otter.service.dto.UserDTO;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class UserService {
 
     @Inject
@@ -27,6 +31,13 @@ public class UserService {
 
     public UserDTO getUser(Long userId) {
         return UserDTO.fromUser(this.databaseAdapter.getUser(userId));
+    }
+
+    public List<UserDTO> getActiveUsers() {
+        return this.databaseAdapter.getActiveUsers()
+                .stream()
+                .map(UserDTO::fromUser)
+                .collect(Collectors.toList());
     }
 
     public UserDTO updateUser(UserDTO userDTO) throws ExposableException {

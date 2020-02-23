@@ -6,15 +6,26 @@ import at.finance_otter.persistence.entity.Purchase;
 import at.finance_otter.service.dto.DebitDTO;
 import at.finance_otter.service.dto.PurchaseDTO;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class PurchaseService {
 
     @Inject
     private DatabaseAdapter databaseAdapter;
 
-    public PurchaseDTO getPurchase(Long purchaseId) {
-        return PurchaseDTO.fromPurchase(this.databaseAdapter.getPurchase(purchaseId));
+    public PurchaseDTO getPurchaseBySecId(String secId) {
+        return PurchaseDTO.fromPurchase(this.databaseAdapter.getPurchaseBySecId(secId));
+    }
+
+    public List<PurchaseDTO> getPurchases(int offset, int limit) {
+        return databaseAdapter.getPurchases(offset, limit)
+                .stream()
+                .map(PurchaseDTO::fromPurchase)
+                .collect(Collectors.toList());
     }
 
     public PurchaseDTO createPurchase(PurchaseDTO purchaseDTO) throws ExposableException {

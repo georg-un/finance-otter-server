@@ -37,6 +37,11 @@ public class DatabaseAdapter {
         return user.isEmpty() ? null : user.get(0);
     }
 
+    public List<User> getActiveUsers() {
+        return em.createQuery("SELECT user FROM User user WHERE user.deactivated IS NULL OR user.deactivated = FALSE", User.class)
+                .getResultList();
+    }
+
     public User updateUser(User user) {
         return em.merge(user);
     }
