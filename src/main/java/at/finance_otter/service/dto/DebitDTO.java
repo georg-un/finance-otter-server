@@ -12,12 +12,17 @@ public class DebitDTO {
     private Double amount;
 
     public static DebitDTO fromDebit(Debit debit) {
-        DebitDTO dto = new DebitDTO();
-        dto.setDebitId(debit.getDebitId());
-        dto.setSecDebitId(debit.getSecDebitId());
-        dto.setDebtorId(debit.getDebtor().getUserId());
-        dto.setAmount(debit.getAmount());
-        return dto;
+        if (debit != null) {
+            DebitDTO dto = new DebitDTO();
+            dto.setDebitId(debit.getDebitId());
+            dto.setSecDebitId(debit.getSecDebitId());
+            dto.setDebtorId(debit.getDebtor().getUserId());
+            dto.setAmount(debit.getAmount());
+            return dto;
+        } else {
+            return null;
+        }
+
     }
 
 }

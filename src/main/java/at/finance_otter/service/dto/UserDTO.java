@@ -13,13 +13,17 @@ public class UserDTO {
     private Boolean deactivated;
 
     public static UserDTO fromUser(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setUserId(user.getUserId());
-        dto.setUsername(user.getUsername());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
+        if (user != null) {
+            UserDTO dto = new UserDTO();
+            dto.setUserId(user.getUserId());
+            dto.setUsername(user.getUsername());
+            dto.setFirstName(user.getFirstName());
+            dto.setLastName(user.getLastName());
             dto.setDeactivated(user.getDeactivated());
-        return dto;
+            return dto;
+        } else {
+            return null;
+        }
     }
 
 }

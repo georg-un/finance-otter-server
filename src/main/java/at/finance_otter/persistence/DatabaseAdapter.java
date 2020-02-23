@@ -54,10 +54,11 @@ public class DatabaseAdapter {
     }
 
     public Purchase getPurchaseBySecId(String secPurchaseId) {
-        return em.createQuery(
+        List<Purchase> purchases = em.createQuery(
                 "SELECT purchase FROM Purchase purchase WHERE purchase.secPurchaseId = :secId", Purchase.class)
                 .setParameter("secId", secPurchaseId)
-                .getSingleResult();
+                .getResultList();
+        return purchases.isEmpty() ? null : purchases.get(0);
     }
 
     public List<Purchase> getPurchases(int offset, int limit) {

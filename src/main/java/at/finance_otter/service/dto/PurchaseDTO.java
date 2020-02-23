@@ -21,22 +21,26 @@ public class PurchaseDTO {
     private String billId;
 
     public static PurchaseDTO fromPurchase(Purchase purchase) {
-        PurchaseDTO dto = new PurchaseDTO();
-        dto.setPurchaseId(purchase.getPurchaseId());
-        dto.setSecPurchaseId(purchase.getSecPurchaseId());
-        dto.setBuyerId(purchase.getBuyer().getUserId());
-        dto.setDebits(
-                purchase.getDebits()
-                        .stream()
-                        .map(DebitDTO::fromDebit)
-                        .collect(Collectors.toSet())
-        );
-        dto.setDate(purchase.getDate());
-        dto.setCategory(purchase.getCategory());
-        dto.setShop(purchase.getShop());
-        dto.setDescription(purchase.getDescription());
-        dto.setBillId(purchase.getBillId());
-        return dto;
+        if (purchase != null) {
+            PurchaseDTO dto = new PurchaseDTO();
+            dto.setPurchaseId(purchase.getPurchaseId());
+            dto.setSecPurchaseId(purchase.getSecPurchaseId());
+            dto.setBuyerId(purchase.getBuyer().getUserId());
+            dto.setDebits(
+                    purchase.getDebits()
+                            .stream()
+                            .map(DebitDTO::fromDebit)
+                            .collect(Collectors.toSet())
+            );
+            dto.setDate(purchase.getDate());
+            dto.setCategory(purchase.getCategory());
+            dto.setShop(purchase.getShop());
+            dto.setDescription(purchase.getDescription());
+            dto.setBillId(purchase.getBillId());
+            return dto;
+        } else {
+            return null;
+        }
     }
 
 }
