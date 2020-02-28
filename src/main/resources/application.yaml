@@ -4,14 +4,10 @@
   quarkus:
 
     # AUTHORIZATION
-    oidc:
-      auth-server-url: http://localhost:8180/auth/realms/quarkus
-      client-id: backend-service
-      credentials:
-        secret: secret
-    keycloak:
-      policy-enforcer:
-        enable: true
+    oauth2:
+      client-id: 3lmySWpwg2nPc8WXy8jldGMO9iB0Slf7
+      client-secret: jvLMKxktdCNosV62MfD1B06EzU5YSXkpiqs9PDb3B6mIH5iHO2tl-rwlrjtCnn8J
+      introspection-url: https://fino-test.eu.auth0.com/api/v2/
 
     # PERSISTENCE
     datasource:
