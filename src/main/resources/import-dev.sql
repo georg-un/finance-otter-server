@@ -1,14 +1,14 @@
 -- User 1
-insert into users (username, first_name, last_name)
-values ('user1', 'Anna', 'Adler');
+insert into users (provider_id, username, first_name, last_name)
+values ('user1', 'user1', 'Anna', 'Adler');
 
 -- User 2
-insert into users (username, first_name, last_name)
-values ('user2', 'Bernd', 'Bieber');
+insert into users (provider_id, username, first_name, last_name)
+values ('user2', 'user2', 'Bernd', 'Bieber');
 
 -- User 3
-insert into users (username, first_name, last_name)
-values ('user3', 'Claudia', 'Chamäleon');
+insert into users (provider_id, username, first_name, last_name)
+values ('user3', 'user3', 'Claudia', 'Chamäleon');
 
 -- Purchase 1
 insert into purchases (sec_purchase_id, buyer_id, date, category, shop, description)

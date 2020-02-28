@@ -29,11 +29,11 @@ public class DatabaseAdapter {
         return em.find(User.class, userId);
     }
 
-    public User getUserByUsername(String username) {
+    public User getUserByProviderId(String providerId) {
         List<User> user =  em.createQuery(
-                "SELECT user FROM User user WHERE user.username = :username"
+                "SELECT user FROM User user WHERE user.providerId = :providerId"
                 , User.class)
-                .setParameter("username", username).getResultList();
+                .setParameter("providerId", providerId).getResultList();
         return user.isEmpty() ? null : user.get(0);
     }
 

@@ -15,6 +15,10 @@ public class User {
     @Getter
     private Long userId;
 
+    @Column(name = "provider_id", unique = true, nullable = false)
+    @Getter @Setter
+    private String providerId;
+
     @Column(name = "username", unique = true, nullable = false)
     @Getter @Setter
     private String username;

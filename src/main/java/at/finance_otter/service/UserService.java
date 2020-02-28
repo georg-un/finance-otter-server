@@ -22,6 +22,7 @@ public class UserService {
             throw new ExposableException("First name must not be null");
         } else {
             User user = new User();
+            user.setProviderId(userDTO.getProviderId());
             user.setUsername(userDTO.getUsername());
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
@@ -44,6 +45,8 @@ public class UserService {
         // TODO: Prevent that one user can update another
         if (userDTO.getUserId() == null) {
             throw new ExposableException("UserId must not be null");
+        } else if (userDTO.getProviderId() == null) {
+            throw new ExposableException("ProviderId must not be null");
         } else if (userDTO.getUsername() == null) {
             throw new ExposableException("Username must not be null");
         } else if (userDTO.getFirstName() == null) {
@@ -53,6 +56,7 @@ public class UserService {
             if (user == null) {
                 throw new ExposableException("User with id " + userDTO.getUserId().toString() + " not found.");
             }
+            user.setProviderId(userDTO.getProviderId());
             user.setUsername(userDTO.getUsername());
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());

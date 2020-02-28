@@ -7,6 +7,7 @@ import lombok.Data;
 public class UserDTO {
 
     private Long userId;
+    private String providerId;
     private String username;
     private String firstName;
     private String lastName;
@@ -16,6 +17,7 @@ public class UserDTO {
         if (user != null) {
             UserDTO dto = new UserDTO();
             dto.setUserId(user.getUserId());
+            dto.setProviderId(user.getProviderId());
             dto.setUsername(user.getUsername());
             dto.setFirstName(user.getFirstName());
             dto.setLastName(user.getLastName());
