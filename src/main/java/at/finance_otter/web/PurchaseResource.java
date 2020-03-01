@@ -3,12 +3,16 @@ package at.finance_otter.web;
 import at.finance_otter.service.ExposableException;
 import at.finance_otter.service.PurchaseService;
 import at.finance_otter.service.dto.PurchaseDTO;
+import io.quarkus.security.Authenticated;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
 
 @Path("/fino/purchases")
+@Authenticated
+@RequestScoped
 public class PurchaseResource {
 
     @Inject

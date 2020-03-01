@@ -2,22 +2,7 @@
 
 "%dev":
   quarkus:
-
-    # AUTHORIZATION
-    oauth2:
-      client-id: 3lmySWpwg2nPc8WXy8jldGMO9iB0Slf7
-      client-secret: jvLMKxktdCNosV62MfD1B06EzU5YSXkpiqs9PDb3B6mIH5iHO2tl-rwlrjtCnn8J
-      introspection-url: https://fino-test.eu.auth0.com/api/v2/
-
-    oidc:
-      auth-server-url: https://fino-test.eu.auth0.com
-      token:
-        issuer: https://fino-test.eu.auth0.com/
-      application-type: web-app
-      client-id: 3lmySWpwg2nPc8WXy8jldGMO9iB0Slf7s
-      credentials:
-        secret: jvLMKxktdCNosV62MfD1B06EzU5YSXkpiqs9PDb3B6mIH5iHO2tl-rwlrjtCnn8J
-
+    # ENABLE HTTPS
     http:
       ssl:
         certificate:
@@ -33,6 +18,13 @@
       sql-load-script: import-dev.sql
       database:
         generation: drop-and-create  # drop and create the database at startup (use `update` to only update the schema)
+  mp:
+    # JWT VERIFICATION
+    jwt:
+      verify:
+        publickey:
+          location: https://fino-test.eu.auth0.com/.well-known/jwks.json
+        issuer: https://fino-test.eu.auth0.com/
 
 
 ## TEST CONFIG
