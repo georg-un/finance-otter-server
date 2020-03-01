@@ -19,12 +19,10 @@
         secret: jvLMKxktdCNosV62MfD1B06EzU5YSXkpiqs9PDb3B6mIH5iHO2tl-rwlrjtCnn8J
 
     http:
-      auth:
-        permission:
-          authenticated:
-            paths: /*
-            policy: permit
-
+      ssl:
+        certificate:
+          file: ssl/localhost.crt
+          key-file: ssl/localhost.key
     # PERSISTENCE
     datasource:
       url: jdbc:postgresql://localhost:5432/fino-dev-db
