@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
 
-@Path("/purchases")
+@Path("/fino/purchases")
 public class PurchaseResource {
 
     @Inject

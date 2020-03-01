@@ -9,6 +9,22 @@
       client-secret: jvLMKxktdCNosV62MfD1B06EzU5YSXkpiqs9PDb3B6mIH5iHO2tl-rwlrjtCnn8J
       introspection-url: https://fino-test.eu.auth0.com/api/v2/
 
+    oidc:
+      auth-server-url: https://fino-test.eu.auth0.com
+      token:
+        issuer: https://fino-test.eu.auth0.com/
+      application-type: web-app
+      client-id: 3lmySWpwg2nPc8WXy8jldGMO9iB0Slf7s
+      credentials:
+        secret: jvLMKxktdCNosV62MfD1B06EzU5YSXkpiqs9PDb3B6mIH5iHO2tl-rwlrjtCnn8J
+
+    http:
+      auth:
+        permission:
+          authenticated:
+            paths: /*
+            policy: permit
+
     # PERSISTENCE
     datasource:
       url: jdbc:postgresql://localhost:5432/fino-dev-db
