@@ -85,10 +85,11 @@ public class DatabaseAdapter {
     }
 
     public Debit getDebit(String debitId) {
-        return em.createQuery(
+        List<Debit> debits =  em.createQuery(
                 "SELECT debit FROM Debit debit WHERE debit.debitId = :debitId", Debit.class)
                 .setParameter("debitId", debitId)
-                .getSingleResult();
+                .getResultList();
+        return debits.isEmpty() ? null : debits.get(0);
     }
 
     public void deleteDebit(String debitId) {
