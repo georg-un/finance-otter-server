@@ -9,6 +9,7 @@ import at.finance_otter.service.dto.PurchaseDTO;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,7 @@ public class PurchaseService {
             Purchase purchase = new Purchase();
             purchase.setPurchaseId(purchaseDTO.getPurchaseId());
             purchase.setBuyer(this.databaseAdapter.getUser(purchaseDTO.getBuyerId()));
-            purchase.setDate(purchaseDTO.getDate());
+            purchase.setDate(new Date(purchaseDTO.getDate()));
             purchase.setCategory(purchaseDTO.getCategory());
             purchase.setShop(purchaseDTO.getShop());
             purchase.setDescription(purchaseDTO.getDescription());
@@ -77,7 +78,7 @@ public class PurchaseService {
             // Update purchase
             Purchase purchase = this.databaseAdapter.getPurchase(purchaseDTO.getPurchaseId());
             purchase.setBuyer(this.databaseAdapter.getUser(purchaseDTO.getBuyerId()));
-            purchase.setDate(purchaseDTO.getDate());
+            purchase.setDate(new Date(purchaseDTO.getDate()));
             purchase.setCategory(purchaseDTO.getCategory());
             purchase.setShop(purchaseDTO.getShop());
             purchase.setDescription(purchaseDTO.getDescription());

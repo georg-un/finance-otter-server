@@ -43,9 +43,7 @@ public class UserService {
 
     public UserDTO updateUser(UserDTO userDTO) throws ExposableException {
         // TODO: Prevent that one user can update another
-        if (userDTO.getGenId() == null) {
-            throw new ExposableException("GenId must not be null");
-        } else if (userDTO.getUserId() == null) {
+        if (userDTO.getUserId() == null) {
             throw new ExposableException("UserId must not be null");
         } else if (userDTO.getUsername() == null) {
             throw new ExposableException("Username must not be null");
@@ -54,7 +52,7 @@ public class UserService {
         } else {
             User user = databaseAdapter.getUser(userDTO.getUserId());
             if (user == null) {
-                throw new ExposableException("User with id " + userDTO.getGenId().toString() + " not found.");
+                throw new ExposableException("User with id " + userDTO.getUserId() + " not found.");
             }
             user.setUserId(userDTO.getUserId());
             user.setUsername(userDTO.getUsername());

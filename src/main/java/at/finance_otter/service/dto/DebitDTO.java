@@ -8,7 +8,6 @@ import java.io.Serializable;
 @Data
 public class DebitDTO implements Serializable {
 
-    private Long genId;
     private String debitId;
     private String debtorId;
     private Double amount;
@@ -16,7 +15,6 @@ public class DebitDTO implements Serializable {
     public static DebitDTO fromDebit(Debit debit) {
         if (debit != null) {
             DebitDTO dto = new DebitDTO();
-            dto.setGenId(debit.getGenId());
             dto.setDebitId(debit.getDebitId());
             dto.setDebtorId(debit.getDebtor().getUserId());
             dto.setAmount(debit.getAmount());

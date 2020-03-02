@@ -8,7 +8,6 @@ import java.io.Serializable;
 @Data
 public class UserDTO implements Serializable {
 
-    private Long genId;
     private String userId;
     private String username;
     private String firstName;
@@ -18,7 +17,6 @@ public class UserDTO implements Serializable {
     public static UserDTO fromUser(User user) {
         if (user != null) {
             UserDTO dto = new UserDTO();
-            dto.setGenId(user.getGenId());
             dto.setUserId(user.getUserId());
             dto.setUsername(user.getUsername());
             dto.setFirstName(user.getFirstName());
