@@ -6,6 +6,7 @@ import io.quarkus.security.Authenticated;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -15,6 +16,7 @@ import java.util.List;
 @Path("/fino/users")
 @Authenticated
 @RequestScoped
+@Transactional
 public class UserResource {
 
     @Inject
