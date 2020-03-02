@@ -3,11 +3,13 @@ package at.finance_otter.service.dto;
 import at.finance_otter.persistence.entity.User;
 import lombok.Data;
 
-@Data
-public class UserDTO {
+import java.io.Serializable;
 
-    private Long userId;
-    private String providerId;
+@Data
+public class UserDTO implements Serializable {
+
+    private Long genId;
+    private String userId;
     private String username;
     private String firstName;
     private String lastName;
@@ -16,8 +18,8 @@ public class UserDTO {
     public static UserDTO fromUser(User user) {
         if (user != null) {
             UserDTO dto = new UserDTO();
+            dto.setGenId(user.getGenId());
             dto.setUserId(user.getUserId());
-            dto.setProviderId(user.getProviderId());
             dto.setUsername(user.getUsername());
             dto.setFirstName(user.getFirstName());
             dto.setLastName(user.getLastName());

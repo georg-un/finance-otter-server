@@ -3,16 +3,17 @@ package at.finance_otter.service.dto;
 import at.finance_otter.persistence.entity.Purchase;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
-public class PurchaseDTO {
+public class PurchaseDTO implements Serializable {
 
-    private Long purchaseId;
-    private String secPurchaseId;
-    private Long buyerId;
+    private Long genId;
+    private String purchaseId;
+    private String buyerId;
     private Set<DebitDTO> debits;
     private Date date;
     private String category;
@@ -23,8 +24,8 @@ public class PurchaseDTO {
     public static PurchaseDTO fromPurchase(Purchase purchase) {
         if (purchase != null) {
             PurchaseDTO dto = new PurchaseDTO();
+            dto.setGenId(purchase.getGenId());
             dto.setPurchaseId(purchase.getPurchaseId());
-            dto.setSecPurchaseId(purchase.getSecPurchaseId());
             dto.setBuyerId(purchase.getBuyer().getUserId());
             dto.setDebits(
                     purchase.getDebits()

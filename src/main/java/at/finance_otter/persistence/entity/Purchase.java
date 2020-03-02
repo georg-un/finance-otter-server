@@ -13,14 +13,14 @@ public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "purchase_id",updatable = false)
-    private Long purchaseId;
+    @Column(name = "gen_id", updatable = false)
+    private Long genId;
 
-    @Column(name = "sec_purchase_id", unique = true, nullable = false, updatable = false)
-    private String secPurchaseId;
+    @Column(name = "purchase_id", unique = true, nullable = false, updatable = false)
+    private String purchaseId;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "buyer_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "buyer_id", referencedColumnName = "gen_id")
     private User buyer;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

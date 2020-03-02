@@ -11,13 +11,13 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", updatable = false)
+    @Column(name = "gen_id", updatable = false)
     @Getter
-    private Long userId;
+    private Long genId;
 
-    @Column(name = "provider_id", unique = true, nullable = false)
+    @Column(name = "user_id", unique = true, nullable = false)
     @Getter @Setter
-    private String providerId;
+    private String userId;
 
     @Column(name = "username", unique = true, nullable = false)
     @Getter @Setter

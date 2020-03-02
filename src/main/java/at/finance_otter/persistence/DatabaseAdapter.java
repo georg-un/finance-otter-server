@@ -7,9 +7,7 @@ import at.finance_otter.persistence.entity.User;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @ApplicationScoped
 public class DatabaseAdapter {
@@ -25,15 +23,11 @@ public class DatabaseAdapter {
         return user;
     }
 
-    public User getUser(Long userId) {
-        return em.find(User.class, userId);
-    }
-
-    public User getUserByProviderId(String providerId) {
+    public User getUser(String userId) {
         List<User> user =  em.createQuery(
-                "SELECT user FROM User user WHERE user.providerId = :providerId"
+                "SELECT user FROM User user WHERE user.userId = :userId"
                 , User.class)
-                .setParameter("providerId", providerId).getResultList();
+                .setParameter("userId", userId).getResultList();
         return user.isEmpty() ? null : user.get(0);
     }
 
@@ -54,14 +48,10 @@ public class DatabaseAdapter {
         return purchase;
     }
 
-    public Purchase getPurchase(Long purchaseId) {
-        return em.find(Purchase.class, purchaseId);
-    }
-
-    public Purchase getPurchaseBySecId(String secPurchaseId) {
+    public Purchase getPurchase(String purchaseId) {
         List<Purchase> purchases = em.createQuery(
-                "SELECT purchase FROM Purchase purchase WHERE purchase.secPurchaseId = :secId", Purchase.class)
-                .setParameter("secId", secPurchaseId)
+                "SELECT purchase FROM Purchase purchase WHERE purchase.purchaseId = :purchaseId", Purchase.class)
+                .setParameter("purchaseId", purchaseId)
                 .getResultList();
         return purchases.isEmpty() ? null : purchases.get(0);
     }
@@ -80,8 +70,10 @@ public class DatabaseAdapter {
     }
 
     public void deletePurchase(String purchaseId) {
-        Purchase purchase = em.find(Purchase.class, purchaseId);
-        em.remove(purchase);
+        Purchase purchase = this.getPurchase(purchaseId);
+        if (purchase != null) {
+            em.remove(purchase);
+        }
     }
 
 
@@ -92,20 +84,18 @@ public class DatabaseAdapter {
         return debit;
     }
 
-    public Debit getDebit(Long debitId) {
-        return em.find(Debit.class, debitId);
-    }
-
-    public Debit getDebitBySecId(String secDebitId) {
+    public Debit getDebit(String debitId) {
         return em.createQuery(
-                "SELECT debit FROM Debit debit WHERE debit.secDebitId = :secId", Debit.class)
-                .setParameter("secId", secDebitId)
+                "SELECT debit FROM Debit debit WHERE debit.debitId = :debitId", Debit.class)
+                .setParameter("debitId", debitId)
                 .getSingleResult();
     }
 
-    public void deleteDebit(Long debitId) {
+    public void deleteDebit(String debitId) {
         Debit debit = this.getDebit(debitId);
-        em.remove(debit);
+        if (debit != null) {
+            em.remove(debit);
+        }
     }
 
 
