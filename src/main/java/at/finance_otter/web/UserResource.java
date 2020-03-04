@@ -20,7 +20,7 @@ import java.util.List;
 @Path("/fino/users")
 @Authenticated
 @RequestScoped
-@Transactional
+@Transactional(rollbackOn = ExposableException.class)
 public class UserResource {
 
     @Inject

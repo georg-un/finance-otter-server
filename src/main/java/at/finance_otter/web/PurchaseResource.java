@@ -14,7 +14,7 @@ import java.util.List;
 @Path("/fino/purchases")
 @Authenticated
 @RequestScoped
-@Transactional
+@Transactional(rollbackOn = ExposableException.class)
 public class PurchaseResource {
 
     @Inject
