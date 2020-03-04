@@ -19,10 +19,6 @@ public class User {
     @Getter @Setter
     private String userId;
 
-    @Column(name = "username", unique = true, nullable = false)
-    @Getter @Setter
-    private String username;
-
     @Column(name = "first_name", nullable = false)
     @Getter @Setter
     private String firstName;

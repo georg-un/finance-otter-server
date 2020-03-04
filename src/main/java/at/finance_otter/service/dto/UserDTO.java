@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class UserDTO implements Serializable {
 
     private String userId;
-    private String username;
     private String firstName;
     private String lastName;
     private Boolean deactivated;
@@ -18,7 +17,6 @@ public class UserDTO implements Serializable {
         if (user != null) {
             UserDTO dto = new UserDTO();
             dto.setUserId(user.getUserId());
-            dto.setUsername(user.getUsername());
             dto.setFirstName(user.getFirstName());
             dto.setLastName(user.getLastName());
             dto.setDeactivated(user.getDeactivated());

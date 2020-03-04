@@ -15,15 +15,16 @@ public class UserService {
     @Inject
     DatabaseAdapter databaseAdapter;
 
-    public UserDTO createUser(UserDTO userDTO) throws ExposableException {
-        if (userDTO.getUsername() == null) {
-            throw new ExposableException("Username must not be null");
-        } else if (userDTO.getFirstName() == null) {
+    public UserDTO createUser(UserDTO userDTO, String userId) throws ExposableException {
+        if (userDTO.getFirstName() == null) {
             throw new ExposableException("First name must not be null");
+        } else if (userId == null) {
+            throw new ExposableException("userId must not be null");
+        } else if (getUser(userId) != null) {
+            throw new ExposableException("userId " + userId + " already has a user associated");
         } else {
             User user = new User();
-            user.setUserId(userDTO.getUserId());
-            user.setUsername(userDTO.getUsername());
+            user.setUserId(userId);
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
             return UserDTO.fromUser(this.databaseAdapter.createUser(user));
@@ -45,8 +46,6 @@ public class UserService {
         // TODO: Prevent that one user can update another
         if (userDTO.getUserId() == null) {
             throw new ExposableException("UserId must not be null");
-        } else if (userDTO.getUsername() == null) {
-            throw new ExposableException("Username must not be null");
         } else if (userDTO.getFirstName() == null) {
             throw new ExposableException("First name must not be null");
         } else {
@@ -55,7 +54,6 @@ public class UserService {
                 throw new ExposableException("User with id " + userDTO.getUserId() + " not found.");
             }
             user.setUserId(userDTO.getUserId());
-            user.setUsername(userDTO.getUsername());
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
             user.setDeactivated(userDTO.getDeactivated());
