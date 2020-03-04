@@ -61,6 +61,10 @@ public class UserService {
         }
     }
 
+    public Boolean isCurrentUserActive(String userId) {
+        return this.getUser(userId) != null;
+    }
+
     // TODO: Add a possibility to deactivate users
 
 }
