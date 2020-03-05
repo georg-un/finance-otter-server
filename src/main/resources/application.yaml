@@ -1,0 +1,42 @@
+## DEV CONFIG
+
+"%dev":
+  quarkus:
+    # ENABLE HTTPS
+    http:
+      ssl:
+        certificate:
+          file: ssl/localhost.crt
+          key-file: ssl/localhost.key
+    # PERSISTENCE
+    datasource:
+      url: jdbc:postgresql://localhost:5432/fino-dev-db
+      driver: org.postgresql.Driver
+      username: postgres
+      password: postgres
+    hibernate-orm:
+      sql-load-script: import-dev.sql
+      database:
+        generation: drop-and-create  # drop and create the database at startup (use `update` to only update the schema)
+  mp:
+    # JWT VERIFICATION
+    jwt:
+      verify:
+        publickey:
+          location: https://fino-test.eu.auth0.com/.well-known/jwks.json
+        issuer: https://fino-test.eu.auth0.com/
+
+
+## TEST CONFIG
+
+"%test":
+  quarkus:
+
+    # PERSISTENCE
+    datasource:
+      url: jdbc:h2:tcp://localhost/mem:test
+      driver: org.h2.Driver
+    hibernate-orm:
+#      sql-load-script: import-dev.sql
+      database:
+        generation: drop-and-create
