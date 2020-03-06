@@ -41,8 +41,9 @@ public class PurchaseService {
             throw new ExposableException("Could not find any user this ID.");
         } else {
             // Create debits
+            List<Debit> debits = new ArrayList<>();
             for (DebitDTO debitDTO : purchaseDTO.getDebits()) {
-                this.createDebit(debitDTO);
+                debits.add(this.createDebit(debitDTO));
             }
             // Create purchase
             Purchase purchase = new Purchase();
@@ -52,6 +53,7 @@ public class PurchaseService {
             purchase.setCategory(purchaseDTO.getCategory());
             purchase.setShop(purchaseDTO.getShop());
             purchase.setDescription(purchaseDTO.getDescription());
+            purchase.setDebits(debits);
             return PurchaseDTO.fromPurchase(this.databaseAdapter.createPurchase(purchase));
         }
     }
