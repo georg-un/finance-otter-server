@@ -66,7 +66,9 @@ public class DatabaseAdapter {
     }
 
     public Purchase updatePurchase(Purchase purchase) {
-        return em.merge(purchase);
+        Purchase p = em.merge(purchase);
+        em.flush();
+        return p;
     }
 
     public void deletePurchase(String purchaseId) {
@@ -101,8 +103,3 @@ public class DatabaseAdapter {
     public Map<User, Double> getBalances() {
         // TODO
     }*/
-
-
-
-
-}

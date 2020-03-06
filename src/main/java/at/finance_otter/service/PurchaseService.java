@@ -76,19 +76,22 @@ public class PurchaseService {
         } else if (this.databaseAdapter.getUser(purchaseDTO.getBuyerId()) == null) {
             throw new ExposableException("Could not find any user this ID.");
         } else {
-            // Build updates of all associated debits
+            // Remove old debits
+            Purchase purchase = this.databaseAdapter.getPurchase(purchaseDTO.getPurchaseId());
+            purchase.getDebits().clear();
+            purchase = this.databaseAdapter.updatePurchase(purchase);
+
+            // Create new debits
             List<Debit> debits = new ArrayList<>();
             for (DebitDTO debitDTO : purchaseDTO.getDebits()) {
-                debits.add(this.buildDebitUpdate(debitDTO));
+                debits.add(this.createDebit(debitDTO));
             }
-            // Update purchase
-            Purchase purchase = this.databaseAdapter.getPurchase(purchaseDTO.getPurchaseId());
+            // Update purchase & set debits
             purchase.setBuyer(this.databaseAdapter.getUser(purchaseDTO.getBuyerId()));
             purchase.setDate(new Date(purchaseDTO.getDate()));
             purchase.setCategory(purchaseDTO.getCategory());
             purchase.setShop(purchaseDTO.getShop());
             purchase.setDescription(purchaseDTO.getDescription());
-            purchase.getDebits().clear();
             purchase.getDebits().addAll(debits);
             return PurchaseDTO.fromPurchase(this.databaseAdapter.updatePurchase(purchase));
         }
@@ -101,8 +104,6 @@ public class PurchaseService {
             throw new ExposableException("Debtor ID must not be null.");
         } else if (debitDTO.getAmount() == null) {
             throw new ExposableException("Amount must not be null.");
-        } else if (this.databaseAdapter.getDebit(debitDTO.getDebitId()) != null) {
-            throw new ExposableException("This Debit already exists.");
         } else if (this.databaseAdapter.getUser(debitDTO.getDebtorId()) == null) {
             throw new ExposableException("Could not find any user this ID.");
         } else {
@@ -112,13 +113,6 @@ public class PurchaseService {
             debit.setAmount(debitDTO.getAmount());
             return this.databaseAdapter.createDebit(debit);
         }
-    }
-
-    private Debit buildDebitUpdate(DebitDTO debitDTO) {
-        Debit debit = this.databaseAdapter.getDebit(debitDTO.getDebitId());
-        debit.setDebtor(this.databaseAdapter.getUser(debitDTO.getDebtorId()));
-        debit.setAmount(debitDTO.getAmount());
-        return debit;
     }
 
 }
