@@ -19,12 +19,12 @@ public class DatabaseAdapter {
     // User methods
 
     public User createUser(User user) {
-        em.persist( user );
+        em.persist(user);
         return user;
     }
 
     public User getUser(String userId) {
-        List<User> user =  em.createQuery(
+        List<User> user = em.createQuery(
                 "SELECT user FROM User user WHERE user.userId = :userId"
                 , User.class)
                 .setParameter("userId", userId).getResultList();
@@ -85,22 +85,17 @@ public class DatabaseAdapter {
     }
 
     public Debit getDebit(String debitId) {
-        List<Debit> debits =  em.createQuery(
+        List<Debit> debits = em.createQuery(
                 "SELECT debit FROM Debit debit WHERE debit.debitId = :debitId", Debit.class)
                 .setParameter("debitId", debitId)
                 .getResultList();
         return debits.isEmpty() ? null : debits.get(0);
     }
 
-    public void deleteDebit(String debitId) {
-        Debit debit = this.getDebit(debitId);
-        if (debit != null) {
-            em.remove(debit);
-        }
-    }
+}
 
 
-    // Other
+// Other
 
     /*@Transactional
     public Map<User, Double> getBalances() {

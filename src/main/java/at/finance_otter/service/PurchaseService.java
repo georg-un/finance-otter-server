@@ -58,6 +58,14 @@ public class PurchaseService {
         }
     }
 
+    public void deletePurchase(String secId) throws ExposableException {
+        if (secId == null) {
+            throw new ExposableException("Purchase ID must not be null.");
+        } else {
+            this.databaseAdapter.deletePurchase(secId);
+        }
+    }
+
     public PurchaseDTO updatePurchase(PurchaseDTO purchaseDTO) throws ExposableException {
         if (purchaseDTO.getPurchaseId() == null) {
             throw new ExposableException("Purchase ID must not be null.");
@@ -68,14 +76,10 @@ public class PurchaseService {
         } else if (this.databaseAdapter.getUser(purchaseDTO.getBuyerId()) == null) {
             throw new ExposableException("Could not find any user this ID.");
         } else {
-            // Delete all debits of the purchase
-            for (DebitDTO debitDTO : purchaseDTO.getDebits()) {
-                this.databaseAdapter.deleteDebit(debitDTO.getDebitId());
-            }
-            // Recreate all debits
+            // Build updates of all associated debits
             List<Debit> debits = new ArrayList<>();
             for (DebitDTO debitDTO : purchaseDTO.getDebits()) {
-                debits.add(this.createDebit(debitDTO));
+                debits.add(this.buildDebitUpdate(debitDTO));
             }
             // Update purchase
             Purchase purchase = this.databaseAdapter.getPurchase(purchaseDTO.getPurchaseId());
@@ -84,7 +88,8 @@ public class PurchaseService {
             purchase.setCategory(purchaseDTO.getCategory());
             purchase.setShop(purchaseDTO.getShop());
             purchase.setDescription(purchaseDTO.getDescription());
-            purchase.setDebits(debits);
+            purchase.getDebits().clear();
+            purchase.getDebits().addAll(debits);
             return PurchaseDTO.fromPurchase(this.databaseAdapter.updatePurchase(purchase));
         }
     }
@@ -109,12 +114,11 @@ public class PurchaseService {
         }
     }
 
-    private void deleteDebit(String debitId) throws ExposableException {
-        if (debitId == null) {
-            throw new ExposableException("Debit ID must not be null.");
-        } else {
-            this.databaseAdapter.deleteDebit(debitId);
-        }
+    private Debit buildDebitUpdate(DebitDTO debitDTO) {
+        Debit debit = this.databaseAdapter.getDebit(debitDTO.getDebitId());
+        debit.setDebtor(this.databaseAdapter.getUser(debitDTO.getDebtorId()));
+        debit.setAmount(debitDTO.getAmount());
+        return debit;
     }
 
 }

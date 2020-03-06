@@ -45,4 +45,11 @@ public class PurchaseResource {
         return purchaseService.updatePurchase(purchaseDTO);
     }
 
+    @DELETE
+    @Path("/{secPurchaseId}")
+    @Produces("application/json")
+    public void deletePurchase(@PathParam("secPurchaseId") String secId) throws ExposableException {
+        this.purchaseService.deletePurchase(secId);
+    }
+
 }
