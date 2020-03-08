@@ -8,6 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Map;
 
 @ApplicationScoped
 public class DatabaseAdapter {
@@ -94,12 +95,21 @@ public class DatabaseAdapter {
         return debits.isEmpty() ? null : debits.get(0);
     }
 
+
+    // Summary methods
+
+    public List<Object[]> getCredits() {
+        return em.createQuery(
+                "SELECT p.buyer.userId, sum(d.amount) FROM Purchase p JOIN p.debits d GROUP BY p.buyer.userId",
+                Object[].class
+        ).getResultList();
+    }
+
+    public List<Object[]> getLiabilities() {
+        return em.createQuery(
+                "SELECT debit.debtor.userId, SUM(debit.amount) FROM Debit debit GROUP BY debit.debtor.userId",
+                Object[].class
+        ).getResultList();
+    }
+
 }
-
-
-// Other
-
-    /*@Transactional
-    public Map<User, Double> getBalances() {
-        // TODO
-    }*/
