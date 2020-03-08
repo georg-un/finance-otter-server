@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class PurchaseService {
 
     @Inject
-    private DatabaseAdapter databaseAdapter;
+    DatabaseAdapter databaseAdapter;
 
     public PurchaseDTO getPurchaseBySecId(String secId) {
         return PurchaseDTO.fromPurchase(this.databaseAdapter.getPurchase(secId));
