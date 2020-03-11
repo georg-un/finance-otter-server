@@ -8,7 +8,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Map;
 
 @ApplicationScoped
 public class DatabaseAdapter {
@@ -110,6 +109,16 @@ public class DatabaseAdapter {
                 "SELECT debit.debtor.userId, SUM(debit.amount) FROM Debit debit GROUP BY debit.debtor.userId",
                 Object[].class
         ).getResultList();
+    }
+
+    public List<Object[]> getAmountByMonthAndCategory() {
+        return em.createNativeQuery(
+                "SELECT EXTRACT(MONTH FROM p.date) AS mt, EXTRACT(YEAR FROM p.date) AS yr, p.category, SUM(d.amount) " +
+                        "FROM purchases p JOIN debits d ON p.gen_id = d.purchase_gen_id " +
+                        "GROUP BY EXTRACT(YEAR FROM p.date), EXTRACT(MONTH FROM p.date), p.category " +
+                        "ORDER BY yr, mt",
+                Object[].class)
+                .getResultList();
     }
 
 }
