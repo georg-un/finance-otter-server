@@ -3,6 +3,7 @@ package at.finance_otter.persistence.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class Purchase {
     @JoinColumn(name = "buyer_id", referencedColumnName = "gen_id")
     private User buyer;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Debit> debits;
+    @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Debit> debits = new ArrayList<>();
 
     @Column(name = "date", nullable = false)
     private Date date;
@@ -40,5 +41,20 @@ public class Purchase {
 
     @Column(name = "bill_id")
     private String billId;
+
+    public void addDebit(Debit debit) {
+        debits.add(debit);
+        debit.setPurchase(this);
+    }
+
+    public void removeDebit(Debit debit) {
+        debits.remove(debit);
+        debit.setPurchase(null);
+    }
+
+    public void removeAllDebits() {
+        debits.forEach(d -> d.setPurchase(null));
+        debits.clear();
+    }
 
 }

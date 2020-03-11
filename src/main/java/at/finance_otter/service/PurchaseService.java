@@ -40,11 +40,6 @@ public class PurchaseService {
         } else if (this.databaseAdapter.getUser(purchaseDTO.getBuyerId()) == null) {
             throw new ExposableException("Could not find any user this ID.");
         } else {
-            // Create debits
-            List<Debit> debits = new ArrayList<>();
-            for (DebitDTO debitDTO : purchaseDTO.getDebits()) {
-                debits.add(this.createDebit(debitDTO));
-            }
             // Create purchase
             Purchase purchase = new Purchase();
             purchase.setPurchaseId(purchaseDTO.getPurchaseId());
@@ -53,7 +48,9 @@ public class PurchaseService {
             purchase.setCategory(purchaseDTO.getCategory());
             purchase.setShop(purchaseDTO.getShop());
             purchase.setDescription(purchaseDTO.getDescription());
-            purchase.setDebits(debits);
+            for (DebitDTO debitDTO : purchaseDTO.getDebits()) {
+                purchase.addDebit(this.generateDebit(debitDTO));
+            }
             return PurchaseDTO.fromPurchase(this.databaseAdapter.createPurchase(purchase));
         }
     }
@@ -78,26 +75,23 @@ public class PurchaseService {
         } else {
             // Remove old debits
             Purchase purchase = this.databaseAdapter.getPurchase(purchaseDTO.getPurchaseId());
-            purchase.getDebits().clear();
+            purchase.removeAllDebits();
             purchase = this.databaseAdapter.updatePurchase(purchase);
 
-            // Create new debits
-            List<Debit> debits = new ArrayList<>();
-            for (DebitDTO debitDTO : purchaseDTO.getDebits()) {
-                debits.add(this.createDebit(debitDTO));
-            }
             // Update purchase & set debits
             purchase.setBuyer(this.databaseAdapter.getUser(purchaseDTO.getBuyerId()));
             purchase.setDate(new Date(purchaseDTO.getDate()));
             purchase.setCategory(purchaseDTO.getCategory());
             purchase.setShop(purchaseDTO.getShop());
             purchase.setDescription(purchaseDTO.getDescription());
-            purchase.getDebits().addAll(debits);
+            for (DebitDTO debitDTO : purchaseDTO.getDebits()) {
+                purchase.addDebit(this.generateDebit(debitDTO));
+            }
             return PurchaseDTO.fromPurchase(this.databaseAdapter.updatePurchase(purchase));
         }
     }
 
-    private Debit createDebit(DebitDTO debitDTO) throws ExposableException {
+    private Debit generateDebit(DebitDTO debitDTO) throws ExposableException {
         if (debitDTO.getDebitId() == null) {
             throw new ExposableException("Debit ID must not be null.");
         } else if (debitDTO.getDebtorId() == null) {
@@ -111,7 +105,7 @@ public class PurchaseService {
             debit.setDebitId(debitDTO.getDebitId());
             debit.setDebtor(this.databaseAdapter.getUser(debitDTO.getDebtorId()));
             debit.setAmount(debitDTO.getAmount());
-            return this.databaseAdapter.createDebit(debit);
+            return debit;
         }
     }
 

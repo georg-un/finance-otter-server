@@ -21,7 +21,22 @@ public class Debit {
     @JoinColumn(name = "debtor_id", referencedColumnName = "gen_id")
     private User debtor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Purchase purchase;
+
     @Column(name = "amount", nullable = false)
     private double amount;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Debit )) return false;
+        return genId != null && genId.equals(((Debit) o).getGenId());
+    }
+
+    @Override
+    public int hashCode() {
+        return 42;
+    }
 
 }
