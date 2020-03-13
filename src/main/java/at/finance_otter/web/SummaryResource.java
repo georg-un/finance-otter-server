@@ -2,6 +2,7 @@ package at.finance_otter.web;
 
 import at.finance_otter.service.ExposableException;
 import at.finance_otter.service.SummaryService;
+import at.finance_otter.service.dto.ChartData;
 import at.finance_otter.service.dto.ChartSeries;
 import at.finance_otter.service.dto.SummaryDTO;
 import io.quarkus.security.Authenticated;
@@ -35,6 +36,15 @@ public class SummaryResource {
         return months == null ?
                 summaryService.getAmountByMonthAndCategory(6) :
                 summaryService.getAmountByMonthAndCategory(months);
+    }
+
+    @GET
+    @Path("/category")
+    @Produces("application/json")
+    public List<ChartData> getAmountByCategory(@QueryParam("months") Integer months) {
+        return months == null ?
+                summaryService.getAmountByCategory(3) :
+                summaryService.getAmountByCategory(months);
     }
 
 }

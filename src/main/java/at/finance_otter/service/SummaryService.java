@@ -1,11 +1,13 @@
 package at.finance_otter.service;
 
 import at.finance_otter.persistence.DatabaseAdapter;
+import at.finance_otter.service.dto.ChartData;
 import at.finance_otter.service.dto.ChartSeries;
 import at.finance_otter.service.dto.SummaryDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,6 +45,15 @@ public class SummaryService {
                 .map(ChartSeries::fromAmountCategoryDateQuery)
                 .map(ChartSeries::toList)
                 .reduce(new ArrayList<>(), this::reduceChartSeries);
+    }
+
+    public List<ChartData> getAmountByCategory(Integer nMonths) {
+        Date startDate = Date.from(ZonedDateTime.now().minusMonths(nMonths).toInstant());
+
+        return databaseAdapter.getAmountByCategory(startDate, new Date())
+                .stream()
+                .map(ChartData::fromAmountCategoryQuery)
+                .collect(Collectors.toList());
     }
 
     private List<ChartSeries> reduceChartSeries(List<ChartSeries> aggregatedList, List<ChartSeries> newList) {

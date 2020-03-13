@@ -38,7 +38,7 @@ values ('initDebitId6', 3, 8.45, 2);
 
 -- Purchase 3
 insert into purchases (purchase_id, buyer_id, date, category, shop)
-values ('initPurchaseId3', 2, '2020-02-15 23:48:11', 'beer', 'Bierkanter');
+values ('initPurchaseId3', 2, '2020-02-15 23:48:11', 'groceries', 'Bierkanter');
 
 insert into debits (debit_id, debtor_id, amount, purchase_gen_id)
 values ('initDebitId7', 2, 23.45, 3);
