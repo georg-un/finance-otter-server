@@ -9,9 +9,7 @@ import io.quarkus.security.Authenticated;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 @Path("/fino/summary")
@@ -33,8 +31,10 @@ public class SummaryResource {
     @GET
     @Path("/month_category")
     @Produces("application/json")
-    public List<ChartSeries> getAmountByMonthAndCategory() {
-        return summaryService.getAmountByMonthAndCategory();
+    public List<ChartSeries> getAmountByMonthAndCategory(@QueryParam("months") Integer months) {
+        return months == null ?
+                summaryService.getAmountByMonthAndCategory(6) :
+                summaryService.getAmountByMonthAndCategory(months);
     }
 
 }

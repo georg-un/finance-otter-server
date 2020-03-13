@@ -37,8 +37,8 @@ public class SummaryService {
         return new SummaryDTO(balances);
     }
 
-    public List<ChartSeries> getAmountByMonthAndCategory() {
-        return databaseAdapter.getAmountByCategoryAndDate()
+    public List<ChartSeries> getAmountByMonthAndCategory(Integer nMonths) {
+        return databaseAdapter.getAmountByCategoryAndDate(nMonths)
                 .stream()
                 .map(ChartSeries::fromAmountCategoryDateQuery)
                 .map(ChartSeries::toList)

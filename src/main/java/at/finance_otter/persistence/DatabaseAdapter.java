@@ -111,12 +111,14 @@ public class DatabaseAdapter {
         ).getResultList();
     }
 
-    public List<Object[]> getAmountByCategoryAndDate() {
+    public List<Object[]> getAmountByCategoryAndDate(Integer nMonths) {
         return em.createNativeQuery(
                 "SELECT EXTRACT(YEAR FROM p.date) AS yr, EXTRACT(MONTH FROM p.date) AS mt, p.category, SUM(d.amount) " +
                         "FROM purchases p JOIN debits d ON p.gen_id = d.purchase_gen_id " +
                         "GROUP BY EXTRACT(YEAR FROM p.date), EXTRACT(MONTH FROM p.date), p.category " +
-                        "ORDER BY yr, mt")
+                        "ORDER BY yr, mt " +
+                        "LIMIT :nMonths")
+                .setParameter("nMonths", nMonths)
                 .getResultList();
     }
 

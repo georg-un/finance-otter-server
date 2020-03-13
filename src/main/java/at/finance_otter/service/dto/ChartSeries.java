@@ -16,11 +16,6 @@ public class ChartSeries {
     private String name;
     private List<ChartData> series;
 
-    @Override
-    public String toString() {
-        return this.name + " and " + this.series.get(0).getValue().toString();
-    }
-
     public List<ChartSeries> toList() {
         return new ArrayList<>(Arrays.asList(this));
     }
