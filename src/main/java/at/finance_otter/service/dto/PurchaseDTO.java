@@ -17,6 +17,7 @@ public class PurchaseDTO implements Serializable {
     private String category;
     private String shop;
     private String description;
+    private Boolean isCompensation;
 
     public static PurchaseDTO fromPurchase(Purchase purchase) {
         if (purchase != null) {
@@ -33,6 +34,7 @@ public class PurchaseDTO implements Serializable {
             dto.setCategory(purchase.getCategory());
             dto.setShop(purchase.getShop());
             dto.setDescription(purchase.getDescription());
+            dto.setIsCompensation(purchase.getIsCompensation());
             return dto;
         } else {
             return null;

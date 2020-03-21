@@ -39,6 +39,10 @@ public class PurchaseService {
             throw new ExposableException("Date must not be null.");
         } else if (this.databaseAdapter.getUser(purchaseDTO.getBuyerId()) == null) {
             throw new ExposableException("Could not find any user this ID.");
+        } else if (purchaseDTO.getDebits().size() < 1) {
+            throw new ExposableException("Purchase must contain at least one debit.");
+        } else if (purchaseDTO.getIsCompensation() && purchaseDTO.getDebits().size() > 1) {
+            throw new ExposableException("A compensation cannot have more than one debit");
         } else {
             // Create purchase
             Purchase purchase = new Purchase();
@@ -72,6 +76,10 @@ public class PurchaseService {
             throw new ExposableException("Date must not be null.");
         } else if (this.databaseAdapter.getUser(purchaseDTO.getBuyerId()) == null) {
             throw new ExposableException("Could not find any user this ID.");
+        } else if (purchaseDTO.getDebits().size() < 1) {
+            throw new ExposableException("Purchase must contain at least one debit.");
+        } else if (purchaseDTO.getIsCompensation() && purchaseDTO.getDebits().size() > 1) {
+            throw new ExposableException("A compensation cannot have more than one debit");
         } else {
             // Remove old debits
             Purchase purchase = this.databaseAdapter.getPurchase(purchaseDTO.getPurchaseId());

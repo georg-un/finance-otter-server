@@ -39,6 +39,9 @@ public class Purchase {
     @Column(name = "description")
     private String description;
 
+    @Column(name= "is_compensation")
+    private Boolean isCompensation;
+
     @Column(name = "bill_id")
     private String billId;
 

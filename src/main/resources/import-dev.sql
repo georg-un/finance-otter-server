@@ -45,3 +45,10 @@ values ('initDebitId7', 2, 23.45, 3);
 
 insert into debits (debit_id, debtor_id, amount, purchase_gen_id)
 values ('initDebitId8', 3, 23.45, 3);
+
+-- Compensation 1
+insert into purchases (purchase_id, buyer_id, date, is_compensation)
+values ('initPurchaseId4', 2, '2020-02-23 15:21:56', true);
+
+insert into debits (debit_id, debtor_id, amount, purchase_gen_id)
+values ('initDebitId9', 3, 20.00, 4);
