@@ -42,8 +42,8 @@ public class Purchase {
     @Column(name= "is_compensation")
     private Boolean isCompensation;
 
-    @Column(name = "bill_id")
-    private String billId;
+    @Column(name = "receipt")
+    private String receipt;
 
     public void addDebit(Debit debit) {
         debits.add(debit);

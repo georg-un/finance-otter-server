@@ -31,8 +31,4 @@ public class User {
     @Getter @Setter
     private Boolean deactivated;
 
-    @Column(name = "user_pic")
-    @Getter @Setter
-    private byte[] userPic;
-
 }

@@ -8,7 +8,6 @@ import at.finance_otter.service.dto.PurchaseDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +18,7 @@ public class PurchaseService {
     @Inject
     DatabaseAdapter databaseAdapter;
 
-    public PurchaseDTO getPurchaseBySecId(String secId) {
+    public PurchaseDTO getPurchase(String secId) {
         return PurchaseDTO.fromPurchase(this.databaseAdapter.getPurchase(secId));
     }
 

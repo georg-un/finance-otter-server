@@ -2,6 +2,7 @@ package at.finance_otter.persistence;
 
 import at.finance_otter.persistence.entity.Debit;
 import at.finance_otter.persistence.entity.Purchase;
+import at.finance_otter.persistence.entity.Receipt;
 import at.finance_otter.persistence.entity.User;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -93,6 +94,32 @@ public class DatabaseAdapter {
                 .setParameter("debitId", debitId)
                 .getResultList();
         return debits.isEmpty() ? null : debits.get(0);
+    }
+
+
+    // public Receipt methods
+
+    public Receipt createReceipt(Receipt receipt) {
+        em.persist(receipt);
+        return receipt;
+    }
+
+    public Receipt getReceipt(String purchaseId) {
+        List<Receipt> receipts = em.createQuery(
+                "SELECT receipt from Receipt receipt WHERE receipt.purchase.purchaseId = :purchaseId", Receipt.class)
+                .setParameter("purchaseId", purchaseId)
+                .getResultList();
+        return receipts.isEmpty() ? null : receipts.get(0);
+    }
+
+    public void deleteReceipt(String purchaseId) {
+        List<Receipt> receipts = em.createQuery(
+                "SELECT receipt from Receipt receipt WHERE receipt.purchase.purchaseId = :purchaseId", Receipt.class)
+                .setParameter("purchaseId", purchaseId)
+                .getResultList();
+        for (Receipt receipt: receipts) {
+            em.remove(receipt);
+        }
     }
 
 
