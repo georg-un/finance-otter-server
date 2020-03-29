@@ -81,22 +81,6 @@ public class DatabaseAdapter {
     }
 
 
-    // Debit methods
-
-    public Debit createDebit(Debit debit) {
-        em.persist(debit);
-        return debit;
-    }
-
-    public Debit getDebit(String debitId) {
-        List<Debit> debits = em.createQuery(
-                "SELECT debit FROM Debit debit WHERE debit.debitId = :debitId", Debit.class)
-                .setParameter("debitId", debitId)
-                .getResultList();
-        return debits.isEmpty() ? null : debits.get(0);
-    }
-
-
     // public Receipt methods
 
     public Receipt createReceipt(Receipt receipt) {
