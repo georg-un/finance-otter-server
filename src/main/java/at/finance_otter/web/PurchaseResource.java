@@ -5,6 +5,7 @@ import at.finance_otter.service.ExposableException;
 import at.finance_otter.service.PurchaseService;
 import at.finance_otter.service.ReceiptService;
 import at.finance_otter.service.dto.PurchaseDTO;
+import com.google.gson.Gson;
 import io.quarkus.security.Authenticated;
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
@@ -30,6 +31,8 @@ public class PurchaseResource {
     @Inject
     ReceiptService receiptService;
 
+    private Gson gson = new Gson();
+
     @GET
     @Path("/{purchaseId}")
     @Produces("application/json")
@@ -38,21 +41,23 @@ public class PurchaseResource {
     }
 
     @POST
-    @Path("/{purchaseId}/receipt")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces("application/json")
-    public Response createReceipt(
-            @PathParam("purchaseId") String purchaseId,
+    public PurchaseDTO createPurchase(
             @MultipartForm MultipartBody multipartBody
     ) throws IOException, ExposableException {
-        Receipt receipt = receiptService.createReceipt(IOUtils.toByteArray(multipartBody.file), purchaseId);
-        if (receipt != null) {
-            Response.ResponseBuilder response = Response.ok();
-            return response.build();
-        } else {
-            Response.ResponseBuilder response = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
-            return response.build();
+        PurchaseDTO purchaseDTO = purchaseService.createPurchase(
+                gson.fromJson(multipartBody.purchase, PurchaseDTO.class)
+        );
+
+        if (multipartBody.receipt != null) {
+            receiptService.createReceipt(
+                    IOUtils.toByteArray(multipartBody.receipt),
+                    purchaseDTO.getPurchaseId()
+            );
         }
+
+        return purchaseDTO;
     }
 
     @GET
@@ -67,12 +72,6 @@ public class PurchaseResource {
     @Produces("application/json")
     public List<PurchaseDTO> getPurchases(@QueryParam("offset") int offset, @QueryParam("limit") int limit) {
         return purchaseService.getPurchases(offset, limit);
-    }
-
-    @POST
-    @Produces("application/json")
-    public PurchaseDTO createPurchase(PurchaseDTO purchaseDTO) throws ExposableException {
-        return purchaseService.createPurchase(purchaseDTO);
     }
 
     @PUT

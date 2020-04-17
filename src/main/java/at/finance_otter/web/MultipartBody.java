@@ -5,16 +5,17 @@ import java.io.InputStream;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.MediaType;
 
+import at.finance_otter.service.dto.PurchaseDTO;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 public class MultipartBody {
 
-    @FormParam("file")
+    @FormParam("receipt")
     @PartType(MediaType.APPLICATION_OCTET_STREAM)
-    public InputStream file;
+    public InputStream receipt;
 
-    @FormParam("fileName")
+    @FormParam("purchase")
     @PartType(MediaType.TEXT_PLAIN)
-    public String fileName;
+    public String purchase;
 
 }
