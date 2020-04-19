@@ -61,23 +61,31 @@ public class PurchaseResource {
     }
 
     @GET
-    @Path("/{purchaseId}/receipt")
-    @Produces("image/png")
-    public byte[] getReceipt(@PathParam("purchaseId") String purchaseId) {
-        Receipt receipt = this.receiptService.getReceipt(purchaseId);
-        return receipt != null ? receipt.getImage() : null;
-    }
-
-    @GET
     @Produces("application/json")
     public List<PurchaseDTO> getPurchases(@QueryParam("offset") int offset, @QueryParam("limit") int limit) {
         return purchaseService.getPurchases(offset, limit);
     }
 
     @PUT
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces("application/json")
-    public PurchaseDTO updatePurchase(PurchaseDTO purchaseDTO) throws ExposableException {
-        return purchaseService.updatePurchase(purchaseDTO);
+    public PurchaseDTO updatePurchase(
+            @MultipartForm MultipartBody multipartBody
+    ) throws ExposableException, IOException {
+        if (multipartBody == null || multipartBody.purchase == null) {
+            throw new ExposableException("Did not receive any purchase to update");
+        }
+
+        PurchaseDTO purchaseDTO = purchaseService.updatePurchase(
+                gson.fromJson(multipartBody.purchase, PurchaseDTO.class)
+        );
+        if (multipartBody.receipt != null) {
+            receiptService.updateReceipt(
+                    IOUtils.toByteArray(multipartBody.receipt),
+                    purchaseDTO.getPurchaseId()
+            );
+        }
+        return purchaseDTO;
     }
 
     @DELETE
@@ -85,6 +93,21 @@ public class PurchaseResource {
     @Produces("application/json")
     public void deletePurchase(@PathParam("purchaseId") String purchaseId) throws ExposableException {
         this.purchaseService.deletePurchase(purchaseId);
+    }
+
+    @GET
+    @Path("/{purchaseId}/receipt")
+    @Produces("image/png")
+    public byte[] getReceipt(@PathParam("purchaseId") String purchaseId) {
+        Receipt receipt = this.receiptService.getReceipt(purchaseId);
+        return receipt != null ? receipt.getImage() : null;
+    }
+
+    @DELETE
+    @Path("/{purchaseId}/receipt")
+    @Produces("application/json")
+    public void deleteReceipt(@PathParam("purchaseId") String purchaseId) throws ExposableException {
+        this.receiptService.deleteReceipt(purchaseId);
     }
 
 }

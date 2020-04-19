@@ -62,12 +62,12 @@ public class PurchaseService {
         }
     }
 
-    public void deletePurchase(String secId) throws ExposableException {
-        if (secId == null) {
+    public void deletePurchase(String purchaseId) throws ExposableException {
+        if (purchaseId == null) {
             throw new ExposableException("Purchase ID must not be null.");
         } else {
-            this.databaseAdapter.deleteReceipt(secId);
-            this.databaseAdapter.deletePurchase(secId);
+            this.databaseAdapter.deleteReceipt(purchaseId);
+            this.databaseAdapter.deletePurchase(purchaseId);
         }
     }
 
