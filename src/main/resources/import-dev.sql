@@ -1,14 +1,14 @@
 -- User 1
-insert into users (user_id, first_name, last_name)
-values ('user1', 'Anna', 'Adler');
+insert into users (user_id, first_name, last_name, avatar_url)
+values ('user1', 'Anna', 'Adler', 'https://images.pexels.com/photos/1855582/pexels-photo-1855582.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250&w=420');
 
 -- User 2
-insert into users (user_id, first_name, last_name)
-values ('user2', 'Bernd', 'Bieber');
+insert into users (user_id, first_name, last_name, avatar_url)
+values ('user2', 'Bernd', 'Bieber', 'https://images.pexels.com/photos/1250426/pexels-photo-1250426.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250&w=420');
 
 -- User 3
-insert into users (user_id, first_name, last_name)
-values ('user3', 'Claudia', 'Chamäleon');
+insert into users (user_id, first_name, last_name, avatar_url)
+values ('user3', 'Claudia', 'Chamäleon', 'https://images.pexels.com/photos/1878522/pexels-photo-1878522.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250&w=420');
 
 -- Purchase 1
 insert into purchases (purchase_id, buyer_id, date, category, shop, description)

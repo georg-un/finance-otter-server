@@ -16,7 +16,9 @@ public class UserService {
     DatabaseAdapter databaseAdapter;
 
     public UserDTO createUser(UserDTO userDTO, String userId) throws ExposableException {
-        if (userDTO.getFirstName() == null) {
+        if (userDTO == null) {
+            throw new ExposableException("No user data was transmitted to the server.");
+        } else if (userDTO.getFirstName() == null) {
             throw new ExposableException("First name must not be null.");
         } else if (userId == null) {
             throw new ExposableException("User ID must not be null.");
@@ -27,6 +29,7 @@ public class UserService {
             user.setUserId(userId);
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
+            user.setAvatarUrl(userDTO.getAvatarUrl());
             return UserDTO.fromUser(this.databaseAdapter.createUser(user));
         }
     }

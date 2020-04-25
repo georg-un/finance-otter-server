@@ -11,6 +11,7 @@ public class UserDTO implements Serializable {
     private String userId;
     private String firstName;
     private String lastName;
+    private String avatarUrl;
     private Boolean deactivated;
 
     public static UserDTO fromUser(User user) {
@@ -19,6 +20,7 @@ public class UserDTO implements Serializable {
             dto.setUserId(user.getUserId());
             dto.setFirstName(user.getFirstName());
             dto.setLastName(user.getLastName());
+            dto.setAvatarUrl(user.getAvatarUrl());
             dto.setDeactivated(user.getDeactivated());
             return dto;
         } else {

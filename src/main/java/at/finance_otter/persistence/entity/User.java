@@ -27,6 +27,10 @@ public class User {
     @Getter @Setter
     private String lastName;
 
+    @Column(name="avatar_url")
+    @Getter @Setter
+    private String avatarUrl;
+
     @Column(name = "deactivated")
     @Getter @Setter
     private Boolean deactivated;
