@@ -82,7 +82,7 @@ public class PurchaseService {
             throw new ExposableException("Could not find any user this ID.");
         } else if (purchaseDTO.getDebits().size() < 1) {
             throw new ExposableException("Purchase must contain at least one debit.");
-        } else if (purchaseDTO.getIsCompensation() && purchaseDTO.getDebits().size() > 1) {
+        } else if (purchaseDTO.getIsCompensation() != null && purchaseDTO.getIsCompensation() && purchaseDTO.getDebits().size() > 1) {
             throw new ExposableException("A compensation cannot have more than one debit");
         } else {
             // Remove old debits

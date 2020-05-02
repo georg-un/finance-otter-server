@@ -44,15 +44,15 @@ public class PurchaseResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces("application/json")
     public PurchaseDTO createPurchase(
-            @MultipartForm MultipartBody multipartBody
+            @MultipartForm MultipartPurchase multipartPurchase
     ) throws IOException, ExposableException {
         PurchaseDTO purchaseDTO = purchaseService.createPurchase(
-                gson.fromJson(multipartBody.purchase, PurchaseDTO.class)
+                gson.fromJson(multipartPurchase.purchase, PurchaseDTO.class)
         );
 
-        if (multipartBody.receipt != null) {
+        if (multipartPurchase.receipt != null) {
             receiptService.createReceipt(
-                    IOUtils.toByteArray(multipartBody.receipt),
+                    IOUtils.toByteArray(multipartPurchase.receipt),
                     purchaseDTO.getPurchaseId()
             );
         }
@@ -67,26 +67,11 @@ public class PurchaseResource {
     }
 
     @PUT
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces("application/json")
-    public PurchaseDTO updatePurchase(
-            @MultipartForm MultipartBody multipartBody
-    ) throws ExposableException, IOException {
-        if (multipartBody == null || multipartBody.purchase == null) {
-            throw new ExposableException("Did not receive any purchase to update");
-        }
-
-        PurchaseDTO purchaseDTO = purchaseService.updatePurchase(
-                gson.fromJson(multipartBody.purchase, PurchaseDTO.class)
-        );
-        if (multipartBody.receipt != null) {
-            receiptService.updateReceipt(
-                    IOUtils.toByteArray(multipartBody.receipt),
-                    purchaseDTO.getPurchaseId()
-            );
-        }
-        return purchaseDTO;
+    public PurchaseDTO updatePurchase(PurchaseDTO purchaseDTO) throws ExposableException {
+        return purchaseService.updatePurchase(purchaseDTO);
     }
+
 
     @DELETE
     @Path("/{purchaseId}")
@@ -101,6 +86,22 @@ public class PurchaseResource {
     public byte[] getReceipt(@PathParam("purchaseId") String purchaseId) {
         Receipt receipt = this.receiptService.getReceipt(purchaseId);
         return receipt != null ? receipt.getImage() : null;
+    }
+
+    @PUT
+    @Path("/{purchaseId}/receipt")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces("application/json")
+    public Response updateReceipt(
+            @PathParam("purchaseId") String purchaseId,
+            @MultipartForm MultipartReceipt multipartReceipt
+    ) throws ExposableException, IOException {
+        if (multipartReceipt != null) {
+            receiptService.updateReceipt(IOUtils.toByteArray(multipartReceipt.receipt), purchaseId);
+        } else {
+            throw new ExposableException("Did not receive a receipt.");
+        }
+        return Response.ok().build();
     }
 
     @DELETE
