@@ -8,6 +8,12 @@
         certificate:
           file: ssl/localhost.crt
           key-file: ssl/localhost.key
+      cors:
+        ~: true
+        methods: GET,PUT,POST,DELETE
+        origins: https://localhost:4200,https://honeypot.lan:4200,https://littlehoneypot:4200
+        headers: origin,content-type,accept,authorization
+        access-control-max-age: 1
     # PERSISTENCE
     datasource:
       url: jdbc:postgresql://localhost:5432/fino-dev-db
