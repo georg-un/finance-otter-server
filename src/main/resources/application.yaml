@@ -33,6 +33,25 @@
         issuer: https://fino-test.eu.auth0.com/
 
 
+## PROD CONFIG
+
+"%prod":
+  quarkus:
+    # PERSISTENCE
+    datasource:
+      url:
+      driver: org.postgresql.Driver
+      username:
+      password:
+    mp:
+      # JWT VERIFICATION
+      jwt:
+        verify:
+          publickey:
+            location:
+          issuer:
+
+
 ## TEST CONFIG
 
 "%test":
