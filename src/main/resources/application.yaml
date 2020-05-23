@@ -43,13 +43,16 @@
       driver: org.postgresql.Driver
       username:
       password:
-    mp:
-      # JWT VERIFICATION
-      jwt:
-        verify:
-          publickey:
-            location:
-          issuer:
+    hibernate-orm:
+      database:
+        generation: create
+  mp:
+    # JWT VERIFICATION
+    jwt:
+      verify:
+        publickey:
+          location:
+        issuer:
 
 
 ## TEST CONFIG
