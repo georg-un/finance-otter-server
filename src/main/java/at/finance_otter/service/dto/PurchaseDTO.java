@@ -14,7 +14,7 @@ public class PurchaseDTO implements Serializable {
     private String buyerId;
     private Set<DebitDTO> debits;
     private Long date;
-    private String category;
+    private Long categoryId;
     private String shop;
     private String description;
     private Boolean isCompensation;
@@ -31,7 +31,11 @@ public class PurchaseDTO implements Serializable {
                             .collect(Collectors.toSet())
             );
             dto.setDate(purchase.getDate().getTime());
-            dto.setCategory(purchase.getCategory());
+            dto.setCategoryId(
+                    purchase.getCategory() != null
+                    ? purchase.getCategory().getGenId()
+                    : null
+            );
             dto.setShop(purchase.getShop());
             dto.setDescription(purchase.getDescription());
             dto.setIsCompensation(purchase.getIsCompensation());

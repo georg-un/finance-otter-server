@@ -30,8 +30,9 @@ public class Purchase {
     @Column(name = "date", nullable = false)
     private Date date;
 
-    @Column(name = "category")
-    private String category;
+    @ManyToOne()
+    @JoinColumn(name = "category_id", referencedColumnName = "gen_id")
+    private Category category;
 
     @Column(name = "shop")
     private String shop;

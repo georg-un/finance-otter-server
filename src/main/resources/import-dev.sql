@@ -1,3 +1,10 @@
+-- Categories
+insert into categories (label, color) values ('groceries', '#233B43');
+insert into categories (label, color) values ('house & garden', '#C0BC45');
+insert into categories (label, color) values ('bars & restaurants', '#F77350');
+insert into categories (label, color) values ('leisure activities', '#EC9B30');
+insert into categories (label, color) values ('fixed costs', '#454B42');
+
 -- User 1
 insert into users (user_id, first_name, last_name, avatar_url)
 values ('user1', 'Anna', 'Adler', 'https://images.pexels.com/photos/1855582/pexels-photo-1855582.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250&w=420');
@@ -11,8 +18,8 @@ insert into users (user_id, first_name, last_name, avatar_url)
 values ('user3', 'Claudia', 'Chamäleon', 'https://images.pexels.com/photos/1878522/pexels-photo-1878522.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250&w=420');
 
 -- Purchase 1
-insert into purchases (purchase_id, buyer_id, date, category, shop, description)
-values ('initPurchaseId1', 1, '2020-02-04 09:38:25', 'groceries', 'BILLA', 'needed chocolate');
+insert into purchases (purchase_id, buyer_id, date, category_id, shop, description)
+values ('initPurchaseId1', 1, '2020-02-04 09:38:25', 1, 'BILLA', 'needed chocolate');
 
 insert into debits (debit_id, debtor_id, amount, purchase_gen_id)
 values ('initDebitId1', 1, 23.56, 1);
@@ -24,8 +31,8 @@ insert into debits (debit_id, debtor_id, amount, purchase_gen_id)
 values ('initDebitId3', 3, 12.30, 1);
 
 -- Purchase 2
-insert into purchases (purchase_id, buyer_id, date, category, shop)
-values ('initPurchaseId2', 2, '2019-12-28 15:15:34', 'tools', 'OBI');
+insert into purchases (purchase_id, buyer_id, date, category_id, shop)
+values ('initPurchaseId2', 2, '2019-12-28 15:15:34', 2, 'OBI');
 
 insert into debits (debit_id, debtor_id, amount, purchase_gen_id)
 values ('initDebitId4', 1, 8.45, 2);
@@ -37,8 +44,8 @@ insert into debits (debit_id, debtor_id, amount, purchase_gen_id)
 values ('initDebitId6', 3, 8.45, 2);
 
 -- Purchase 3
-insert into purchases (purchase_id, buyer_id, date, category, shop)
-values ('initPurchaseId3', 2, '2020-02-15 23:48:11', 'groceries', 'Bierkanter');
+insert into purchases (purchase_id, buyer_id, date, category_id, shop)
+values ('initPurchaseId3', 2, '2020-02-15 23:48:11', 1, 'Bierkanter');
 
 insert into debits (debit_id, debtor_id, amount, purchase_gen_id)
 values ('initDebitId7', 2, 23.45, 3);

@@ -1,6 +1,6 @@
 package at.finance_otter.persistence;
 
-import at.finance_otter.persistence.entity.Debit;
+import at.finance_otter.persistence.entity.Category;
 import at.finance_otter.persistence.entity.Purchase;
 import at.finance_otter.persistence.entity.Receipt;
 import at.finance_otter.persistence.entity.User;
@@ -81,7 +81,23 @@ public class DatabaseAdapter {
     }
 
 
-    // public Receipt methods
+    // Category methods
+
+    public List<Category> getCategories() {
+        return em.createQuery("SELECT category FROM Category category", Category.class)
+                .getResultList();
+    }
+
+    public Category getCategory(Long categoryId) {
+        List<Category> categories = em.createQuery(
+                "SELECT category FROM Category category WHERE category.genId = :categoryId", Category.class)
+                .setParameter("categoryId", categoryId)
+                .getResultList();
+        return categories.isEmpty() ? null : categories.get(0);
+    }
+
+
+    // Receipt methods
 
     public Receipt createReceipt(Receipt receipt) {
         em.persist(receipt);
