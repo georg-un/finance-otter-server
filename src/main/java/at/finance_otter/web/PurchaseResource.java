@@ -5,7 +5,6 @@ import at.finance_otter.service.ExposableException;
 import at.finance_otter.service.PurchaseService;
 import at.finance_otter.service.ReceiptService;
 import at.finance_otter.service.dto.PurchaseDTO;
-import com.google.gson.Gson;
 import io.quarkus.security.Authenticated;
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
@@ -31,8 +30,6 @@ public class PurchaseResource {
     @Inject
     ReceiptService receiptService;
 
-    private Gson gson = new Gson();
-
     @GET
     @Path("/{purchaseId}")
     @Produces("application/json")
@@ -46,9 +43,7 @@ public class PurchaseResource {
     public PurchaseDTO createPurchase(
             @MultipartForm MultipartPurchase multipartPurchase
     ) throws IOException, ExposableException {
-        PurchaseDTO purchaseDTO = purchaseService.createPurchase(
-                gson.fromJson(multipartPurchase.purchase, PurchaseDTO.class)
-        );
+        PurchaseDTO purchaseDTO = purchaseService.createPurchase(multipartPurchase.purchase);
 
         if (multipartPurchase.receipt != null) {
             receiptService.createReceipt(
