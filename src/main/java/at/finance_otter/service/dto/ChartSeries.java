@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +37,7 @@ public class ChartSeries {
         chartSeries.setSeries(
                 new ArrayList<>(Arrays.asList(
                         new ChartData(
-                                (String) object[2],
+                                (BigInteger) object[2],
                                 (Double) object[3]
                         )
                 ))

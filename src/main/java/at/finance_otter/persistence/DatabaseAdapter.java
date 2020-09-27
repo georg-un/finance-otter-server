@@ -141,10 +141,10 @@ public class DatabaseAdapter {
 
     public List<Object[]> getAmountByCategoryAndDate(Integer nMonths) {
         return em.createNativeQuery(
-                "SELECT EXTRACT(YEAR FROM p.date) AS yr, EXTRACT(MONTH FROM p.date) AS mt, p.category, SUM(d.amount) " +
+                "SELECT EXTRACT(YEAR FROM p.date) AS yr, EXTRACT(MONTH FROM p.date) AS mt, p.category_id, SUM(d.amount) " +
                         "FROM purchases p JOIN debits d ON p.gen_id = d.purchase_gen_id " +
                         "WHERE (p.is_compensation IS NOT TRUE) " +
-                        "GROUP BY EXTRACT(YEAR FROM p.date), EXTRACT(MONTH FROM p.date), p.category " +
+                        "GROUP BY EXTRACT(YEAR FROM p.date), EXTRACT(MONTH FROM p.date), p.category_id " +
                         "ORDER BY yr, mt " +
                         "LIMIT :nMonths")
                 .setParameter("nMonths", nMonths)
@@ -153,11 +153,11 @@ public class DatabaseAdapter {
 
     public List<Object[]> getAmountByCategory(Date startDate, Date endDate) {
         return em.createNativeQuery(
-                "SELECT p.category, SUM(d.amount) " +
+                "SELECT p.category_id, SUM(d.amount) " +
                         "FROM purchases p JOIN debits d ON p.gen_id = d.purchase_gen_id " +
                         "WHERE (p.date BETWEEN :startDate AND :endDate) " +
                         "AND (p.is_compensation IS NOT TRUE) " +
-                        "GROUP BY p.category")
+                        "GROUP BY p.category_id")
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
                 .getResultList();
