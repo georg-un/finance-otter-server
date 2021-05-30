@@ -7,6 +7,7 @@ import at.finance_otter.service.dto.SummaryDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -40,7 +41,9 @@ public class SummaryService {
     }
 
     public List<ChartSeries> getAmountByMonthAndCategory(Integer nMonths) {
-        return databaseAdapter.getAmountByCategoryAndDate(nMonths)
+        LocalDate startDate = LocalDate.now().minusMonths(nMonths);
+        LocalDate endDate = LocalDate.now();
+        return databaseAdapter.getAmountByCategoryAndDate(startDate, endDate)
                 .stream()
                 .map(ChartSeries::fromAmountCategoryDateQuery)
                 .map(ChartSeries::toList)

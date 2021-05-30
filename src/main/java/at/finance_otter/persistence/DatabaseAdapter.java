@@ -8,6 +8,7 @@ import at.finance_otter.persistence.entity.User;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -139,15 +140,16 @@ public class DatabaseAdapter {
         ).getResultList();
     }
 
-    public List<Object[]> getAmountByCategoryAndDate(Integer nMonths) {
+    public List<Object[]> getAmountByCategoryAndDate(LocalDate startDate, LocalDate endDate) {
         return em.createNativeQuery(
                 "SELECT EXTRACT(YEAR FROM p.date) AS yr, EXTRACT(MONTH FROM p.date) AS mt, p.category_id, SUM(d.amount) " +
                         "FROM purchases p JOIN debits d ON p.gen_id = d.purchase_gen_id " +
-                        "WHERE (p.is_compensation IS NOT TRUE) " +
+                        "WHERE (p.date BETWEEN :startDate AND :endDate) " +
+                        "AND (p.is_compensation IS NOT TRUE) " +
                         "GROUP BY EXTRACT(YEAR FROM p.date), EXTRACT(MONTH FROM p.date), p.category_id " +
-                        "ORDER BY yr, mt " +
-                        "LIMIT :nMonths")
-                .setParameter("nMonths", nMonths)
+                        "ORDER BY yr DESC, mt DESC ")
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
                 .getResultList();
     }
 
