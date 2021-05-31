@@ -108,6 +108,7 @@ public class PurchaseService {
         purchase.setDate(new Date(purchaseDTO.getDate()));
         purchase.setShop(purchaseDTO.getShop());
         purchase.setDescription(purchaseDTO.getDescription());
+        purchase.setIsCompensation(purchaseDTO.getIsCompensation());
         for (DebitDTO debitDTO : purchaseDTO.getDebits()) {
             purchase.addDebit(this.generateDebit(debitDTO));
         }
