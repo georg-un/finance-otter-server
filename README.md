@@ -1,30 +1,18 @@
-# finance-otter project
+# finance-otter-server
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Run the application in development mode
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
-
-## Running the application in dev mode
-
-You can run your application in dev mode that enables live coding using:
+First, start a postgres instance. Ideally in Docker:
+```shell
+docker run -d \
+  -p 5432:5432 \
+  --name postgres-dev \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_DB=finodev \
+  postgres:latest
 ```
-./mvnw quarkus:dev
+Then, start the application in `dev` mode:
+```shell
+mvn compile quarkus:dev
 ```
-
-## Packaging and running the application
-
-The application is packageable using `./mvnw package`.
-It produces the executable `finance-otter-1.0.0-SNAPSHOT-runner.jar` file in `/target` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/lib` directory.
-
-The application is now runnable using `java -jar target/finance-otter-1.0.0-SNAPSHOT-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: `./mvnw package -Pnative`.
-
-Or you can use Docker to build the native executable using: `./mvnw package -Pnative -Dquarkus.native.container-build=true`.
-
-You can then execute your binary: `./target/finance-otter-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image-guide .
