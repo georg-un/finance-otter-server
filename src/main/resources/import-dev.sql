@@ -1,9 +1,9 @@
 -- Categories
-insert into categories (label, color) values ('groceries', '#233B43');
-insert into categories (label, color) values ('house & garden', '#C0BC45');
-insert into categories (label, color) values ('bars & restaurants', '#F77350');
-insert into categories (label, color) values ('leisure activities', '#EC9B30');
-insert into categories (label, color) values ('fixed costs', '#454B42');
+insert into categories (label, color) values ('groceries', '#287763');
+insert into categories (label, color) values ('house & garden', '#1B5035');
+insert into categories (label, color) values ('bars & restaurants', '#C65953');
+insert into categories (label, color) values ('leisure activities', '#C19B44');
+insert into categories (label, color) values ('fixed costs', '#1D4558');
 
 -- User 1
 insert into users (user_id, first_name, last_name, avatar_url)
